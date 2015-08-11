@@ -3,6 +3,7 @@ import sys, os
 from pygame import *
 from constants import SCREEN, COLOR
 from player import Player
+from platform import Platform
 from constants import ASSET
 
 class GameEngine(object):
@@ -17,6 +18,9 @@ class GameEngine(object):
         self.fpsClock = pygame.time.Clock()
 
         self.player = Player(SCREEN.width/2, SCREEN.width/2, 40, 50, ASSET.player)
+        self.platform  = Platform(SCREEN.width/2 - 200, SCREEN.height - 40, 400, 40, ASSET.platform)
+        self.platform.vspeed = -1
+        self.player.collision_group.add(self.platform)
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -32,10 +36,12 @@ class GameEngine(object):
 
     def update(self):
         self.player.update()
+        self.platform.update()
 
     def draw(self):
         self.screen.fill(COLOR.white)
         self.player.draw(self.screen)
+        self.platform.draw(self.screen)
         #self.screen.blit(self.bg.image, self.screen.get_rect())
 
     def run_game(self, fps=30):

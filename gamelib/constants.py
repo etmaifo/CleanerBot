@@ -11,9 +11,10 @@ class COLOR(object):
     black = (0, 0, 0)
 
 class WORLD(object):
-    gravity = 10
+    gravity = 1
 
 class ASSET(object):
     spriteSheet = pygame.image.load(os.path.join("assets", "images", "playerSpriteSheet.png"))
     spriteMap = os.path.join("assets", "images", "playerSpriteMap.txt")
     player = PlayerAsset(spriteSheet, spriteMap)
+    platform = pygame.image.load(os.path.join("assets", "images", "platform.png"))

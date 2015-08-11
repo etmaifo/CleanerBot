@@ -3,7 +3,8 @@ from constants import WORLD
 
 class PhysicsBody(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, image):
-        self.image = pygame.transform.smoothscale(image, (width, height))
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.transform.smoothscale(image, (width, height)).convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -11,6 +12,7 @@ class PhysicsBody(pygame.sprite.Sprite):
         self.hspeed = 0
         self.gravity = WORLD.gravity
         self.speed = 0
+        self.grounded = True
 
         self.collision_group = pygame.sprite.Group()
 
@@ -18,25 +20,22 @@ class PhysicsBody(pygame.sprite.Sprite):
         pass
 
     def update(self):
-        self.vspeed = self.gravity
-        self.rect.y += self.vspeed
+        pass
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
     def move(self, dx, dy):
-        self.detect_collision(dx, dy)
-        '''
         if dx != 0:
             self.detect_collision(dx, 0)
         if dy != 0:
             self.detect_collision(0, dy)
-        '''
 
     def detect_collision(self, dx, dy):
         tempRect = pygame.Rect(self.rect)
         tempRect.x += dx
         tempRect.y += dy
+        #self.grounded = False
 
         for sprite in self.collision_group:
             if tempRect.colliderect(sprite.rect):
@@ -52,8 +51,10 @@ class PhysicsBody(pygame.sprite.Sprite):
                     self.rect.bottom = sprite.rect.top
                     self.rect.y += sprite.vspeed
                     self.vspeed = 0
+                    self.grounded = True
                 elif dy < 0:
                     self.rect.top = sprite.rect.bottom
                     self.vspeed = 0
                 return
+
         self.rect = pygame.Rect(tempRect)
