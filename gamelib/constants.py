@@ -3,12 +3,13 @@ import pygame
 from assets import ObjectAsset
 
 class SCREEN(object):
-    width = 800
-    height = 600
+    width = 1024
+    height = 576
 
 class COLOR(object):
     white = (255, 255, 255)
     black = (0, 0, 0)
+    gray = (31, 31, 31)
 
 class WORLD(object):
     gravity = 1
@@ -21,3 +22,4 @@ class ASSET(object):
     enemySheet = pygame.image.load(os.path.join("assets", "images", "enemySpriteSheet.png"))
     enemyMap = os.path.join("assets", "images", "enemySpriteMap.txt")
     enemy = ObjectAsset(enemySheet, enemyMap)
+    blockImage = pygame.image.load(os.path.join("assets", "images", "block.png"))
