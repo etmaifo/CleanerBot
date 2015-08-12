@@ -23,7 +23,7 @@ class Asset(object):
         return image
 
 
-class PlayerAsset(Asset):
+class ObjectAsset(Asset):
     def __init__(self, spriteSheet, spriteMap):
         Asset.__init__(self, spriteSheet, spriteMap)
         self.load_sprites()

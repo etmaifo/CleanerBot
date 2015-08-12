@@ -15,6 +15,7 @@ class PhysicsBody(pygame.sprite.Sprite):
         self.grounded = True
 
         self.collision_group = pygame.sprite.Group()
+        self.movable_group = pygame.sprite.Group()
 
     def handle_events(self, event):
         pass
@@ -56,5 +57,29 @@ class PhysicsBody(pygame.sprite.Sprite):
                     self.rect.top = sprite.rect.bottom
                     self.vspeed = 0
                 return
+
+        for sprite in self.movable_group:
+            if tempRect.colliderect(sprite.rect):
+                # Check x-axis
+                if self.rect.bottom > sprite.rect.top:
+                    sprite.hspeed = self.hspeed
+                self.rect.x += sprite.hspeed
+                if dx > 0 and sprite.vspeed == 0:
+                    self.rect.right = sprite.rect.left
+                elif dx < 0 and sprite.vspeed == 0:
+                    self.rect.left = sprite.rect.right
+
+                # Check y axis
+                if dy > 0:
+                    self.rect.bottom = sprite.rect.top
+                    self.rect.y += sprite.vspeed
+                    self.vspeed = 0
+                    self.grounded = True
+                elif dy < 0:
+                    self.rect.top = sprite.rect.bottom
+                    self.vspeed = 0
+                return
+            else:
+                sprite.hspeed = 0
 
         self.rect = pygame.Rect(tempRect)
