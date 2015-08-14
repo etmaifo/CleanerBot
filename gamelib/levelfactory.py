@@ -3,15 +3,17 @@ import pytmx
 from constants import SCREEN, ASSET
 from player import Player
 from physicsbody import PhysicsBody
+from enemy import Enemy
 
 class Level(object):
     def __init__(self, mapfile):
         self.players = []
         self.blocks = []
+        self.enemies = []
         self.width = SCREEN.width
         self.height = SCREEN.height
 
-        self.player = Player(0, 0, 32, 32, ASSET.player) # default
+        self.player = None#
 
         self.intro = False
         self.timer = 0
@@ -32,6 +34,10 @@ class Level(object):
                 self.player = Player(player.x, player.y, player.width, player.height, ASSET.player)
             elif layer.name.upper() == "BLOCKS":
                 self.blocks = layer
+            elif layer.name.upper() == "ENEMIES":
+                self.enemies = layer
+            elif layer.name.upper() == "BEAMS:":
+                self.beams = layer
 
     def create_level(self):
         blockImage = ASSET.blockImage
@@ -42,6 +48,12 @@ class Level(object):
                 levelBlock.rect.y = self.data.tileheight * block[1]
                 self.player.collision_group.add(levelBlock)
                 self.entities.add(levelBlock)
+        for e in self.enemies:
+            enemy = Enemy(e.x, e.y, e.width, e.height, ASSET.enemy)
+            enemy.collision_group = self.player.collision_group.copy()
+            #enemy.movingforce_group.add(self.player)
+            self.player.movingforce_group.add(enemy)
+            self.entities.add(enemy)
         self.entities.add(self.player)
 
     def update(self):

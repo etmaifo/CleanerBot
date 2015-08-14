@@ -1,10 +1,12 @@
 import pygame
 from constants import WORLD
+from random import choice
 
 class PhysicsBody(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, image):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.transform.smoothscale(image, (width, height)).convert_alpha()
+        self.rect = self.image.get_rect()
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -61,8 +63,11 @@ class PhysicsBody(pygame.sprite.Sprite):
         for sprite in self.movingforce_group:
             if tempRect.colliderect(sprite.rect):
                 # Check x-axis
-                self.hspeed = sprite.hspeed
-                self.vspeed = -20
+                if self.hspeed > 0:
+                    sprite.hspeed = choice([1,3,4,5])
+                else:
+                    sprite.hspeed = choice([-5,-4,-3,1])
+                sprite.vspeed = choice([-20, -25, -10])
 
                 return
 

@@ -1,7 +1,6 @@
 import pygame
 from pygame.locals import *
 from physicsbody import PhysicsBody
-from constants import WORLD
 
 class Player(PhysicsBody):
     def __init__(self, x, y , width, height, animationFrames):

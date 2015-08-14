@@ -1,0 +1,2 @@
+blue_light = 0 0 96 191
+red_light = 96 0 96 191

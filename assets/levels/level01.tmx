@@ -1,17 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="64" height="32" tilewidth="32" tileheight="32" nextobjectid="4">
- <tileset firstgid="1" name="blocks" tilewidth="32" tileheight="32">
-  <image source="../img/blocks.png" trans="eeeddf" width="96" height="32"/>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="40" height="30" tilewidth="32" tileheight="32" backgroundcolor="#222222" nextobjectid="35">
+ <tileset firstgid="1" name="block" tilewidth="32" tileheight="32">
+  <image source="../images/block.png" trans="eeeddf" width="32" height="32"/>
  </tileset>
- <tileset firstgid="4" name="player" tilewidth="50" tileheight="61">
-  <image source="../img/player.png" trans="eeeddf" width="1200" height="61"/>
+ <tileset firstgid="2" name="enemySpriteSheet" tilewidth="32" tileheight="32">
+  <image source="../images/enemySpriteSheet.png" trans="eeeddf" width="32" height="32"/>
  </tileset>
- <layer name="Blocks" width="64" height="32">
+ <tileset firstgid="3" name="playerSpriteSheet" tilewidth="32" tileheight="32">
+  <image source="../images/playerSpriteSheet.png" trans="eeeddf" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="4" name="beamsprites" tilewidth="96" tileheight="191">
+  <image source="../images/beamsprites.png" trans="eeeddf" width="192" height="191"/>
+ </tileset>
+ <layer name="Blocks" width="40" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt2MkKwCAMRdH4/z/dpSVkMCBtlHtAKu3TOq0UAYBehlM/xZA57uzp5b02Oqvf/W1l3tn6WHUrq+sdRHukc2J8y/bfy3QRzdPKVPc/Wi8AAAAAAICTdLjT+/p+scOc3zrer96K9c3tPIteH/rMW2XHv6v9Z5nquFfyt5cHHY0Asg==
+   eJzt10EKACAIAEH9/6f7QEaxQQa74EWI5mpGRE4mNnc396t/O6aPpY+lj6WPpY+lj6WPpY+lj6WPpY+lj7Xjq+786van7059L/vF13kG0JQAmQ==
   </data>
  </layer>
  <objectgroup name="player">
-  <object id="3" gid="7" x="688" y="136" width="50" height="61"/>
+  <object id="2" gid="3" x="32" y="896" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="enemies">
+  <object id="9" gid="2" x="256" y="832" width="32" height="32"/>
+  <object id="10" gid="2" x="800" y="640" width="32" height="32"/>
+  <object id="12" gid="2" x="1056" y="928" width="32" height="32"/>
+  <object id="13" gid="2" x="544" y="832" width="32" height="32"/>
+  <object id="21" gid="2" x="704" y="480" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="Beams">
+  <object id="32" gid="4" x="1120" y="928" width="96" height="191"/>
+  <object id="33" gid="4" x="96" y="928" width="96" height="191"/>
  </objectgroup>
 </map>
