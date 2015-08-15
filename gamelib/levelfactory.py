@@ -25,6 +25,9 @@ class Level(object):
 
         self.width = SCREEN.width
         self.height = SCREEN.height
+        self.fragmentWidth = 0
+        self.fragmentHeight = 0
+        self.fragmentSpawnPos = []
 
         self.player = None
 
@@ -69,6 +72,8 @@ class Level(object):
                 self.display_group.add(levelBlock)
                 self.block_group.add(levelBlock)
         for dataorb in self.datafragments:
+            self.fragmentWidth = dataorb.width
+            self.fragmentHeight = dataorb.height
             datafragment = DataFragment(dataorb.x, dataorb.y, dataorb.width, dataorb.height, ASSET.dataFragmentFrames)
             datafragment.collision_group = self.player.collision_group.copy()
             self.player.movingforce_group.add(datafragment)
@@ -78,6 +83,7 @@ class Level(object):
             io_port = PhysicsBody(port.x, port.y, port.width, port.height, ASSET.ioInImage)
             self.io_in_group.add(io_port)
             self.display_group.add(io_port)
+            self.fragmentSpawnPos = [port.x + port.width/2, port.y + port.height]
         for port in self.io_out:
             io_port = PhysicsBody(port.x, port.y, port.width, port.height, ASSET.ioOutImage)
             self.io_out_group.add(io_port)
@@ -125,6 +131,17 @@ class Level(object):
         for i in xrange(number):
             particle = Particle(x, y, PARTICLE.width, PARTICLE.height, PARTICLE.image)
             self.particles.add(particle)
+
+    def spawn_data(self):
+        datafragment = DataFragment(self.fragmentSpawnPos[0], self.fragmentSpawnPos[1], self.fragmentWidth, self.fragmentHeight, ASSET.dataFragmentFrames)
+        datafragment.collision_group = self.player.collision_group.copy()
+        self.player.movingforce_group.add(datafragment)
+        self.display_group.add(datafragment)
+        self.datafragment_group.add(datafragment)
+
+        datafragment.killer_group = self.enemy_group.copy()
+        datafragment.storage_group.add(self.io_out_group)
+        datafragment.collision_group.add(self.io_in_group)
 
 class Stage(object):
     def __init__(self):

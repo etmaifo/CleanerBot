@@ -43,6 +43,8 @@ class GameEngine(object):
                     self.menu.add_resume_button()
                 if event.key == K_p:
                     pygame.image.save(self.screen, os.path.join("screenshots", "screen01.png"))
+                if event.key == K_q:
+                    self.stage.level.spawn_data()
             if event.type == MOUSEBUTTONDOWN:
                 self.state = self.menu.get_active_state()
             if self.state == STATE.game:
