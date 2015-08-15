@@ -1,5 +1,6 @@
 from physicsbody import PhysicsBody
 from random import choice, randrange
+from constants import GAME
 import pygame
 
 class DataFragment(PhysicsBody):
@@ -9,7 +10,10 @@ class DataFragment(PhysicsBody):
         self.speed = 3
         self.timeout = 0
         self.captured = False
+        self.safe = False
+        self.givePoint = False
         self.killer_group = pygame.sprite.Group()
+        self.storage_group = pygame.sprite.Group()
 
     def update(self):
         if self.captured:
@@ -23,6 +27,11 @@ class DataFragment(PhysicsBody):
     def hunt(self):
         self.hspeed = choice([0, 1, 0, 2])
 
+    def animate_storage(self):
+        self.timeout += 1
+        if self.timeout >= GAME.fps:
+            self.givePoint = True
+
     def detect_collision(self, dx, dy):
         tempRect = pygame.Rect(self.rect)
         tempRect.x += dx
@@ -33,6 +42,10 @@ class DataFragment(PhysicsBody):
             if tempRect.colliderect(sprite.rect):
                 self.captured = True
                 return
+
+        for sprite in self.storage_group:
+            if tempRect.colliderect(sprite.rect):
+                self.safe = True
 
         for sprite in self.collision_group:
             if tempRect.colliderect(sprite.rect):

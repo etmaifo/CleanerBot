@@ -13,19 +13,24 @@ class Level(object):
         self.blocks = []
         self.datafragments = []
         self.enemies = []
+        self.io_in = []
+        self.io_out = []
 
         self.block_group = pygame.sprite.Group()
         self.datafragment_group = pygame.sprite.Group()
         self.enemy_group = pygame.sprite.Group()
         self.particles = pygame.sprite.Group()
+        self.io_in_group = pygame.sprite.Group()
+        self.io_out_group = pygame.sprite.Group()
 
         self.width = SCREEN.width
         self.height = SCREEN.height
 
-        self.player = None#
+        self.player = None
 
         self.intro = False
         self.timer = 0
+        self.storedData = 0
         self.elapsed = 0
         self.display_group = pygame.sprite.OrderedUpdates()
 
@@ -47,6 +52,10 @@ class Level(object):
                 self.datafragments = layer
             elif layer.name.upper() == "ENEMIES":
                 self.enemies = layer
+            elif layer.name.upper() == "IO_IN":
+                self.io_in = layer
+            elif layer.name.upper() == "IO_OUT":
+                self.io_out = layer
 
     def create_level(self):
         blockImage = ASSET.blockImage
@@ -65,9 +74,18 @@ class Level(object):
             self.player.movingforce_group.add(datafragment)
             self.display_group.add(datafragment)
             self.datafragment_group.add(datafragment)
+        for port in self.io_in:
+            io_port = PhysicsBody(port.x, port.y, port.width, port.height, ASSET.ioInImage)
+            self.io_in_group.add(io_port)
+            self.display_group.add(io_port)
+        for port in self.io_out:
+            io_port = PhysicsBody(port.x, port.y, port.width, port.height, ASSET.ioOutImage)
+            self.io_out_group.add(io_port)
+            self.display_group.add(io_port)
         for enemy_ in self.enemies:
             enemy = Enemy(enemy_.x, enemy_.y, enemy_.width, enemy_.height, ASSET.enemyFrames)
             enemy.collision_group = self.block_group.copy()
+            enemy.collision_group.add(self.io_out_group)
             self.player.collision_group.add(enemy)
             for item in self.player.movingforce_group:
                 item.collision_group.add(enemy)
@@ -76,7 +94,10 @@ class Level(object):
 
         for fragment in self.datafragment_group:
             fragment.killer_group = self.enemy_group.copy()
+            fragment.storage_group.add(self.io_out_group)
+            fragment.collision_group.add(self.io_in_group)
 
+        self.player.collision_group.add(self.io_out_group)
         self.display_group.add(self.player)
 
 
@@ -91,6 +112,11 @@ class Level(object):
                 if datafragment.captured:
                     self.spawn_particles(datafragment.rect.centerx, datafragment.rect.centery, 10)
                     datafragment.kill()
+                elif datafragment.safe:
+                    datafragment.animate_storage()
+                    datafragment.kill()
+                    self.storedData += 1
+                #elif datafragment.givePoint:
 
             self.display_group.update()
             self.particles.update()

@@ -38,4 +38,6 @@ class ASSET(object):
     enemyFrames = ObjectAsset(enemySheet, enemyMap)
 
     blockImage = pygame.image.load(os.path.join("assets", "images", "block.png"))
+    ioInImage = pygame.image.load(os.path.join("assets", "images", "io_in.png"))
+    ioOutImage = pygame.image.load(os.path.join("assets", "images", "io_in.png"))
 
