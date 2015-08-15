@@ -9,10 +9,15 @@ class SCREEN(object):
 class GAME(object):
     fps = 60
 
+class STATE(object):
+    menu = "menu"
+    game = "game"
+
 class COLOR(object):
     white = (255, 255, 255)
     black = (0, 0, 0)
     gray = (31, 31, 31)
+    green = (0, 196, 0)
 
 class WORLD(object):
     gravity = 1
