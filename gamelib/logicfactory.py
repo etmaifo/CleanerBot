@@ -41,8 +41,10 @@ class GameEngine(object):
 
     def draw(self):
         self.screen.fill(COLOR.gray)
-        for entity in self.stage.level.entities:
+        for entity in self.stage.level.display_group:
             self.screen.blit(entity.image, self.camera.apply(entity))
+        for particle in self.stage.level.particles:
+            self.screen.blit(particle.image, self.camera.apply(particle))
         #self.screen.blit(self.bg.image, self.screen.get_rect())
 
     def run_game(self, fps=30):

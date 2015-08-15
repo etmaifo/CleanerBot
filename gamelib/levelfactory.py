@@ -1,10 +1,11 @@
 import pygame, os
 import pytmx
-from constants import SCREEN, ASSET
+from constants import SCREEN, ASSET, PARTICLE
 from player import Player
 from physicsbody import PhysicsBody
 from datafragment import DataFragment
 from enemy import Enemy
+from particlefactory import Particle
 
 class Level(object):
     def __init__(self, mapfile):
@@ -12,6 +13,11 @@ class Level(object):
         self.blocks = []
         self.datafragments = []
         self.enemies = []
+
+        self.block_group = pygame.sprite.Group()
+        self.datafragment_group = pygame.sprite.Group()
+        self.enemy_group = pygame.sprite.Group()
+        self.particles = pygame.sprite.Group()
 
         self.width = SCREEN.width
         self.height = SCREEN.height
@@ -21,7 +27,7 @@ class Level(object):
         self.intro = False
         self.timer = 0
         self.elapsed = 0
-        self.entities = pygame.sprite.OrderedUpdates()
+        self.display_group = pygame.sprite.OrderedUpdates()
 
         self.load_map(mapfile)
         self.create_level()
@@ -44,25 +50,35 @@ class Level(object):
 
     def create_level(self):
         blockImage = ASSET.blockImage
+
         for block in self.blocks:
             if block[2] != 0:
                 levelBlock = PhysicsBody(0, 0, self.data.tilewidth, self.data.tileheight, blockImage)
                 levelBlock.rect.x = self.data.tilewidth * block[0]
                 levelBlock.rect.y = self.data.tileheight * block[1]
                 self.player.collision_group.add(levelBlock)
-                self.entities.add(levelBlock)
+                self.display_group.add(levelBlock)
+                self.block_group.add(levelBlock)
         for dataorb in self.datafragments:
-            datafragment = DataFragment(dataorb.x, dataorb.y, dataorb.width, dataorb.height, ASSET.dataFragment)
+            datafragment = DataFragment(dataorb.x, dataorb.y, dataorb.width, dataorb.height, ASSET.dataFragmentFrames)
             datafragment.collision_group = self.player.collision_group.copy()
             self.player.movingforce_group.add(datafragment)
-            self.entities.add(datafragment)
+            self.display_group.add(datafragment)
+            self.datafragment_group.add(datafragment)
         for enemy_ in self.enemies:
-            enemy = Enemy(enemy_.x, enemy_.y, enemy_.width, enemy_.height, ASSET.beam)
+            enemy = Enemy(enemy_.x, enemy_.y, enemy_.width, enemy_.height, ASSET.enemyFrames)
+            enemy.collision_group = self.block_group.copy()
             self.player.collision_group.add(enemy)
             for item in self.player.movingforce_group:
-                item.collision_group.add(enemy.base)
-            self.entities.add(enemy)
-        self.entities.add(self.player)
+                item.collision_group.add(enemy)
+            self.enemy_group.add(enemy)
+            self.display_group.add(enemy)
+
+        for fragment in self.datafragment_group:
+            fragment.killer_group = self.enemy_group.copy()
+
+        self.display_group.add(self.player)
+
 
     def update(self):
         now = pygame.time.get_ticks()/1000.0
@@ -71,7 +87,18 @@ class Level(object):
             if self.elapsed > 2:
                 self.intro = False
         else:
-            self.entities.update()
+            for datafragment in self.datafragment_group:
+                if datafragment.captured:
+                    self.spawn_particles(datafragment.rect.centerx, datafragment.rect.centery, 10)
+                    datafragment.kill()
+
+            self.display_group.update()
+            self.particles.update()
+
+    def spawn_particles(self, x, y, number):
+        for i in xrange(number):
+            particle = Particle(x, y, PARTICLE.width, PARTICLE.height, PARTICLE.image)
+            self.particles.add(particle)
 
 class Stage(object):
     def __init__(self):

@@ -7,12 +7,18 @@ class DataFragment(PhysicsBody):
         image = animationFrames.get_walk_frames()[0]
         PhysicsBody.__init__(self, x, y, width, height, image)
         self.speed = 3
+        self.timeout = 0
+        self.captured = False
+        self.killer_group = pygame.sprite.Group()
 
     def update(self):
-        if self.grounded and not self.grounded:
-            self.hunt()
-        self.vspeed += self.gravity
-        self.move(self.hspeed, self.vspeed)
+        if self.captured:
+            "print captured"
+        else:
+            if self.grounded and not self.grounded:
+                self.hunt()
+            self.vspeed += self.gravity
+            self.move(self.hspeed, self.vspeed)
 
     def hunt(self):
         self.hspeed = choice([0, 1, 0, 2])
@@ -22,6 +28,11 @@ class DataFragment(PhysicsBody):
         tempRect.x += dx
         tempRect.y += dy
         #self.grounded = False
+
+        for sprite in self.killer_group:
+            if tempRect.colliderect(sprite.rect):
+                self.captured = True
+                return
 
         for sprite in self.collision_group:
             if tempRect.colliderect(sprite.rect):
