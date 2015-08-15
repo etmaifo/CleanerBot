@@ -9,6 +9,11 @@ class SCREEN(object):
 class GAME(object):
     fps = 60
 
+class MENU(object):
+    menuScreen = pygame.image.load(os.path.join("assets", "images", "menuBG.png"))
+    scoreScreen = pygame.image.load(os.path.join("assets", "images", "scorescreen.png"))
+
+
 class STATE(object):
     menu = "menu"
     game = "game"

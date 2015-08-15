@@ -1,7 +1,7 @@
 import pygame
 import sys, os
 from pygame import *
-from constants import SCREEN, COLOR, STATE, GAME
+from constants import SCREEN, COLOR, STATE, GAME, MENU
 from levelfactory import Stage
 from camera import Camera
 from uifactory import Menu
@@ -37,6 +37,15 @@ class GameEngine(object):
         self.camera = Camera(self.complex_camera, self.stage.level.width, self.stage.level.height)
         self.menu = Menu(SCREEN.width, SCREEN.height)
 
+    def reset(self):
+        self.state = STATE.menu
+        self.stage = Stage()
+        self.timer = 60
+
+        self.camera = Camera(self.complex_camera, self.stage.level.width, self.stage.level.height)
+        self.menu = Menu(SCREEN.width, SCREEN.height)
+        self.menu.bg = MENU.scoreScreen
+
     def handle_events(self):
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -66,7 +75,8 @@ class GameEngine(object):
         self.camera.update(self.stage.level.player)
 
         if self.timer == 0:
-            self.state = STATE.menu
+            self.reset()
+            #self.state = STATE.menu
 
         if self.stage == STATE.menu:
             self.menu.update()

@@ -158,7 +158,6 @@ class Stage(object):
 
     def load_files(self):
         levels = os.listdir(os.path.join("assets", "levels"))
-        print levels
         for level in levels:
             self.levels.append(Level(os.path.join("assets", "levels", level)))
 
