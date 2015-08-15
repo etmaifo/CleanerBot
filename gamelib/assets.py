@@ -43,3 +43,19 @@ class ObjectAsset(Asset):
     def get_hurt_frames(self):
         hurtFrames = [frame[1] for frame in self.sprites if "hurt" in frame[0]]
         return hurtFrames
+
+    def get_burn_frames(self):
+        burnFrames = [frame[1] for frame in self.sprites if "burn" in frame[0]]
+        return burnFrames
+
+class BeamAsset(ObjectAsset):
+    def __init__(self, spriteSheet, spriteMap):
+        ObjectAsset.__init__(self, spriteSheet, spriteMap)
+
+    def get_base_frames(self):
+        frames = [frame[1] for frame in self.sprites if "base" in frame[0]]
+        return frames
+
+    def get_beam_frames(self):
+        frames = [frame[1] for frame in self.sprites if "ray" in frame[0]]
+        return frames

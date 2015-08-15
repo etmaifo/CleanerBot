@@ -1,2 +1,3 @@
-blue_light = 0 0 96 191
-red_light = 96 0 96 191
+beambase = 0 160 94 32
+beamray_blue = 0 0 96 160
+beamray_red = 96 0 96 160

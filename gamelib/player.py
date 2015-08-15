@@ -6,7 +6,7 @@ class Player(PhysicsBody):
     def __init__(self, x, y , width, height, animationFrames):
         image = animationFrames.get_walk_frames()[0]
         PhysicsBody.__init__(self, x, y, width, height, image)
-        self.jumpHeight = -15
+        self.jumpHeight = -17
         self.speed = 5
 
     def handle_events(self, event):

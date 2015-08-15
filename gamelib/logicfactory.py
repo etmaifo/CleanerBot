@@ -29,6 +29,8 @@ class GameEngine(object):
                 if event.key == K_ESCAPE:
                     pygame.quit()
                     sys.exit()
+                if event.key == K_p:
+                    pygame.image.save(self.screen, os.path.join("screenshots", "screen01.png"))
 
             self.stage.level.player.handle_events(event)
 
