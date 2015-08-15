@@ -1,6 +1,6 @@
 import pygame, os
 import pytmx
-from constants import SCREEN, ASSET, PARTICLE
+from constants import SCREEN, ASSET, PARTICLE, GAME
 from player import Player
 from physicsbody import PhysicsBody
 from datafragment import DataFragment
@@ -35,6 +35,7 @@ class Level(object):
         self.timer = 0
         self.storedData = 0
         self.elapsed = 0
+        self.spawnTimer = 0
         self.display_group = pygame.sprite.OrderedUpdates()
 
         self.load_map(mapfile)
@@ -110,6 +111,10 @@ class Level(object):
     def update(self):
         now = pygame.time.get_ticks()/1000.0
         self.elapsed = now - self.timer
+        self.spawnTimer += 1
+        if self.spawnTimer >= 5 * GAME.fps:
+            self.spawn_data()
+            self.spawnTimer = 0
         if self.intro:
             if self.elapsed > 2:
                 self.intro = False

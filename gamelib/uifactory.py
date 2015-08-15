@@ -109,3 +109,58 @@ class Menu(object):
 
     def update(self):
         pass
+
+
+class ScoreScreen(object):
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+
+        self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 30)
+        self.text_next = self.font.render("Resume", True, COLOR.white)
+        self.text_exit = self.font.render("Exit", True, COLOR.white)
+
+        self.bg = pygame.image.load(os.path.join("assets", "images", "menuBG.png"))
+        self.buttons_group = pygame.sprite.Group()
+
+        self.assemble()
+
+    def handle_events(self, event):
+        for button in self.buttons_group:
+            button.handle_events(event)
+
+        if event.type == KEYDOWN:
+            if event.key == K_s:
+                self.cursor_index += 1
+            elif event.key == K_w:
+                self.cursor_index -= 1
+
+        if self.cursor_index < 0:
+            self.cursor_index = 0
+        elif self.cursor_index > 3:
+            self.cursor_index = 3
+
+    def assemble(self):
+        button = None
+        for i in range(4): # 4 buttons
+            x = self.width/2 - 150/2
+            y = 280 + i*60 #(i*40) + (i*20)
+            if i == 0:
+                button = MenuButton(x, y, self.text_next, "game", "img")
+            elif i == 1:
+                button = MenuButton(x, y, self.text_exit, "exit", "img")
+            self.buttons_group.add(button)
+
+    def get_active_state(self):
+        for button in self.buttons_group:
+            if button.active:
+                return button.state
+        return "menu"
+
+    def add_resume_button(self):
+        for button in self.buttons_group:
+            if button.state == "game":
+                button.text = self.text_resume
+
+    def update(self):
+        pass

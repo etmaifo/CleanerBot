@@ -19,15 +19,20 @@ class GameEngine(object):
         self.fps = GAME.fps
         self.ticks = 0
 
-        self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 16)
+        self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 35)
         self.font.set_bold(True)
         self.text = self.font.render("0 MB", True, (0, 0, 0), (55, 25, 55))
         self.textRect = self.text.get_rect()
         self.textRect.y = 30
 
+
+        self.totalData = self.font.render("0 MB", True, (0, 0, 0), (55, 100, 100))
+        self.dataRect = self.totalData.get_rect()
+        self.dataRect.y = 30
+
         self.state = STATE.menu
         self.stage = Stage()
-        self.timer = 0
+        self.timer = 60
 
         self.camera = Camera(self.complex_camera, self.stage.level.width, self.stage.level.height)
         self.menu = Menu(SCREEN.width, SCREEN.height)
@@ -60,22 +65,30 @@ class GameEngine(object):
     def update(self):
         self.camera.update(self.stage.level.player)
 
+        if self.timer == 0:
+            self.state = STATE.menu
+
         if self.stage == STATE.menu:
             self.menu.update()
         elif self.state == STATE.game:
             self.stage.level.update()
             self.stage.update()
             if self.stage.level.intro:
-                self.timer = 0
+                self.timer = 60
             if self.ticks > self.fps:
                 self.ticks = 0
-                self.timer += 1
+                self.timer -= 1
             else:
                 self.ticks += 1
             self.text = self.font.render(str(self.timer), True, (150, 125, 112))
             self.textRect = self.text.get_rect()
             self.textRect.centerx = self.screen.get_rect().centerx
             self.textRect.y = 10
+
+            self.totalData = self.font.render(str(self.stage.level.storedData) + "MB", True, (150, 150, 150))
+            self.dataRect = self.totalData.get_rect()
+            self.dataRect.right = self.screen.get_rect().right - 30
+            self.dataRect.y = 10
 
     def draw(self):
         self.screen.fill(COLOR.gray)
@@ -85,6 +98,8 @@ class GameEngine(object):
                 self.screen.blit(entity.image, self.camera.apply(entity))
             for particle in self.stage.level.particles:
                 self.screen.blit(particle.image, self.camera.apply(particle))
+            self.screen.blit(self.text, self.textRect)
+            self.screen.blit(self.totalData, self.dataRect)
         elif self.state == STATE.menu:
             self.screen.blit(self.menu.bg, self.menu.bg.get_rect())
             for button in self.menu.buttons_group:

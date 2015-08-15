@@ -11,7 +11,7 @@ class Player(PhysicsBody):
 
     def handle_events(self, event):
         if event.type == KEYDOWN:
-            if (event.key == K_o or event.key == K_UP) and self.grounded:
+            if (event.key == K_o or event.key == K_UP or event.key == K_SPACE) and self.grounded:
                 self.vspeed = self.jumpHeight
         if event.type == KEYUP:
             if event.key == K_a or event.key == K_d or event.key == K_LEFT or event.key == K_RIGHT:
