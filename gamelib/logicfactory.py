@@ -18,6 +18,7 @@ class GameEngine(object):
         self.fpsClock = pygame.time.Clock()
         self.fps = GAME.fps
         self.ticks = 0
+        self.firstrun = True
 
         self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 35)
         self.font.set_bold(True)
@@ -33,18 +34,20 @@ class GameEngine(object):
         self.state = STATE.menu
         self.stage = Stage()
         self.timer = 60
+        self.totalscore = 0
 
         self.camera = Camera(self.complex_camera, self.stage.level.width, self.stage.level.height)
         self.menu = Menu(SCREEN.width, SCREEN.height)
 
     def reset(self):
+        self.firstrun = False
         self.state = STATE.menu
         self.stage = Stage()
         self.timer = 60
 
+
         self.camera = Camera(self.complex_camera, self.stage.level.width, self.stage.level.height)
         self.menu = Menu(SCREEN.width, SCREEN.height)
-        self.menu.bg = MENU.scoreScreen
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -73,7 +76,7 @@ class GameEngine(object):
 
     def update(self):
         self.camera.update(self.stage.level.player)
-
+        self.menu.update()
         if self.timer == 0:
             self.reset()
             #self.state = STATE.menu
@@ -99,6 +102,7 @@ class GameEngine(object):
             self.dataRect = self.totalData.get_rect()
             self.dataRect.right = self.screen.get_rect().right - 30
             self.dataRect.y = 10
+            self.totalscore = self.stage.level.storedData
 
     def draw(self):
         self.screen.fill(COLOR.gray)
@@ -115,6 +119,15 @@ class GameEngine(object):
             for button in self.menu.buttons_group:
                 self.screen.blit(button.image, button.rect)
                 self.screen.blit(button.text, button.center(button.text))
+            if not self.firstrun:
+                self.menu.score = int(self.totalscore/12.0 * 100)
+                '''
+                self.scoresheet = self.font.render("You cleaned %s data" %(str(self.score)+"%"), True, COLOR.white)
+                self.scorerect = self.scoresheet.get_rect()
+                self.scorerect.centerx = self.width/2
+                self.scorerect.y = self.height - 10 - self.scorerect.height
+                '''
+                self.screen.blit(self.menu.scoresheet, self.menu.scorerect)
 
 
     def run_game(self, fps=30):

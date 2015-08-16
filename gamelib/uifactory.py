@@ -64,6 +64,13 @@ class Menu(object):
 
         self.assemble()
 
+        self.score = 0
+        self.scoresheet = self.font.render("You cleaned %s data" %(str(self.score)+"%"), True, COLOR.white)
+        self.scorerect = self.scoresheet.get_rect()
+        self.scorerect.centerx = self.width/2
+        self.scorerect.y = self.height - 10 - self.scorerect.height
+
+
 
 
     def handle_events(self, event):
@@ -110,4 +117,7 @@ class Menu(object):
                 button.text = self.text_resume
 
     def update(self):
-        pass
+        self.scoresheet = self.font.render("You cleaned %s data" %(str(self.score)+"%"), True, COLOR.white)
+        self.scorerect = self.scoresheet.get_rect()
+        self.scorerect.centerx = self.width/2
+        self.scorerect.y = self.height - 10 - self.scorerect.height
