@@ -1,7 +1,7 @@
 import pygame
 import sys, os
 from pygame import *
-from constants import SCREEN, COLOR, STATE, GAME, MENU
+from constants import SCREEN, COLOR, STATE, GAME
 from levelfactory import Stage
 from camera import Camera
 from uifactory import Menu
@@ -20,8 +20,8 @@ class GameEngine(object):
         self.ticks = 0
         self.firstrun = True
 
-        self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 35)
-        self.font.set_bold(True)
+        self.font = pygame.font.Font(os.path.join("assets", "fonts", "onramp.ttf"), 80)
+        self.font.set_bold(False)
         self.text = self.font.render("0 MB", True, (0, 0, 0), (55, 25, 55))
         self.textRect = self.text.get_rect()
         self.textRect.y = 30
@@ -33,11 +33,13 @@ class GameEngine(object):
 
         self.state = STATE.menu
         self.stage = Stage()
-        self.timer = 60
+        self.timer = 60*5
         self.totalscore = 0
 
         self.camera = Camera(self.complex_camera, self.stage.level.width, self.stage.level.height)
         self.menu = Menu(SCREEN.width, SCREEN.height)
+
+        self.bg = SCREEN.bg
 
     def reset(self):
         self.firstrun = False
@@ -79,7 +81,6 @@ class GameEngine(object):
         self.menu.update()
         if self.timer == 0:
             self.reset()
-            #self.state = STATE.menu
 
         if self.stage == STATE.menu:
             self.menu.update()
@@ -105,15 +106,18 @@ class GameEngine(object):
             self.totalscore = self.stage.level.storedData
 
     def draw(self):
-        self.screen.fill(COLOR.gray)
+        self.screen.fill(COLOR.white)
+        self.screen.blit(self.bg, (0,0))
+
         if self.state == STATE.game:
-            #self.screen.blit(self.bg.image, self.screen.get_rect())
+            #self.screen.blit(self.bg, (0,0))
             for entity in self.stage.level.display_group:
                 self.screen.blit(entity.image, self.camera.apply(entity))
             for particle in self.stage.level.particles:
                 self.screen.blit(particle.image, self.camera.apply(particle))
             self.screen.blit(self.text, self.textRect)
             self.screen.blit(self.totalData, self.dataRect)
+
         elif self.state == STATE.menu:
             self.screen.blit(self.menu.bg, self.menu.bg.get_rect())
             for button in self.menu.buttons_group:
@@ -121,12 +125,6 @@ class GameEngine(object):
                 self.screen.blit(button.text, button.center(button.text))
             if not self.firstrun:
                 self.menu.score = int(self.totalscore/12.0 * 100)
-                '''
-                self.scoresheet = self.font.render("You cleaned %s data" %(str(self.score)+"%"), True, COLOR.white)
-                self.scorerect = self.scoresheet.get_rect()
-                self.scorerect.centerx = self.width/2
-                self.scorerect.y = self.height - 10 - self.scorerect.height
-                '''
                 self.screen.blit(self.menu.scoresheet, self.menu.scorerect)
 
 
@@ -138,7 +136,7 @@ class GameEngine(object):
             self.draw()
 
             pygame.display.update()
-            pygame.display.set_caption("Cosmic Dust - " + str(int(self.fpsClock.get_fps())) + " fps")
+            pygame.display.set_caption("CleanerBot - " + str(int(self.fpsClock.get_fps())) + " fps")
             self.fpsClock.tick(self.fps)
 
     def complex_camera(self, cameraRect, target_rect):

@@ -5,8 +5,10 @@ import pygame
 
 class DataFragment(PhysicsBody):
     def __init__(self, x, y, width, height, animationFrames):
+        self.animationFrames = animationFrames
         image = animationFrames.get_walk_frames()[0]
         PhysicsBody.__init__(self, x, y, width, height, image)
+        self.frameNumber = 0
         self.speed = 3
         self.timeout = 0
         self.captured = False
@@ -16,21 +18,23 @@ class DataFragment(PhysicsBody):
         self.storage_group = pygame.sprite.Group()
 
     def update(self):
+        if self.grounded: 
+            self.animate_walk()
         if self.captured:
             "print captured"
         else:
-            if self.grounded and not self.grounded:
-                self.hunt()
             self.vspeed += self.gravity
             self.move(self.hspeed, self.vspeed)
 
-    def hunt(self):
-        self.hspeed = choice([0, 1, 0, 2])
 
     def animate_storage(self):
         self.timeout += 1
         if self.timeout >= GAME.fps:
             self.givePoint = True
+
+    def animate_walk(self):
+        self.image = self.animationFrames.get_walk_frames()[self.frameNumber]
+
 
     def detect_collision(self, dx, dy):
         tempRect = pygame.Rect(self.rect)
@@ -60,14 +64,15 @@ class DataFragment(PhysicsBody):
 
                 # Check y axis
                 if dy > 0:
-                    self.rect.bottom = sprite.rect.top
-                    self.rect.y += sprite.vspeed
-                    self.vspeed = 0
-                    self.vspeed = choice([randrange(-20, 0, 1)])
-                    self.grounded = True
+                    if dy > 3:
+                        self.vspeed = -(abs(self.vspeed)-3)
+                    else:
+                        self.rect.bottom = sprite.rect.top
+                        self.rect.y += sprite.vspeed
+                        self.vspeed = 0
+                        self.grounded = True
                 elif dy < 0:
                     self.rect.top = sprite.rect.bottom
-                    self.vspeed = 0
                     self.vspeed = 5
                 return
         self.rect = pygame.Rect(tempRect)

@@ -49,7 +49,8 @@ class Level(object):
         for layer in self.data.layers:
             if layer.name.upper() == "PLAYER":
                 player = layer[0]
-                self.player = Player(player.x, player.y, player.width, player.height, ASSET.player)
+                #self.player = Player(player.x, player.y, player.width, player.height, ASSET.player)
+                self.player = Player(player.x, player.y, 50, 50, ASSET.player)
             elif layer.name.upper() == "BLOCKS":
                 self.blocks = layer
             elif layer.name.upper() == "DATA":

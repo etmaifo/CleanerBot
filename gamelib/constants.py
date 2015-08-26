@@ -1,10 +1,11 @@
 import os
 import pygame
-from assets import ObjectAsset, BeamAsset
+from assets import ObjectAsset
 
 class SCREEN(object):
     width = 800
     height = 600
+    bg = pygame.image.load(os.path.join("assets", "images", "bg.png"))
 
 class GAME(object):
     fps = 60
@@ -30,7 +31,7 @@ class WORLD(object):
 class PARTICLE(object):
     width = 8
     height = 8
-    image = pygame.image.load(os.path.join("assets", "images", "beambase.png"))
+    image = pygame.image.load(os.path.join("assets", "images", "particle.png"))
 
 class ASSET(object):
     playerSheet = pygame.image.load(os.path.join("assets", "images", "playersprites.png"))
