@@ -136,6 +136,8 @@ class Level(object):
     def spawn_particles(self, x, y, number):
         for i in xrange(number):
             particle = Particle(x, y, PARTICLE.width, PARTICLE.height, PARTICLE.image)
+            particle.collision_group = self.player.collision_group.copy()
+            print len(self.player.collision_group)
             self.particles.add(particle)
 
     def spawn_data(self):

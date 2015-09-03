@@ -20,5 +20,6 @@ class Particle(PhysicsBody):
         if self.timeout >= 1 * GAME.fps:
             self.kill()
         self.vspeed += 0.5 #WORLD.gravity
-        self.rect.x += self.hspeed
-        self.rect.y += self.vspeed
+        self.move(self.hspeed, self.vspeed)
+        #self.rect.x += self.hspeed
+        #self.rect.y += self.vspeed
