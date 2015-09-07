@@ -50,7 +50,7 @@ class Level(object):
             if layer.name.upper() == "PLAYER":
                 player = layer[0]
                 #self.player = Player(player.x, player.y, player.width, player.height, ASSET.player)
-                self.player = Player(player.x, player.y, 50, 50, ASSET.player)
+                self.player = Player(player.x, player.y, 46, 49, ASSET.player)
             elif layer.name.upper() == "BLOCKS":
                 self.blocks = layer
             elif layer.name.upper() == "DATA":
@@ -76,18 +76,14 @@ class Level(object):
         for dataorb in self.datafragments:
             self.fragmentWidth = dataorb.width
             self.fragmentHeight = dataorb.height
-            datafragment = DataFragment(dataorb.x, dataorb.y, dataorb.width, dataorb.height, ASSET.dataFragmentFrames)
-            datafragment.collision_group = self.player.collision_group.copy()
-            self.player.movingforce_group.add(datafragment)
-            self.display_group.add(datafragment)
-            self.datafragment_group.add(datafragment)
         for port in self.io_in:
             io_port = PhysicsBody(port.x, port.y, port.width, port.height, ASSET.ioInImage)
             self.io_in_group.add(io_port)
             self.display_group.add(io_port)
             self.fragmentSpawnPos = [port.x + port.width/2, port.y + port.height]
         for port in self.io_out:
-            io_port = PhysicsBody(port.x, port.y, port.width, port.height, ASSET.ioOutImage)
+            print port.properties['direction']
+            io_port = PhysicsBody(port.x, port.y, port.width, port.height, ASSET.ioOutImage, port.properties['direction'])
             self.io_out_group.add(io_port)
             self.display_group.add(io_port)
         for enemy_ in self.enemies:
@@ -113,13 +109,21 @@ class Level(object):
         now = pygame.time.get_ticks()/1000.0
         self.elapsed = now - self.timer
         self.spawnTimer += 1
-        if self.spawnTimer >= 5 * GAME.fps:
+        if self.spawnTimer >= 3 * GAME.fps:
             self.spawn_data()
             self.spawnTimer = 0
         if self.intro:
             if self.elapsed > 2:
                 self.intro = False
         else:
+            if self.player.shoot_data:
+                self.player.shoot_data = False
+                self.player.has_data = False
+                shotx = self.player.get_data_pos()[0] + (self.player.rect.width / 2) - (self.fragmentWidth/2)
+                shoty = self.player.get_data_pos()[1]
+                shotSpeed = self.player.get_data_pos()[2]
+                shotHeight = self.player.get_data_pos()[3]
+                self.shoot_data(shotx, shoty, shotSpeed, shotHeight)
             for datafragment in self.datafragment_group:
                 if datafragment.captured:
                     self.spawn_particles(datafragment.rect.centerx, datafragment.rect.centery, 10)
@@ -128,7 +132,6 @@ class Level(object):
                     datafragment.animate_storage()
                     datafragment.kill()
                     self.storedData += 1
-                #elif datafragment.givePoint:
 
             self.display_group.update()
             self.particles.update()
@@ -136,8 +139,6 @@ class Level(object):
     def spawn_particles(self, x, y, number):
         for i in xrange(number):
             particle = Particle(x, y, PARTICLE.width, PARTICLE.height, PARTICLE.image)
-            particle.collision_group = self.player.collision_group.copy()
-            print len(self.player.collision_group)
             self.particles.add(particle)
 
     def spawn_data(self):
@@ -150,6 +151,21 @@ class Level(object):
         datafragment.killer_group = self.enemy_group.copy()
         datafragment.storage_group.add(self.io_out_group)
         datafragment.collision_group.add(self.io_in_group)
+
+    def shoot_data(self, x, y, hspeed, vspeed):
+        datafragment = DataFragment(x, y, self.fragmentWidth, self.fragmentHeight, ASSET.dataFragmentFrames)
+        datafragment.collision_group = self.player.collision_group.copy()
+        self.player.movingforce_group.add(datafragment)
+        self.display_group.add(datafragment)
+        self.datafragment_group.add(datafragment)
+
+        datafragment.killer_group = self.enemy_group.copy()
+        datafragment.storage_group.add(self.io_out_group)
+        datafragment.collision_group.add(self.io_in_group)
+
+        datafragment.hspeed = hspeed        
+        datafragment.vspeed = vspeed
+
 
 class Stage(object):
     def __init__(self):

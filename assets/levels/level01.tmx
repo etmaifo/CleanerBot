@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="20" tilewidth="32" tileheight="32" nextobjectid="42">
  <tileset firstgid="1" name="playersprites" tilewidth="32" tileheight="32">
-  <image source="../images/playersprites.png" trans="eeeddf" width="35" height="43"/>
+  <image source="../images/playersprites.png" trans="eeeddf" width="32" height="32"/>
  </tileset>
  <tileset firstgid="2" name="enemysprites" tilewidth="32" tileheight="32">
   <image source="../images/enemysprites.png" trans="eeeddf" width="128" height="64"/>
@@ -19,7 +19,7 @@
   <image source="../images/enemysprites.png" trans="eeeddf" width="128" height="64"/>
  </tileset>
  <tileset firstgid="16" name="io_out" tilewidth="32" tileheight="94">
-  <image source="../images/io_out.png" trans="eeeddf" width="32" height="94"/>
+  <image source="../images/io_out.png" trans="eeeddf" width="46" height="95"/>
  </tileset>
  <layer name="blocks" width="25" height="20">
   <data encoding="base64" compression="zlib">
@@ -39,7 +39,15 @@
   <object id="19" gid="12" x="352" y="32" width="94" height="32"/>
  </objectgroup>
  <objectgroup name="io_out">
-  <object id="31" gid="16" x="768" y="608" width="32" height="94"/>
-  <object id="32" gid="16" x="0" y="608" width="32" height="94"/>
+  <object id="31" gid="2147483664" x="768" y="608" width="32" height="94">
+   <properties>
+    <property name="direction" value="left"/>
+   </properties>
+  </object>
+  <object id="32" gid="16" x="0" y="608" width="32" height="94">
+   <properties>
+    <property name="direction" value="right"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

@@ -1,5 +1,4 @@
 from physicsbody import PhysicsBody
-from random import choice, randrange
 from constants import GAME
 import pygame
 

@@ -9,6 +9,7 @@ class SCREEN(object):
 
 class GAME(object):
     fps = 60
+    time = 60 * 2
 
 class MENU(object):
     menuScreen = pygame.image.load(os.path.join("assets", "images", "menuBG.png"))
@@ -28,6 +29,12 @@ class COLOR(object):
 class WORLD(object):
     gravity = 1
 
+class DIRECTION(object):
+    left = "left"
+    right = "right"
+    up = "up"
+    down = "down"
+    
 class PARTICLE(object):
     width = 8
     height = 8
@@ -50,5 +57,5 @@ class ASSET(object):
 
     blockImage = pygame.image.load(os.path.join("assets", "images", "block.png"))
     ioInImage = pygame.image.load(os.path.join("assets", "images", "io_in.png"))
-    ioOutImage = pygame.image.load(os.path.join("assets", "images", "io_in.png"))
+    ioOutImage = pygame.image.load(os.path.join("assets", "images", "io_out.png"))
 

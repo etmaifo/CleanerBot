@@ -20,7 +20,7 @@ class GameEngine(object):
         self.ticks = 0
         self.firstrun = True
 
-        self.font = pygame.font.Font(os.path.join("assets", "fonts", "onramp.ttf"), 80)
+        self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 40)
         self.font.set_bold(False)
         self.text = self.font.render("0 MB", True, (0, 0, 0), (55, 25, 55))
         self.textRect = self.text.get_rect()
@@ -33,7 +33,7 @@ class GameEngine(object):
 
         self.state = STATE.menu
         self.stage = Stage()
-        self.timer = 60*5
+        self.timer = GAME.time
         self.totalscore = 0
 
         self.camera = Camera(self.complex_camera, self.stage.level.width, self.stage.level.height)
@@ -45,7 +45,7 @@ class GameEngine(object):
         self.firstrun = False
         self.state = STATE.menu
         self.stage = Stage()
-        self.timer = 60
+        self.timer = GAME.time
 
 
         self.camera = Camera(self.complex_camera, self.stage.level.width, self.stage.level.height)
@@ -94,7 +94,9 @@ class GameEngine(object):
                 self.timer -= 1
             else:
                 self.ticks += 1
-            self.text = self.font.render(str(self.timer), True, (150, 125, 112))
+
+            displayTime = self.format_timer(self.timer)
+            self.text = self.font.render(displayTime, True, (150, 125, 112))
             self.textRect = self.text.get_rect()
             self.textRect.centerx = self.screen.get_rect().centerx
             self.textRect.y = 10
@@ -150,3 +152,10 @@ class GameEngine(object):
         y = min(0, y)
 
         return pygame.Rect(x, y, w, h)
+
+    def format_timer(self, timer):
+        minutes = timer/60
+        seconds = timer % 60
+        if seconds < 10:
+            seconds = "0" + str(seconds)
+        return str(minutes)+":"+str(seconds)

@@ -1,11 +1,13 @@
 import pygame
-from constants import WORLD
-from random import choice
+from constants import WORLD, DIRECTION
+
 
 class PhysicsBody(pygame.sprite.Sprite):
-    def __init__(self, x, y, width, height, image):
+    def __init__(self, x, y, width, height, image, direction="right"):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.transform.smoothscale(image, (width, height)).convert_alpha()
+        if direction == DIRECTION.left:
+            self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect()
         self.rect = self.image.get_rect()
         self.rect.x = x
@@ -58,17 +60,6 @@ class PhysicsBody(pygame.sprite.Sprite):
                 elif dy < 0:
                     self.rect.top = sprite.rect.bottom
                     self.vspeed = 0
-                return
-
-        for sprite in self.movingforce_group:
-            if tempRect.colliderect(sprite.rect):
-                # Check x-axis
-                if self.hspeed > 0:
-                    sprite.hspeed = choice([1,3,4,5])
-                else:
-                    sprite.hspeed = choice([-5,-4,-3,1])
-                sprite.vspeed = choice([-20, -25, -10])
-
                 return
 
         self.rect = pygame.Rect(tempRect)
