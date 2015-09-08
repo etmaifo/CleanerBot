@@ -1,2 +1,2 @@
-enemy_idle = 0 0 64 64
-enemy_walk = 64 0 64 64
+enemy_idle = 0 0 50 41
+enemy_walk = 0 0 50 41
