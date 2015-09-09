@@ -65,7 +65,7 @@ class Menu(object):
         self.assemble()
 
         self.score = 0
-        self.scoresheet = self.font.render("You cleaned %s data" %(str(self.score)+"%"), True, COLOR.white)
+        self.scoresheet = self.font.render("", True, COLOR.white)
         self.scorerect = self.scoresheet.get_rect()
         self.scorerect.centerx = self.width/2
         self.scorerect.y = self.height - 10 - self.scorerect.height
@@ -117,7 +117,7 @@ class Menu(object):
                 button.text = self.text_resume
 
     def update(self):
-        self.scoresheet = self.font.render("You cleaned %s data" %(str(self.score)+"%"), True, COLOR.white)
+        self.scoresheet = self.font.render("%sMB Downloaded" %(str(self.score)), True, COLOR.white)
         self.scorerect = self.scoresheet.get_rect()
         self.scorerect.centerx = self.width/2
         self.scorerect.y = self.height - 10 - self.scorerect.height
