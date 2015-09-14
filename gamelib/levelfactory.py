@@ -6,6 +6,7 @@ from physicsbody import PhysicsBody
 from datafragment import DataFragment
 from enemy import Enemy
 from particlefactory import Particle
+from random import choice
 
 class Level(object):
     def __init__(self, mapfile):
@@ -76,14 +77,14 @@ class Level(object):
         for dataorb in self.datafragments:
             self.fragmentWidth = dataorb.width
             self.fragmentHeight = dataorb.height
-        for port in self.io_in:
-            io_port = PhysicsBody(port.x, port.y, port.width, port.height, ASSET.ioInImage)
+        for vport in self.io_in:
+            io_port = PhysicsBody(vport.x, vport.y, vport.width, vport.height, ASSET.ioInImage)
             self.io_in_group.add(io_port)
             self.display_group.add(io_port)
-            self.fragmentSpawnPos = [port.x + port.width/2, port.y + port.height]
+            self.fragmentSpawnPos = [vport.x + vport.width/2, vport.y + vport.height]
         for port in self.io_out:
-            print port.properties['direction']
             io_port = PhysicsBody(port.x, port.y, port.width, port.height, ASSET.ioOutImage, port.properties['direction'])
+            #print port.id, port.gid, port.x, port.y, port.width, port.height, port.properties['direction']
             self.io_out_group.add(io_port)
             self.display_group.add(io_port)
         for enemy_ in self.enemies:
@@ -138,7 +139,9 @@ class Level(object):
 
     def spawn_particles(self, x, y, number):
         for i in xrange(number):
-            particle = Particle(x, y, PARTICLE.width, PARTICLE.height, PARTICLE.image)
+            size = choice([2, 4, 6, 8, 10])
+            #particle = Particle(x, y, PARTICLE.width, PARTICLE.height, PARTICLE.image)
+            particle = Particle(x, y, size, size, PARTICLE.image)
             self.particles.add(particle)
 
     def spawn_data(self):

@@ -1,53 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="25" height="20" tilewidth="32" tileheight="32" nextobjectid="42">
- <tileset firstgid="1" name="playersprites" tilewidth="32" tileheight="32">
-  <image source="../images/playersprites.png" trans="eeeddf" width="32" height="32"/>
- </tileset>
- <tileset firstgid="2" name="enemysprites" tilewidth="32" tileheight="32">
-  <image source="../images/enemysprites.png" trans="eeeddf" width="128" height="64"/>
- </tileset>
- <tileset firstgid="10" name="beamsprites" tilewidth="96" tileheight="160">
-  <image source="../images/beamsprites.png" trans="eeeddf" width="192" height="192"/>
- </tileset>
- <tileset firstgid="12" name="beambase" tilewidth="94" tileheight="32">
-  <image source="../images/beambase.png" trans="eeeddf" width="94" height="32"/>
- </tileset>
- <tileset firstgid="13" name="block" tilewidth="32" tileheight="32">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="32" tileheight="32" nextobjectid="21">
+ <tileset firstgid="1" name="block" tilewidth="32" tileheight="32">
   <image source="../images/block.png" trans="eeeddf" width="32" height="32"/>
  </tileset>
- <tileset firstgid="14" name="enemysprites" tilewidth="64" tileheight="64">
-  <image source="../images/enemysprites.png" trans="eeeddf" width="128" height="64"/>
+ <tileset firstgid="2" name="io_in" tilewidth="96" tileheight="32">
+  <image source="../images/io_in.png" trans="eeeddf" width="96" height="32"/>
  </tileset>
- <tileset firstgid="16" name="io_out" tilewidth="32" tileheight="94">
-  <image source="../images/io_out.png" trans="eeeddf" width="46" height="95"/>
+ <tileset firstgid="3" name="iosprites" tilewidth="32" tileheight="96">
+  <image source="../images/iosprites.png" trans="eeeddf" width="32" height="96"/>
  </tileset>
- <layer name="blocks" width="25" height="20">
+ <tileset firstgid="4" name="playerSprites" tilewidth="32" tileheight="32">
+  <image source="../images/playerSprites.png" trans="eeeddf" width="32" height="32"/>
+ </tileset>
+ <tileset firstgid="5" name="enemysprites" tilewidth="50" tileheight="40">
+  <image source="../images/enemysprites.png" trans="eeeddf" width="50" height="41"/>
+ </tileset>
+ <tileset firstgid="6" name="datafragmentsprite" tilewidth="32" tileheight="32">
+  <image source="../images/datafragmentsprite.png" trans="eeeddf" width="32" height="32"/>
+ </tileset>
+ <layer name="blocks" width="32" height="18">
   <data encoding="base64" compression="zlib">
-   eJzjZWBg4CUSIwNi9WDTS20wagf17cAX59SygxKAzw5i0x0hdQPtj6FoB7Xz/GhZQpkd1Aq/gSjXhxsgtc4kBwMAOEgFPA==
+   eJxjZBg4wAjFo/aP2j9q/6j9o/aPbPsHgj8KBhYwDjAGAMsUAEs=
   </data>
  </layer>
- <objectgroup name="player">
-  <object id="1" gid="1" x="384" y="160" width="32" height="32"/>
- </objectgroup>
- <objectgroup name="data">
-  <object id="21" gid="2" x="384" y="64" width="32" height="32"/>
- </objectgroup>
- <objectgroup name="enemies">
-  <object id="41" gid="14" x="512" y="224" width="64" height="64"/>
- </objectgroup>
  <objectgroup name="io_in">
-  <object id="19" gid="12" x="352" y="32" width="94" height="32"/>
+  <object id="11" gid="2" x="448" y="128" width="96" height="32"/>
  </objectgroup>
  <objectgroup name="io_out">
-  <object id="31" gid="2147483664" x="768" y="608" width="32" height="94">
+  <object id="15" gid="3" x="992" y="544" width="32" height="96">
    <properties>
     <property name="direction" value="left"/>
    </properties>
   </object>
-  <object id="32" gid="16" x="0" y="608" width="32" height="94">
+  <object id="16" gid="3" x="0" y="544" width="32" height="96">
    <properties>
     <property name="direction" value="right"/>
    </properties>
   </object>
+ </objectgroup>
+ <objectgroup name="enemies">
+  <object id="5" gid="5" x="864" y="544" width="50" height="40"/>
+  <object id="9" gid="5" x="128" y="544" width="50" height="40"/>
+ </objectgroup>
+ <objectgroup name="player">
+  <object id="10" gid="4" x="512" y="544" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="data">
+  <object id="20" gid="6" x="480" y="160" width="32" height="32"/>
  </objectgroup>
 </map>

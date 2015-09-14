@@ -11,6 +11,8 @@ class GameEngine(object):
         pygame.init()
         pygame.font.init()
         pygame.mixer.init()
+        joystick_count = pygame.joystick.get_count()
+        print "%d connected." %joystick_count
 
         os.environ["SDL_VIDEO_CENTERED"] = "1"
 
@@ -40,6 +42,11 @@ class GameEngine(object):
         self.menu = Menu(SCREEN.width, SCREEN.height)
 
         self.bg = SCREEN.bg
+        try:
+            self.player1_joy = pygame.joystick.Joystick(0)
+            self.player1_joy.init()
+        except:
+            None
 
     def reset(self):
         self.firstrun = False
@@ -61,7 +68,7 @@ class GameEngine(object):
                     self.state = STATE.menu
                     self.menu.add_resume_button()
                 if event.key == K_p:
-                    pygame.image.save(self.screen, os.path.join("screenshots", "screen01.png"))
+                    pygame.image.save(self.screen, os.path.join("screenshots", "screen01.jpg"))
                 if event.key == K_q:
                     self.stage.level.spawn_data()
             if event.type == MOUSEBUTTONDOWN:
@@ -126,7 +133,7 @@ class GameEngine(object):
                 self.screen.blit(button.image, button.rect)
                 self.screen.blit(button.text, button.center(button.text))
             if not self.firstrun:
-                self.menu.score = int(self.totalscore/12.0 * 100)
+                self.menu.score = int(self.totalscore)
                 self.screen.blit(self.menu.scoresheet, self.menu.scorerect)
 
 
@@ -141,14 +148,14 @@ class GameEngine(object):
             pygame.display.set_caption("CleanerBot - " + str(int(self.fpsClock.get_fps())) + " fps")
             self.fpsClock.tick(self.fps)
 
-    def complex_camera(self, cameraRect, target_rect):
+    def complex_camera(self, camera_rect, target_rect):
         x, y, dummy, dummy = target_rect
-        dummy, dummy, w, h = cameraRect
+        dummy, dummy, w, h = camera_rect
         x, y  = int(SCREEN.width/2)-x, int(SCREEN.height/2) - y
 
         x = min(0, x)
-        x = max(-(cameraRect.width-SCREEN.width), x)
-        y = max(-(cameraRect.height-SCREEN.height), y)
+        x = max(-(camera_rect.width-SCREEN.width), x)
+        y = max(-(camera_rect.height-SCREEN.height), y)
         y = min(0, y)
 
         return pygame.Rect(x, y, w, h)

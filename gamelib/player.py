@@ -14,6 +14,8 @@ class Player(PhysicsBody):
         self.direction = DIRECTION.left
 
     def handle_events(self, event):
+        if event.type == JOYAXISMOTION:
+            print "Detected joystick"
         if event.type == KEYDOWN:
             if (event.key == K_o or event.key == K_UP or event.key == K_SPACE) and self.grounded:
                 self.vspeed = self.jumpHeight

@@ -58,7 +58,7 @@ class Menu(object):
         #self.text_credits = self.font.render("Credits", True, COLOR.white)
         self.text_exit = self.font.render("Exit", True, COLOR.white)
 
-        self.bg = MENU.menuScreen#pygame.image.load(os.path.join("assets", "images", "menuBG.png"))
+        self.bg = MENU.menuScreen
 
         self.buttons_group = pygame.sprite.Group()
 
@@ -69,8 +69,6 @@ class Menu(object):
         self.scorerect = self.scoresheet.get_rect()
         self.scorerect.centerx = self.width/2
         self.scorerect.y = self.height - 10 - self.scorerect.height
-
-
 
 
     def handle_events(self, event):
