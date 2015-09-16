@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="32" tileheight="32" nextobjectid="21">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="32" tileheight="32" nextobjectid="22">
  <tileset firstgid="1" name="block" tilewidth="32" tileheight="32">
   <image source="../images/block.png" trans="eeeddf" width="32" height="32"/>
  </tileset>
@@ -16,11 +16,11 @@
   <image source="../images/enemysprites.png" trans="eeeddf" width="50" height="41"/>
  </tileset>
  <tileset firstgid="6" name="datafragmentsprite" tilewidth="32" tileheight="32">
-  <image source="../images/datafragmentsprite.png" trans="eeeddf" width="32" height="32"/>
+  <image source="../images/datafragmentsprite.png" trans="eeeddf" width="24" height="24"/>
  </tileset>
  <layer name="blocks" width="32" height="18">
   <data encoding="base64" compression="zlib">
-   eJxjZBg4wAjFo/aP2j9q/6j9o/aPbPsHgj8KBhYwDjAGAMsUAEs=
+   eJxjZBg4wAjFo/aP2j9q/6j9o/aP2k9v+0fBwALGAcYAq3gAPQ==
   </data>
  </layer>
  <objectgroup name="io_in">
@@ -39,8 +39,7 @@
   </object>
  </objectgroup>
  <objectgroup name="enemies">
-  <object id="5" gid="5" x="864" y="544" width="50" height="40"/>
-  <object id="9" gid="5" x="128" y="544" width="50" height="40"/>
+  <object id="21" gid="5" x="768" y="544" width="50" height="40"/>
  </objectgroup>
  <objectgroup name="player">
   <object id="10" gid="4" x="512" y="544" width="32" height="32"/>

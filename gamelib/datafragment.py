@@ -70,8 +70,16 @@ class DataFragment(PhysicsBody):
                         self.rect.y += sprite.vspeed
                         self.vspeed = 0
                         self.grounded = True
+
+                    if self.hspeed != 0:
+                        if self.hspeed < 0:
+                            self.hspeed += 0.125/4
+                        else:
+                            self.hspeed -= 0.125/4
                 elif dy < 0:
                     self.rect.top = sprite.rect.bottom
                     self.vspeed = 5
+
+                
                 return
         self.rect = pygame.Rect(tempRect)

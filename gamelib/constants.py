@@ -5,7 +5,8 @@ from assets import ObjectAsset
 class SCREEN(object):
     width =1024
     height = 576
-    bg = pygame.image.load(os.path.join("assets", "images", "bg.png"))
+    bg = pygame.image.load(os.path.join("assets", "images", "bg.jpg"))
+    bg = pygame.transform.smoothscale(bg, (width, height))
 
 class GAME(object):
     fps = 60
