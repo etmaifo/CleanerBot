@@ -2,10 +2,14 @@ import os
 import pygame
 from assets import ObjectAsset
 
+class COLOR(object):
+    white = (255, 255, 255)
+    black = (0, 0, 0)
+
 class SCREEN(object):
     width =1024
     height = 576
-    bg = pygame.image.load(os.path.join("assets", "images", "bg.jpg"))
+    bg = pygame.image.load(os.path.join("assets", "images", "bg.png"))
     bg = pygame.transform.smoothscale(bg, (width, height))
 
 class GAME(object):

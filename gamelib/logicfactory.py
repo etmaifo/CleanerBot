@@ -1,7 +1,7 @@
 import pygame
 import sys, os
 from pygame import *
-from constants import SCREEN, COLOR, STATE, GAME
+from constants import SCREEN, COLOR, STATE, GAME, COLOR
 from levelfactory import Stage
 from camera import Camera
 from uifactory import Menu
@@ -24,12 +24,12 @@ class GameEngine(object):
 
         self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 40)
         self.font.set_bold(False)
-        self.text = self.font.render("0 MB", True, (0, 0, 0), (55, 25, 55))
+        self.text = self.font.render("0 MB", True, (0, 0, 0), (250, 250, 250))
         self.textRect = self.text.get_rect()
         self.textRect.y = 30
 
 
-        self.totalData = self.font.render("0 MB", True, (0, 0, 0), (55, 100, 100))
+        self.totalData = self.font.render("0 MB", True, (0, 0, 0), (250, 250, 250))
         self.dataRect = self.totalData.get_rect()
         self.dataRect.y = 30
 
@@ -103,12 +103,12 @@ class GameEngine(object):
                 self.ticks += 1
 
             displayTime = self.format_timer(self.timer)
-            self.text = self.font.render(displayTime, True, (150, 125, 112))
+            self.text = self.font.render(displayTime, True, COLOR.white)
             self.textRect = self.text.get_rect()
             self.textRect.centerx = self.screen.get_rect().centerx
             self.textRect.y = 10
 
-            self.totalData = self.font.render(str(self.stage.level.storedData) + "MB", True, (150, 150, 150))
+            self.totalData = self.font.render(str(self.stage.level.storedData) + "MB", True, COLOR.white)
             self.dataRect = self.totalData.get_rect()
             self.dataRect.right = self.screen.get_rect().right - 30
             self.dataRect.y = 10

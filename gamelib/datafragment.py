@@ -73,9 +73,9 @@ class DataFragment(PhysicsBody):
 
                     if self.hspeed != 0:
                         if self.hspeed < 0:
-                            self.hspeed += 0.125/4
+                            self.hspeed += 0.125/2
                         else:
-                            self.hspeed -= 0.125/4
+                            self.hspeed -= 0.125/2
                 elif dy < 0:
                     self.rect.top = sprite.rect.bottom
                     self.vspeed = 5
