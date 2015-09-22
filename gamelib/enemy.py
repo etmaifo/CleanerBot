@@ -18,7 +18,6 @@ class Enemy(PhysicsBody):
         tempRect = pygame.Rect(self.rect)
         tempRect.x += dx
         tempRect.y += dy
-        #self.grounded = False
 
         for sprite in self.collision_group:
             if tempRect.colliderect(sprite.rect):

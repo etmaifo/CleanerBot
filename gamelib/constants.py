@@ -64,3 +64,7 @@ class ASSET(object):
     ioInImage = pygame.image.load(os.path.join("assets", "images", "io_in.png"))
     ioOutImage = pygame.image.load(os.path.join("assets", "images", "io_out.png"))
 
+    sawSheet = pygame.image.load(os.path.join("assets", "images", "sawspritesheet.png"))
+    sawMap = os.path.join("assets", "images", "sawspritesheet.txt")
+    sawFrames = ObjectAsset(sawSheet, sawMap)
+

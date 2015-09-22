@@ -49,8 +49,12 @@ class ObjectAsset(Asset):
         return burnFrames
 
     def get_fall_frames(self):
-        fallFrames = [frame[1] for frame in self.sprite if "fall" in frame[0]]
+        fallFrames = [frame[1] for frame in self.sprites if "fall" in frame[0]]
         return fallFrames
+
+    def get_spin_frames(self):
+        spinFrames = [frame[1] for frame in self.sprites if "spin" in frame[0]]
+        return spinFrames
 
 class BeamAsset(ObjectAsset):
     def __init__(self, spriteSheet, spriteMap):

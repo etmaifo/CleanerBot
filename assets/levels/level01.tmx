@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="32" tileheight="32" nextobjectid="33">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="32" tileheight="32" nextobjectid="43">
  <tileset firstgid="1" name="block" tilewidth="32" tileheight="32">
   <image source="../images/block.png" trans="eeeddf" width="32" height="32"/>
  </tileset>
@@ -12,15 +12,18 @@
  <tileset firstgid="4" name="playerSprites" tilewidth="32" tileheight="32">
   <image source="../images/playerSprites.png" trans="eeeddf" width="32" height="32"/>
  </tileset>
- <tileset firstgid="5" name="enemysprites" tilewidth="50" tileheight="37">
-  <image source="../images/enemysprites.png" trans="eeeddf" width="50" height="37"/>
- </tileset>
- <tileset firstgid="6" name="datafragmentsprite" tilewidth="24" tileheight="24">
+ <tileset firstgid="5" name="datafragmentsprite" tilewidth="24" tileheight="24">
   <image source="../images/datafragmentsprite.png" width="24" height="24"/>
+ </tileset>
+ <tileset firstgid="6" name="enemysprites" tilewidth="50" tileheight="50">
+  <image source="../images/enemysprites.png" width="50" height="50"/>
+ </tileset>
+ <tileset firstgid="7" name="sawblade" tilewidth="64" tileheight="64">
+  <image source="../images/sawblade.png" width="64" height="64"/>
  </tileset>
  <layer name="blocks" width="32" height="18">
   <data encoding="base64" compression="zlib">
-   eJxjZBg4wAjFo/aP2j9q/6j9o/aP2k9v+0fBwALGAcYAq3gAPQ==
+   eJxjZBg4wAjFo/aP2j9q/8i1n1RML/NoDci1n1pupqb/yfXHQIc/pfoH0v3DAZCbZ6mFARs/AFk=
   </data>
  </layer>
  <objectgroup name="io_in">
@@ -39,12 +42,21 @@
   </object>
  </objectgroup>
  <objectgroup name="enemies">
-  <object id="24" gid="5" x="672" y="544" width="50" height="37"/>
+  <object id="35" gid="6" x="704" y="544" width="50" height="50"/>
  </objectgroup>
  <objectgroup name="player">
   <object id="10" gid="4" x="512" y="544" width="32" height="32"/>
  </objectgroup>
  <objectgroup name="data">
-  <object id="32" gid="6" x="512" y="128" width="24" height="24"/>
+  <object id="32" gid="5" x="512" y="128" width="24" height="24"/>
+ </objectgroup>
+ <objectgroup name="saws">
+  <object id="38" gid="7" x="640" y="320" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="saw_bounds">
+  <object id="39" x="576" y="288" width="32" height="32"/>
+  <object id="40" x="992" y="288" width="32" height="32"/>
+  <object id="41" x="416" y="288" width="32" height="32"/>
+  <object id="42" x="0" y="288" width="32" height="32"/>
  </objectgroup>
 </map>

@@ -5,6 +5,7 @@ from player import Player
 from physicsbody import PhysicsBody
 from datafragment import DataFragment
 from enemy import Enemy
+from saw import Saw
 from particlefactory import Particle
 from random import choice
 
@@ -16,6 +17,8 @@ class Level(object):
         self.enemies = []
         self.io_in = []
         self.io_out = []
+        self.saws = []
+        self.bounds = []
 
         self.block_group = pygame.sprite.Group()
         self.datafragment_group = pygame.sprite.Group()
@@ -23,6 +26,8 @@ class Level(object):
         self.particles = pygame.sprite.Group()
         self.io_in_group = pygame.sprite.Group()
         self.io_out_group = pygame.sprite.Group()
+        self.saw_group = pygame.sprite.Group()
+        self.bounds_group = pygame.sprite.Group()
 
         self.width = SCREEN.width
         self.height = SCREEN.height
@@ -50,14 +55,17 @@ class Level(object):
         for layer in self.data.layers:
             if layer.name.upper() == "PLAYER":
                 player = layer[0]
-                #self.player = Player(player.x, player.y, player.width, player.height, ASSET.player)
-                self.player = Player(player.x, player.y, 46, 49, ASSET.player)
+                self.player = Player(player.x, player.y, player.width, player.height, ASSET.player)
             elif layer.name.upper() == "BLOCKS":
                 self.blocks = layer
             elif layer.name.upper() == "DATA":
                 self.datafragments = layer
             elif layer.name.upper() == "ENEMIES":
                 self.enemies = layer
+            elif layer.name.upper() == "SAWS":
+                self.saws = layer
+            elif layer.name.upper() == "SAW_BOUNDS":
+                self.bounds = layer
             elif layer.name.upper() == "IO_IN":
                 self.io_in = layer
             elif layer.name.upper() == "IO_OUT":
@@ -74,19 +82,22 @@ class Level(object):
                 self.player.collision_group.add(levelBlock)
                 self.display_group.add(levelBlock)
                 self.block_group.add(levelBlock)
+
         for dataorb in self.datafragments:
             self.fragmentWidth = dataorb.width
             self.fragmentHeight = dataorb.height
+
         for vport in self.io_in:
             io_port = PhysicsBody(vport.x, vport.y, vport.width, vport.height, ASSET.ioInImage)
             self.io_in_group.add(io_port)
             self.display_group.add(io_port)
             self.fragmentSpawnPos = [vport.x + vport.width/2, vport.y + vport.height]
+
         for port in self.io_out:
             io_port = PhysicsBody(port.x, port.y, port.width, port.height, ASSET.ioOutImage, port.properties['direction'])
-            #print port.id, port.gid, port.x, port.y, port.width, port.height, port.properties['direction']
             self.io_out_group.add(io_port)
             self.display_group.add(io_port)
+
         for enemy_ in self.enemies:
             enemy = Enemy(enemy_.x, enemy_.y, enemy_.width, enemy_.height, ASSET.enemyFrames)
             enemy.collision_group = self.block_group.copy()
@@ -97,10 +108,21 @@ class Level(object):
             self.enemy_group.add(enemy)
             self.display_group.add(enemy)
 
+        for bound in self.bounds:
+            sawBound = PhysicsBody(bound.x, bound.y, bound.width, bound.height, blockImage)
+            self.bounds_group.add(sawBound)
+
+        for saw in self.saws:
+            sawblade = Saw(saw.x, saw.y, saw.width, saw.height, ASSET.sawFrames)
+            sawblade.bounds = self.bounds_group.copy()
+            self.saw_group.add(sawblade)
+            self.display_group.add(sawblade)
+
         for fragment in self.datafragment_group:
             fragment.killer_group = self.enemy_group.copy()
             fragment.storage_group.add(self.io_out_group)
             fragment.collision_group.add(self.io_in_group)
+            fragment.killer_group.add(self.saw_group)
 
         self.player.collision_group.add(self.io_out_group)
         self.display_group.add(self.player)
@@ -154,6 +176,8 @@ class Level(object):
         datafragment.killer_group = self.enemy_group.copy()
         datafragment.storage_group.add(self.io_out_group)
         datafragment.collision_group.add(self.io_in_group)
+        datafragment.killer_group.add(self.saw_group)
+
 
     def shoot_data(self, x, y, hspeed, vspeed):
         datafragment = DataFragment(x, y, self.fragmentWidth, self.fragmentHeight, ASSET.dataFragmentFrames)
@@ -165,6 +189,7 @@ class Level(object):
         datafragment.killer_group = self.enemy_group.copy()
         datafragment.storage_group.add(self.io_out_group)
         datafragment.collision_group.add(self.io_in_group)
+        datafragment.killer_group.add(self.saw_group)
 
         datafragment.hspeed = hspeed        
         datafragment.vspeed = vspeed
