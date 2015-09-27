@@ -63,7 +63,6 @@ class GameEngine(object):
             if event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
                     self.state = STATE.menu
-                    self.menu.add_resume_button()
                 if event.key == K_p:
                     pygame.image.save(self.screen, os.path.join("screenshots", "screen01.jpg"))
                 if event.key == K_q:
@@ -74,6 +73,7 @@ class GameEngine(object):
                 self.stage.level.player.handle_events(event)
             elif self.state == STATE.menu:
                 self.menu.handle_events(event)
+                self.state = self.menu.state
             elif self.state == "exit":
                 pygame.quit()
                 sys.exit()

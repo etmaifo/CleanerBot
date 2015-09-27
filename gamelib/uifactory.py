@@ -1,6 +1,6 @@
 import pygame, os
 from pygame.locals import *
-from constants import COLOR, MENU, SCREEN
+from constants import COLOR, MENU, SCREEN, STATE
 from physicsbody import PhysicsBody
 
 
@@ -18,7 +18,7 @@ class Menu(object):
         self.bg = MENU.menuScreen
         self.button = PhysicsBody(0, 200, SCREEN.width, 58, MENU.button)
         self.button_pos = 0
-
+        self.state = STATE.menu
         self.assemble()
 
     def handle_events(self, event):
@@ -31,7 +31,7 @@ class Menu(object):
                 self.button_pos -= 1
             elif event.key == K_RETURN:
                 if self.button_pos == 0:
-                    self.state
+                    self.state = STATE.game
 
     def assemble(self):
         self.human_rect = self.text_human.get_rect()
