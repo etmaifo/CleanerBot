@@ -47,7 +47,6 @@ class Saw(PhysicsBody):
             self.frame = 0
         self.image = self.frames[self.frame]
 
-
     def rest(self, duration):
         count = 0
         for i in xrange(GAME.fps * duration, -1, -1):

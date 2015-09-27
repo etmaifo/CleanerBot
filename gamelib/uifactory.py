@@ -1,121 +1,73 @@
 import pygame, os
 from pygame.locals import *
-from constants import COLOR, MENU
+from constants import COLOR, MENU, SCREEN
+from physicsbody import PhysicsBody
 
-class MenuButton(pygame.sprite.Sprite):
-    def __init__(self, x, y, text, state, image):
-        pygame.sprite.Sprite.__init__(self)
-        self.active = False
-        self.selected = False
-        self.state = state
-        self.image = pygame.Surface((150, 40))
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y
-        self.hover_image = self.get_surface(os.path.join("assets", "images", "button_hover.png"), 150, 40)
-        self.inactive_image = self.get_surface(os.path.join("assets", "images", "button_inactive.png"), 150, 40)
-        self.text = text
-
-    def handle_events(self, event):
-        if event.type == MOUSEMOTION:
-            if self.rect.collidepoint(pygame.mouse.get_pos()):
-                self.image = self.hover_image
-                self.active = True
-            else:
-                self.image = self.inactive_image
-                self.active = False
-
-    def get_surface(self, img, width, height):
-        image = pygame.image.load(img)
-        image = pygame.transform.smoothscale(image, (width, height))
-        self.rect.width = image.get_rect().width
-        self.rect.height = image.get_rect().height
-
-        return image
-
-    def center(self, text):
-        textRect = text.get_rect()
-        textRect.centerx = self.rect.centerx
-        textRect.centery = self.rect.centery
-
-        return textRect
-
-    def make_active(self, text):
-        """ Makes the button active """
-        self.text = self.font.render(text, True, COLOR.green)
-        self.active = True
 
 class Menu(object):
     def __init__(self, width, height):
         self.width = width
         self.height = height
         self.cursor_index = 0
-
-        self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 30)
-        self.text_resume = self.font.render("Resume", True, COLOR.white)
-        self.text_play = self.font.render("Play", True, COLOR.white)
-        #self.text_settings = self.font.render("Settings", True, COLOR.white)
-        #self.text_credits = self.font.render("Credits", True, COLOR.white)
+        self.font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 26)
+        self.font.set_bold(True)
+        self.text_human = self.font.render("VS Human", True, COLOR.blue)
+        self.text_ai = self.font.render("VS A.I.", True, COLOR.white)
+        self.text_controls = self.font.render("Controls", True, COLOR.white)
         self.text_exit = self.font.render("Exit", True, COLOR.white)
-
         self.bg = MENU.menuScreen
-
-        self.buttons_group = pygame.sprite.Group()
+        self.button = PhysicsBody(0, 200, SCREEN.width, 58, MENU.button)
+        self.button_pos = 0
 
         self.assemble()
 
-        self.score = 0
-        self.scoresheet = self.font.render("", True, COLOR.white)
-        self.scorerect = self.scoresheet.get_rect()
-        self.scorerect.centerx = self.width/2
-        self.scorerect.y = self.height - 10 - self.scorerect.height
-
-
     def handle_events(self, event):
-        for button in self.buttons_group:
-            button.handle_events(event)
-
         if event.type == KEYDOWN:
-            if event.key == K_s:
-                self.cursor_index += 1
-            elif event.key == K_w:
-                self.cursor_index -= 1
-
-        if self.cursor_index < 0:
-            self.cursor_index = 0
-        elif self.cursor_index > 3:
-            self.cursor_index = 3
+            if (event.key == K_DOWN or event.key == K_s) and self.button_pos < 3:
+                self.button.rect.y += self.button.rect.height
+                self.button_pos += 1
+            elif (event.key == K_UP or event.key == K_w) and self.button_pos > 0:
+                self.button.rect.y -= self.button.rect.height
+                self.button_pos -= 1
+            elif event.key == K_RETURN:
+                if self.button_pos == 0:
+                    self.state
 
     def assemble(self):
-        button = None
-        for i in range(4): # 4 buttons
-            x = self.width/2 - 150/2
-            y = 280 + i*60 #(i*40) + (i*20)
-            if i == 0:
-                button = MenuButton(x, y, self.text_play, "game", "img")
-                '''
-            elif i == 1:
-                button = MenuButton(x, y, self.text_settings, "settings", "img")
-            elif i == 2:
-                button = MenuButton(x, y, self.text_credits, "credits", "img")
-                '''
-            elif i == 1:
-                button = MenuButton(x, y, self.text_exit, "exit", "img")
-            self.buttons_group.add(button)
+        self.human_rect = self.text_human.get_rect()
+        self.human_rect.centerx = SCREEN.width/2
+        self.human_rect.centery = self.button.rect.centery
 
-    def get_active_state(self):
-        for button in self.buttons_group:
-            if button.active:
-                return button.state
-        return "menu"
+        self.ai_rect = self.text_ai.get_rect()
+        self.ai_rect.centerx = SCREEN.width/2
+        self.ai_rect.centery = self.button.rect.centery + self.button.rect.height
 
-    def add_resume_button(self):
-        for button in self.buttons_group:
-            if button.state == "game":
-                button.text = self.text_resume
+        self.controls_rect = self.text_controls.get_rect()
+        self.controls_rect.centerx = SCREEN.width/2
+        self.controls_rect.centery = self.button.rect.centery + self.button.rect.height * 2
+
+        self.exit_rect = self.text_exit.get_rect()
+        self.exit_rect.centerx = SCREEN.width/2
+        self.exit_rect.centery = self.button.rect.centery + self.button.rect.height * 3
 
     def update(self):
-        self.scoresheet = self.font.render("%sMB Downloaded" %(str(self.score)), True, COLOR.white)
-        self.scorerect = self.scoresheet.get_rect()
-        self.scorerect.centerx = self.width/2
-        self.scorerect.y = self.height - 10 - self.scorerect.height
+        self.text_human = self.font.render("VS Human", True, COLOR.white)
+        self.text_ai = self.font.render("VS A.I.", True, COLOR.white)
+        self.text_controls = self.font.render("Controls", True, COLOR.white)
+        self.text_exit = self.font.render("Exit", True, COLOR.white)
+
+        if self.human_rect.colliderect(self.button.rect):
+            self.text_human = self.font.render("VS Human", True, COLOR.blue)
+        elif self.ai_rect.colliderect(self.button.rect):
+            self.text_ai = self.font.render("VS A.I.", True, COLOR.blue)
+        elif self.controls_rect.colliderect(self.button.rect):
+            self.text_controls = self.font.render("Controls", True, COLOR.blue)
+        elif self.exit_rect.colliderect(self.button.rect):
+            self.text_exit = self.font.render("Exit", True, COLOR.blue)
+
+    def draw(self, screen):
+        screen.blit(self.button.image, self.button.rect)
+        screen.blit(self.text_human, self.human_rect)
+        screen.blit(self.text_ai, self.ai_rect)
+        screen.blit(self.text_controls, self.controls_rect)
+        screen.blit(self.text_exit, self.exit_rect)

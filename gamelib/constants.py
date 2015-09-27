@@ -2,10 +2,6 @@ import os
 import pygame
 from assets import ObjectAsset
 
-class COLOR(object):
-    white = (255, 255, 255)
-    black = (0, 0, 0)
-
 class SCREEN(object):
     width =1024
     height = 576
@@ -14,11 +10,12 @@ class SCREEN(object):
 
 class GAME(object):
     fps = 60
-    time = 60 * 1 
+    time = 60 * 1
 
 class MENU(object):
     menuScreen = pygame.image.load(os.path.join("assets", "images", "menuBG.png"))
     scoreScreen = pygame.image.load(os.path.join("assets", "images", "scorescreen.png"))
+    button = pygame.image.load(os.path.join("assets", "images", "menu_button.png"))
 
 
 class STATE(object):
@@ -30,6 +27,7 @@ class COLOR(object):
     black = (0, 0, 0)
     gray = (31, 31, 31)
     green = (0, 196, 0)
+    blue = (0, 109, 135)
 
 class WORLD(object):
     gravity = 1
@@ -39,7 +37,7 @@ class DIRECTION(object):
     right = "right"
     up = "up"
     down = "down"
-    
+
 class PARTICLE(object):
     width = 8
     height = 8

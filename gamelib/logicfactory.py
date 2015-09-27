@@ -28,7 +28,6 @@ class GameEngine(object):
         self.textRect = self.text.get_rect()
         self.textRect.y = 30
 
-
         self.totalData = self.font.render("0 MB", True, (0, 0, 0), (250, 250, 250))
         self.dataRect = self.totalData.get_rect()
         self.dataRect.y = 30
@@ -46,15 +45,13 @@ class GameEngine(object):
             self.player1_joy = pygame.joystick.Joystick(0)
             self.player1_joy.init()
         except:
-            None
+            pass
 
     def reset(self):
         self.firstrun = False
         self.state = STATE.menu
         self.stage = Stage()
         self.timer = GAME.time
-
-
         self.camera = Camera(self.complex_camera, self.stage.level.width, self.stage.level.height)
         self.menu = Menu(SCREEN.width, SCREEN.height)
 
@@ -71,8 +68,6 @@ class GameEngine(object):
                     pygame.image.save(self.screen, os.path.join("screenshots", "screen01.jpg"))
                 if event.key == K_q:
                     self.stage.level.spawn_data()
-            if event.type == MOUSEBUTTONDOWN:
-                self.state = self.menu.get_active_state()
             if self.state == STATE.game:
                 if self.stage.level.timer == 0:
                     self.stage.level.timer = pygame.time.get_ticks()/1000.0
@@ -129,9 +124,7 @@ class GameEngine(object):
 
         elif self.state == STATE.menu:
             self.screen.blit(self.menu.bg, self.menu.bg.get_rect())
-            for button in self.menu.buttons_group:
-                self.screen.blit(button.image, button.rect)
-                self.screen.blit(button.text, button.center(button.text))
+            self.menu.draw(self.screen)
             if not self.firstrun:
                 self.menu.score = int(self.totalscore)
                 self.screen.blit(self.menu.scoresheet, self.menu.scorerect)

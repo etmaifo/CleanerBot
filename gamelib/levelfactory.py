@@ -117,6 +117,10 @@ class Level(object):
             sawblade.bounds = self.bounds_group.copy()
             self.saw_group.add(sawblade)
             self.display_group.add(sawblade)
+            tempgroup = self.display_group.copy()
+            self.display_group.empty()
+            self.display_group.add(sawblade)
+            self.display_group.add(tempgroup)
 
         for fragment in self.datafragment_group:
             fragment.killer_group = self.enemy_group.copy()
@@ -126,7 +130,6 @@ class Level(object):
 
         self.player.collision_group.add(self.io_out_group)
         self.display_group.add(self.player)
-
 
     def update(self):
         now = pygame.time.get_ticks()/1000.0
@@ -162,7 +165,7 @@ class Level(object):
     def spawn_particles(self, x, y, number):
         for i in xrange(number):
             size = choice([2, 4, 6, 8, 10])
-            #particle = Particle(x, y, PARTICLE.width, PARTICLE.height, PARTICLE.image)
+            # particle = Particle(x, y, PARTICLE.width, PARTICLE.height, PARTICLE.image)
             particle = Particle(x, y, size, size, PARTICLE.image)
             self.particles.add(particle)
 
