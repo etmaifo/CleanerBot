@@ -1,6 +1,6 @@
 import pygame, os
 import pytmx
-from constants import SCREEN, ASSET, PARTICLE, GAME
+from constants import SCREEN, ASSET, PARTICLE, GAME, PLAYER
 from player import Player
 from physicsbody import PhysicsBody
 from datafragment import DataFragment
@@ -35,7 +35,8 @@ class Level(object):
         self.fragmentHeight = 0
         self.fragmentSpawnPos = []
 
-        self.player = None
+        self.player1 = None
+        self.player2 = None
 
         self.intro = False
         self.timer = 0
@@ -54,8 +55,10 @@ class Level(object):
 
         for layer in self.data.layers:
             if layer.name.upper() == "PLAYER":
-                player = layer[0]
-                self.player = Player(player.x, player.y, player.width, player.height, ASSET.player)
+                p1 = layer[0]
+                p2 = layer[1]
+                self.player1 = Player(p1.x, p1.y, p1.width, p1.height, ASSET.player, PLAYER.one)
+                self.player2 = Player(p2.x, p2.y, p2.width, p2.height, ASSET.player, PLAYER.two)
             elif layer.name.upper() == "BLOCKS":
                 self.blocks = layer
             elif layer.name.upper() == "DATA":
@@ -79,7 +82,8 @@ class Level(object):
                 levelBlock = PhysicsBody(0, 0, self.data.tilewidth, self.data.tileheight, blockImage)
                 levelBlock.rect.x = self.data.tilewidth * block[0]
                 levelBlock.rect.y = self.data.tileheight * block[1]
-                self.player.collision_group.add(levelBlock)
+                self.player1.collision_group.add(levelBlock)
+                self.player2.collision_group.add(levelBlock)
                 self.display_group.add(levelBlock)
                 self.block_group.add(levelBlock)
 
@@ -98,16 +102,18 @@ class Level(object):
             self.io_out_group.add(io_port)
             self.display_group.add(io_port)
 
+        '''
         for enemy_ in self.enemies:
             enemy = Enemy(enemy_.x, enemy_.y, enemy_.width, enemy_.height, ASSET.enemyFrames)
             enemy.collision_group = self.block_group.copy()
             enemy.collision_group.add(self.io_out_group)
-            self.player.collision_group.add(enemy)
-            for item in self.player.movingforce_group:
+            self.player1.collision_group.add(enemy)
+            self.player2.collision_group.add(enemy)
+            for item in self.player1.movingforce_group:
                 item.collision_group.add(enemy)
             self.enemy_group.add(enemy)
             self.display_group.add(enemy)
-
+        '''
         for bound in self.bounds:
             sawBound = PhysicsBody(bound.x, bound.y, bound.width, bound.height, blockImage)
             self.bounds_group.add(sawBound)
@@ -128,8 +134,10 @@ class Level(object):
             fragment.collision_group.add(self.io_in_group)
             fragment.killer_group.add(self.saw_group)
 
-        self.player.collision_group.add(self.io_out_group)
-        self.display_group.add(self.player)
+        self.player1.collision_group.add(self.io_out_group)
+        self.player2.collision_group.add(self.io_out_group)
+        self.display_group.add(self.player1)
+        self.display_group.add(self.player2)
 
     def update(self):
         now = pygame.time.get_ticks()/1000.0
@@ -142,14 +150,24 @@ class Level(object):
             if self.elapsed > 2:
                 self.intro = False
         else:
-            if self.player.shoot_data:
-                self.player.shoot_data = False
-                self.player.has_data = False
-                shotx = self.player.get_data_pos()[0] + (self.player.rect.width / 2) - (self.fragmentWidth/2)
-                shoty = self.player.get_data_pos()[1]
-                shotSpeed = self.player.get_data_pos()[2]
-                shotHeight = self.player.get_data_pos()[3]
+            if self.player1.shoot_data:
+                self.player1.shoot_data = False
+                self.player1.has_data = False
+                shotx = self.player1.get_data_pos()[0] + (self.player1.rect.width / 2) - (self.fragmentWidth/2)
+                shoty = self.player1.get_data_pos()[1]
+                shotSpeed = self.player1.get_data_pos()[2]
+                shotHeight = self.player1.get_data_pos()[3]
                 self.shoot_data(shotx, shoty, shotSpeed, shotHeight)
+
+            if self.player2.shoot_data:
+                self.player2.shoot_data = False
+                self.player2.has_data = False
+                shotx = self.player2.get_data_pos()[0] + (self.player2.rect.width / 2) - (self.fragmentWidth/2)
+                shoty = self.player2.get_data_pos()[1]
+                shotSpeed = self.player2.get_data_pos()[2]
+                shotHeight = self.player2.get_data_pos()[3]
+                self.shoot_data(shotx, shoty, shotSpeed, shotHeight)
+
             for datafragment in self.datafragment_group:
                 if datafragment.captured:
                     self.spawn_particles(datafragment.rect.centerx, datafragment.rect.centery, 10)
@@ -171,8 +189,10 @@ class Level(object):
 
     def spawn_data(self):
         datafragment = DataFragment(self.fragmentSpawnPos[0], self.fragmentSpawnPos[1], self.fragmentWidth, self.fragmentHeight, ASSET.dataFragmentFrames)
-        datafragment.collision_group = self.player.collision_group.copy()
-        self.player.movingforce_group.add(datafragment)
+        datafragment.collision_group = self.player1.collision_group.copy()
+        datafragment.collision_group = self.player2.collision_group.copy()
+        self.player1.movingforce_group.add(datafragment)
+        self.player2.movingforce_group.add(datafragment)
         self.display_group.add(datafragment)
         self.datafragment_group.add(datafragment)
 
@@ -184,8 +204,10 @@ class Level(object):
 
     def shoot_data(self, x, y, hspeed, vspeed):
         datafragment = DataFragment(x, y, self.fragmentWidth, self.fragmentHeight, ASSET.dataFragmentFrames)
-        datafragment.collision_group = self.player.collision_group.copy()
-        self.player.movingforce_group.add(datafragment)
+        datafragment.collision_group = self.player1.collision_group.copy()
+        datafragment.collision_group = self.player2.collision_group.copy()
+        self.player1.movingforce_group.add(datafragment)
+        self.player2.movingforce_group.add(datafragment)
         self.display_group.add(datafragment)
         self.datafragment_group.add(datafragment)
 

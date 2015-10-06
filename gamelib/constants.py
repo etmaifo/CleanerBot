@@ -32,6 +32,11 @@ class COLOR(object):
 class WORLD(object):
     gravity = 1
 
+class PLAYER(object):
+    one = "p1"
+    two = "p2"
+    ai = "ai"
+
 class DIRECTION(object):
     left = "left"
     right = "right"

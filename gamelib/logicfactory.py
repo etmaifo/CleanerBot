@@ -70,7 +70,8 @@ class GameEngine(object):
             if self.state == STATE.game:
                 if self.stage.level.timer == 0:
                     self.stage.level.timer = pygame.time.get_ticks()/1000.0
-                self.stage.level.player.handle_events(event)
+                self.stage.level.player1.handle_events(event)
+                self.stage.level.player2.handle_events(event)
             elif self.state == STATE.menu:
                 self.menu.handle_events(event)
                 self.state = self.menu.state
@@ -79,7 +80,7 @@ class GameEngine(object):
                 sys.exit()
 
     def update(self):
-        self.camera.update(self.stage.level.player)
+        self.camera.update(self.stage.level.player1)
         self.menu.update()
         if self.timer == 0:
             self.reset()
@@ -126,9 +127,7 @@ class GameEngine(object):
             self.screen.blit(self.menu.bg, self.menu.bg.get_rect())
             self.menu.draw(self.screen)
             if not self.firstrun:
-                self.menu.score = int(self.totalscore)
-                self.screen.blit(self.menu.scoresheet, self.menu.scorerect)
-
+                pass
 
     def run_game(self, fps=30):
         self.fps = fps
