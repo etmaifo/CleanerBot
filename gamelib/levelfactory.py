@@ -40,7 +40,8 @@ class Level(object):
 
         self.intro = False
         self.timer = 0
-        self.storedData = 0
+        self.p1_data = 0
+        self.p2_data = 0
         self.elapsed = 0
         self.spawnTimer = 0
         self.display_group = pygame.sprite.OrderedUpdates()
@@ -98,7 +99,7 @@ class Level(object):
             self.fragmentSpawnPos = [vport.x + vport.width/2, vport.y + vport.height]
 
         for port in self.io_out:
-            io_port = PhysicsBody(port.x, port.y, port.width, port.height, ASSET.ioOutImage, port.properties['direction'])
+            io_port = PhysicsBody(port.x, port.y, port.width, port.height, ASSET.ioOutImage, port.properties['direction'], port.properties['player'])
             self.io_out_group.add(io_port)
             self.display_group.add(io_port)
 
@@ -174,8 +175,11 @@ class Level(object):
                     datafragment.kill()
                 elif datafragment.safe:
                     datafragment.animate_storage()
+                    if datafragment.playerId == "p1":
+                        self.p1_data += 1
+                    elif datafragment.playerId == "p2":
+                        self.p2_data += 1
                     datafragment.kill()
-                    self.storedData += 1
 
             self.display_group.update()
             self.particles.update()

@@ -24,13 +24,17 @@ class GameEngine(object):
 
         self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 40)
         self.font.set_bold(False)
-        self.text = self.font.render("0 MB", True, (0, 0, 0), (250, 250, 250))
-        self.textRect = self.text.get_rect()
+        self.gameTime = self.font.render("0 MB", True, (0, 0, 0), (250, 250, 250))
+        self.textRect = self.gameTime.get_rect()
         self.textRect.y = 30
 
-        self.totalData = self.font.render("0 MB", True, (0, 0, 0), (250, 250, 250))
-        self.dataRect = self.totalData.get_rect()
-        self.dataRect.y = 30
+        self.p1_score = self.font.render("0 MB", True, (0, 0, 0), (250, 250, 250))
+        self.p1_score_rect = self.p1_score.get_rect()
+        self.p1_score_rect.y = 30
+
+        self.p2_score = self.font.render("0 MB", True, (0, 0, 0), (250, 250, 250))
+        self.p2_score_rect = self.p2_score.get_rect()
+        self.p2_score_rect.y = 30
 
         self.state = STATE.menu
         self.stage = Stage()
@@ -99,16 +103,21 @@ class GameEngine(object):
                 self.ticks += 1
 
             displayTime = self.format_timer(self.timer)
-            self.text = self.font.render(displayTime, True, COLOR.white)
-            self.textRect = self.text.get_rect()
+            self.gameTime = self.font.render(displayTime, True, COLOR.white)
+            self.textRect = self.gameTime.get_rect()
             self.textRect.centerx = self.screen.get_rect().centerx
             self.textRect.y = 10
 
-            self.totalData = self.font.render(str(self.stage.level.storedData) + "MB", True, COLOR.white)
-            self.dataRect = self.totalData.get_rect()
-            self.dataRect.right = self.screen.get_rect().right - 30
-            self.dataRect.y = 10
-            self.totalscore = self.stage.level.storedData
+            self.p1_score = self.font.render(str(self.stage.level.p1_data) + "MB", True, COLOR.white)
+            self.p1_score_rect = self.p1_score.get_rect()
+            self.p1_score_rect.left = 30
+            self.p1_score_rect.y = 10
+
+            self.p2_score = self.font.render(str(self.stage.level.p2_data) + "MB", True, COLOR.white)
+            self.p2_score_rect = self.p2_score.get_rect()
+            self.p2_score_rect.right = self.screen.get_rect().right - 30
+            self.p2_score_rect.y = 10
+            self.totalscore = self.stage.level.p1_data
 
     def draw(self):
         self.screen.fill(COLOR.white)
@@ -120,8 +129,9 @@ class GameEngine(object):
                 self.screen.blit(entity.image, self.camera.apply(entity))
             for particle in self.stage.level.particles:
                 self.screen.blit(particle.image, self.camera.apply(particle))
-            self.screen.blit(self.text, self.textRect)
-            self.screen.blit(self.totalData, self.dataRect)
+            self.screen.blit(self.gameTime, self.textRect)
+            self.screen.blit(self.p1_score, self.p1_score_rect)
+            self.screen.blit(self.p2_score, self.p2_score_rect)
 
         elif self.state == STATE.menu:
             self.screen.blit(self.menu.bg, self.menu.bg.get_rect())

@@ -34,7 +34,7 @@ class Player(PhysicsBody):
             if event.type == KEYUP:
                 if event.key == K_LEFT or event.key == K_RIGHT:
                     self.hspeed = 0
-                if event.key == K_k:
+                if event.key == K_m:
                     if self.has_data:
                         self.shoot_data = True
 

@@ -13,6 +13,7 @@ class DataFragment(PhysicsBody):
         self.captured = False
         self.safe = False
         self.givePoint = False
+        self.id = 0
         self.killer_group = pygame.sprite.Group()
         self.storage_group = pygame.sprite.Group()
 
@@ -48,6 +49,7 @@ class DataFragment(PhysicsBody):
 
         for sprite in self.storage_group:
             if tempRect.colliderect(sprite.rect):
+                self.playerId = sprite.playerId
                 self.safe = True
 
         for sprite in self.collision_group:

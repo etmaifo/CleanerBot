@@ -2,14 +2,17 @@ import pygame, os
 from pygame.locals import *
 from constants import COLOR, MENU, SCREEN, STATE
 from physicsbody import PhysicsBody
+import pygame.mixer as mixer
 
 
 class Menu(object):
     def __init__(self, width, height):
+        mixer.init()
+
         self.width = width
         self.height = height
         self.cursor_index = 0
-        self.font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 26)
+        self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 26)
         self.font.set_bold(True)
         self.text_human = self.font.render("VS Human", True, COLOR.blue)
         self.text_ai = self.font.render("VS A.I.", True, COLOR.white)
@@ -21,14 +24,21 @@ class Menu(object):
         self.state = STATE.menu
         self.assemble()
 
+        self.nav_sound = mixer.Sound(os.path.join("assets", "sfx", "menu_nav.wav"))
+        self.nav_sound.set_volume(1.0)
+
+
+
     def handle_events(self, event):
         if event.type == KEYDOWN:
             if (event.key == K_DOWN or event.key == K_s) and self.button_pos < 3:
                 self.button.rect.y += self.button.rect.height
                 self.button_pos += 1
+                self.nav_sound.play()
             elif (event.key == K_UP or event.key == K_w) and self.button_pos > 0:
                 self.button.rect.y -= self.button.rect.height
                 self.button_pos -= 1
+                self.nav_sound.play()
             elif event.key == K_RETURN:
                 if self.button_pos == 0:
                     self.state = STATE.game
