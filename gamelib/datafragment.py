@@ -18,6 +18,7 @@ class DataFragment(PhysicsBody):
         self.storage_group = pygame.sprite.Group()
 
     def update(self):
+        self.check_bounds()
         if self.grounded: 
             self.animate_walk()
         if self.captured:
@@ -34,7 +35,27 @@ class DataFragment(PhysicsBody):
 
     def animate_walk(self):
         self.image = self.animationFrames.get_walk_frames()[self.frameNumber]
+        x = self.rect.x
+        y = self.rect.y
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y        
 
+    def animate_jump(self):
+        self.image = pygame.transform.smoothscale(self.image, (self.rect.width/2, self.rect.height))
+        x = self.rect.x
+        y = self.rect.y
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
+
+    def animate_bounce(self):
+        self.image = pygame.transform.smoothscale(self.image, (self.rect.width, self.rect.height/2))
+        x = self.rect.x
+        y = self.rect.y
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y
 
     def detect_collision(self, dx, dy):
         tempRect = pygame.Rect(self.rect)

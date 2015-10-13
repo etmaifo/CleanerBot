@@ -21,6 +21,8 @@ class MENU(object):
 class STATE(object):
     menu = "menu"
     game = "game"
+    countdown = "countdown"
+    exit = "exit"
 
 class COLOR(object):
     white = (255, 255, 255)
@@ -36,6 +38,8 @@ class PLAYER(object):
     one = "p1"
     two = "p2"
     ai = "ai"
+    p1_label = pygame.image.load(os.path.join("assets", "images", "p1_label.png"))
+    p2_label = pygame.image.load(os.path.join("assets", "images", "p2_label.png"))
 
 class DIRECTION(object):
     left = "left"

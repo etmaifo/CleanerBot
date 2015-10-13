@@ -23,7 +23,7 @@
  </tileset>
  <layer name="blocks" width="32" height="18">
   <data encoding="base64" compression="zlib">
-   eJxjZBg4wAjFo/aP2j9q/6j9o/aTphcfn9b2UwMMBvtHwcACxgHGALH4AD8=
+   eJxjYBgFo2AUjIJRMJQAIwH+KBgFQwEwDjAGABfAACM=
   </data>
  </layer>
  <objectgroup name="io_in">

@@ -1,5 +1,5 @@
 import pygame
-from constants import WORLD, DIRECTION
+from constants import WORLD, DIRECTION, SCREEN
 
 
 class PhysicsBody(pygame.sprite.Sprite):
@@ -36,6 +36,14 @@ class PhysicsBody(pygame.sprite.Sprite):
             self.detect_collision(dx, 0)
         if dy != 0:
             self.detect_collision(0, dy)
+
+    def check_bounds(self):
+        if self.rect.left < 0:
+            self.rect.left = 0
+            self.hspeed = -self.hspeed
+        elif self.rect.right > SCREEN.width:
+            self.rect.right = SCREEN.width
+            self.hspeed = -self.hspeed
 
     def detect_collision(self, dx, dy):
         tempRect = pygame.Rect(self.rect)

@@ -1,7 +1,7 @@
 import pygame
 import sys, os
 from pygame import *
-from constants import SCREEN, COLOR, STATE, GAME, COLOR
+from constants import SCREEN, COLOR, STATE, GAME
 from levelfactory import Stage
 from camera import Camera
 from uifactory import Menu
@@ -22,7 +22,9 @@ class GameEngine(object):
         self.ticks = 0
         self.firstrun = True
 
-        self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 40)
+        pygame.mixer.music.load(os.path.join("assets", "music", "galactic.ogg"))
+        #pygame.mixer.music.play()
+        self.font = pygame.font.Font(os.path.join("assets", "fonts", "molot.ttf"), 30)
         self.font.set_bold(False)
         self.gameTime = self.font.render("0 MB", True, (0, 0, 0), (250, 250, 250))
         self.textRect = self.gameTime.get_rect()
@@ -71,7 +73,7 @@ class GameEngine(object):
                     pygame.image.save(self.screen, os.path.join("screenshots", "screen01.jpg"))
                 if event.key == K_q:
                     self.stage.level.spawn_data()
-            if self.state == STATE.game:
+            if self.state == STATE.game:                
                 if self.stage.level.timer == 0:
                     self.stage.level.timer = pygame.time.get_ticks()/1000.0
                 self.stage.level.player1.handle_events(event)
@@ -79,7 +81,7 @@ class GameEngine(object):
             elif self.state == STATE.menu:
                 self.menu.handle_events(event)
                 self.state = self.menu.state
-            elif self.state == "exit":
+            elif self.state == STATE.exit:
                 pygame.quit()
                 sys.exit()
 
@@ -91,7 +93,9 @@ class GameEngine(object):
 
         if self.stage == STATE.menu:
             self.menu.update()
-        elif self.state == STATE.game:
+        elif state == STATE.countdown:
+            pass
+        elif self.state == STATE.game:            
             self.stage.level.update()
             self.stage.update()
             if self.stage.level.intro:

@@ -13,6 +13,11 @@ class Player(PhysicsBody):
         self.shoot_data = False
         self.direction = DIRECTION.left
         self.id = id
+        self.label = PhysicsBody(0, 0, 21, 32, PLAYER.p1_label)
+
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
+        screen.blit(self.label.image, self.label.rect)
 
     def handle_events(self, event):
         if event.type == JOYAXISMOTION:
@@ -39,6 +44,9 @@ class Player(PhysicsBody):
                         self.shoot_data = True
 
     def update(self):
+        self.check_bounds()
+        self.label.rect.centerx = self.rect.centerx
+        self.label.rect.bottom = self.rect.top - 5
         self.grounded = False
         key = pygame.key.get_pressed()
         if self.id == PLAYER.one:

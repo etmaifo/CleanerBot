@@ -4,7 +4,6 @@ from constants import SCREEN, ASSET, PARTICLE, GAME, PLAYER
 from player import Player
 from physicsbody import PhysicsBody
 from datafragment import DataFragment
-from enemy import Enemy
 from saw import Saw
 from particlefactory import Particle
 from random import choice
@@ -60,6 +59,7 @@ class Level(object):
                 p2 = layer[1]
                 self.player1 = Player(p1.x, p1.y, p1.width, p1.height, ASSET.player, PLAYER.one)
                 self.player2 = Player(p2.x, p2.y, p2.width, p2.height, ASSET.player, PLAYER.two)
+                self.player2.label.image = PLAYER.p2_label
             elif layer.name.upper() == "BLOCKS":
                 self.blocks = layer
             elif layer.name.upper() == "DATA":
@@ -138,7 +138,9 @@ class Level(object):
         self.player1.collision_group.add(self.io_out_group)
         self.player2.collision_group.add(self.io_out_group)
         self.display_group.add(self.player1)
+        self.display_group.add(self.player1.label)
         self.display_group.add(self.player2)
+        self.display_group.add(self.player2.label)
 
     def update(self):
         now = pygame.time.get_ticks()/1000.0
