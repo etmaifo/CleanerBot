@@ -30,6 +30,16 @@ class COLOR(object):
     gray = (31, 31, 31)
     green = (0, 196, 0)
     blue = (0, 109, 135)
+    deep_rose = (204, 51, 153)
+    regal_red = (204, 51, 102)
+    blue_sea = (0, 149, 186)
+    deep_blue = (0, 121, 150)
+    desert_blue = (51, 102, 153)
+    gold = (204, 153, 51)
+    burnt_orange = (214, 89, 49)
+    petal_green = (128, 190, 31)
+
+    colors = [deep_rose, regal_red, blue_sea, deep_blue, desert_blue, gold, burnt_orange, petal_green]
 
 class WORLD(object):
     gravity = 1
@@ -69,9 +79,11 @@ class ASSET(object):
 
     blockImage = pygame.image.load(os.path.join("assets", "images", "block.png"))
     ioInImage = pygame.image.load(os.path.join("assets", "images", "io_in.png"))
-    ioOutImage = pygame.image.load(os.path.join("assets", "images", "io_out.png"))
+    ioOutImage = pygame.image.load(os.path.join("assets", "images", "iosprites.png"))
 
     sawSheet = pygame.image.load(os.path.join("assets", "images", "sawspritesheet.png"))
     sawMap = os.path.join("assets", "images", "sawspritesheet.txt")
     sawFrames = ObjectAsset(sawSheet, sawMap)
 
+    score_bg = pygame.image.load(os.path.join("assets", "images", "score_bg.png"))
+    score_bg = pygame.transform.smoothscale(score_bg, (SCREEN.width, 54))

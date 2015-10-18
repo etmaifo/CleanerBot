@@ -14,6 +14,7 @@ class Player(PhysicsBody):
         self.direction = DIRECTION.left
         self.id = id
         self.label = PhysicsBody(0, 0, 21, 32, PLAYER.p1_label)
+        self.original_image = self.image
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
@@ -42,8 +43,17 @@ class Player(PhysicsBody):
                 if event.key == K_m:
                     if self.has_data:
                         self.shoot_data = True
+    
+    def animate_size(self):
+        if self.has_data:
+            self.grow()
+        else:
+            self.shrink()
 
     def update(self):
+        self.animate_size()
+        if self.has_data:
+            self.grow()
         self.check_bounds()
         self.label.rect.centerx = self.rect.centerx
         self.label.rect.bottom = self.rect.top - 5
@@ -88,4 +98,20 @@ class Player(PhysicsBody):
         x = self.rect.x + self.hspeed
         y = self.rect.top - 32 + self.vspeed
         return x, y, hspeed, vspeed
+
+    def grow(self):
+        centerx = self.rect.centerx
+        bottom = self.rect.bottom
+        self.image = pygame.transform.smoothscale(self.original_image, (40, 40))
+        self.rect = self.image.get_rect()
+        self.rect.centerx = centerx
+        self.rect.bottom = bottom
+
+    def shrink(self):
+        centerx = self.rect.centerx
+        bottom = self.rect.bottom
+        self.image = pygame.transform.smoothscale(self.original_image, (32, 32))
+        self.rect = self.image.get_rect()
+        self.rect.centerx = centerx
+        self.rect.bottom = bottom
 

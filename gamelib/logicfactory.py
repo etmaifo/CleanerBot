@@ -1,7 +1,8 @@
 import pygame
 import sys, os
 from pygame import *
-from constants import SCREEN, COLOR, STATE, GAME
+from random import choice
+from constants import SCREEN, COLOR, STATE, GAME, ASSET
 from levelfactory import Stage
 from camera import Camera
 from uifactory import Menu
@@ -47,6 +48,7 @@ class GameEngine(object):
         self.menu = Menu(SCREEN.width, SCREEN.height)
 
         self.bg = SCREEN.bg
+        self.screen_color = (choice(COLOR.colors))
         try:
             self.player1_joy = pygame.joystick.Joystick(0)
             self.player1_joy.init()
@@ -60,6 +62,7 @@ class GameEngine(object):
         self.timer = GAME.time
         self.camera = Camera(self.complex_camera, self.stage.level.width, self.stage.level.height)
         self.menu = Menu(SCREEN.width, SCREEN.height)
+        self.screen_color = (choice(COLOR.colors))
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -93,7 +96,7 @@ class GameEngine(object):
 
         if self.stage == STATE.menu:
             self.menu.update()
-        elif state == STATE.countdown:
+        elif self.state == STATE.countdown:
             pass
         elif self.state == STATE.game:            
             self.stage.level.update()
@@ -125,7 +128,11 @@ class GameEngine(object):
 
     def draw(self):
         self.screen.fill(COLOR.white)
-        self.screen.blit(self.bg, (0,0))
+        #self.screen.blit(self.bg, (0,0))
+        self.screen.fill(self.screen_color)
+
+
+        self.screen.blit(ASSET.score_bg, (0, 0))
 
         if self.state == STATE.game:
             #self.screen.blit(self.bg, (0,0))

@@ -99,22 +99,10 @@ class Level(object):
             self.fragmentSpawnPos = [vport.x + vport.width/2, vport.y + vport.height]
 
         for port in self.io_out:
-            io_port = PhysicsBody(port.x, port.y, port.width, port.height, ASSET.ioOutImage, port.properties['direction'], port.properties['player'])
+            io_port = PhysicsBody(port.x, port.y, port.width, port.height, ASSET.ioOutImage, "left", port.properties['player'])
             self.io_out_group.add(io_port)
             self.display_group.add(io_port)
 
-        '''
-        for enemy_ in self.enemies:
-            enemy = Enemy(enemy_.x, enemy_.y, enemy_.width, enemy_.height, ASSET.enemyFrames)
-            enemy.collision_group = self.block_group.copy()
-            enemy.collision_group.add(self.io_out_group)
-            self.player1.collision_group.add(enemy)
-            self.player2.collision_group.add(enemy)
-            for item in self.player1.movingforce_group:
-                item.collision_group.add(enemy)
-            self.enemy_group.add(enemy)
-            self.display_group.add(enemy)
-        '''
         for bound in self.bounds:
             sawBound = PhysicsBody(bound.x, bound.y, bound.width, bound.height, blockImage)
             self.bounds_group.add(sawBound)
