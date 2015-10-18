@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="32" tileheight="32" nextobjectid="61">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="32" tileheight="32" nextobjectid="65">
  <tileset firstgid="1" name="block" tilewidth="32" tileheight="32">
   <image source="../images/block.png" trans="eeeddf" width="32" height="32"/>
  </tileset>
@@ -23,7 +23,7 @@
  </tileset>
  <layer name="blocks" width="32" height="18">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRMJQAIwH+KBgFQwEwDjAGABfAACM=
+   eJxjYBgFo2AUjIJRMNgBIxomVm4UjILBCtDTLb0xACtAACk=
   </data>
  </layer>
  <objectgroup name="io_in">
@@ -57,6 +57,11 @@
  <objectgroup name="data">
   <object id="32" gid="4" x="512" y="128" width="24" height="24"/>
  </objectgroup>
- <objectgroup name="saws"/>
- <objectgroup name="saw_bounds"/>
+ <objectgroup name="saws">
+  <object id="61" gid="6" x="480" y="576" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup name="saw_bounds">
+  <object id="63" x="928" y="512" width="32" height="32"/>
+  <object id="64" x="64" y="512" width="32" height="32"/>
+ </objectgroup>
 </map>

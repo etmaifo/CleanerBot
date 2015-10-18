@@ -6,15 +6,19 @@ import pygame.mixer as mixer
 
 
 class Menu(object):
-    def __init__(self, width, height):
+    def __init__(self, width, height, color):
         mixer.init()
 
         self.width = width
         self.height = height
         self.cursor_index = 0
+        self.title_font = pygame.font.Font(os.path.join("assets", "fonts", "molot.ttf"), 100)
+        self.title_font.set_bold(True)
         self.font = pygame.font.Font(os.path.join("assets", "fonts", "molot.ttf"), 30)
         self.font.set_bold(True)
-        self.text_play = self.font.render("Play", True, COLOR.blue)
+        self.color = color
+        self.title = self.title_font.render("CleanerBot", True, COLOR.white)
+        self.text_play = self.font.render("Play", True, self.color)
         self.text_controls = self.font.render("Controls", True, COLOR.white)
         self.text_exit = self.font.render("Exit", True, COLOR.white)
         self.bg = MENU.menuScreen
@@ -46,6 +50,10 @@ class Menu(object):
                     sys.exit()
 
     def assemble(self):
+        self.title_rect = self.title.get_rect()
+        self.title_rect.centerx = SCREEN.width / 2
+        self.title_rect.y = 50
+
         self.play_rect = self.text_play.get_rect()
         self.play_rect.centerx = SCREEN.width/2
         self.play_rect.centery = self.button.rect.centery
@@ -64,13 +72,14 @@ class Menu(object):
         self.text_exit = self.font.render("Exit", True, COLOR.white)
 
         if self.play_rect.colliderect(self.button.rect):
-            self.text_play = self.font.render("Play", True, COLOR.blue)
+            self.text_play = self.font.render("Play", True, self.color)
         elif self.controls_rect.colliderect(self.button.rect):
-            self.text_controls = self.font.render("Controls", True, COLOR.blue)
+            self.text_controls = self.font.render("Controls", True, self.color)
         elif self.exit_rect.colliderect(self.button.rect):
-            self.text_exit = self.font.render("Exit", True, COLOR.blue)
+            self.text_exit = self.font.render("Exit", True, self.color)
 
     def draw(self, screen):
+        screen.blit(self.title, self.title_rect)
         screen.blit(self.button.image, self.button.rect)
         screen.blit(self.text_play, self.play_rect)
         screen.blit(self.text_controls, self.controls_rect)

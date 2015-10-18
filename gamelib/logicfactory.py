@@ -27,15 +27,17 @@ class GameEngine(object):
         #pygame.mixer.music.play()
         self.font = pygame.font.Font(os.path.join("assets", "fonts", "molot.ttf"), 30)
         self.font.set_bold(False)
-        self.gameTime = self.font.render("0 MB", True, (0, 0, 0), (250, 250, 250))
+        self.time_font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 20)
+        self.time_font.set_bold(True)
+        self.gameTime = self.font.render("0", True, (0, 0, 0), (250, 250, 250))
         self.textRect = self.gameTime.get_rect()
         self.textRect.y = 30
 
-        self.p1_score = self.font.render("0 MB", True, (0, 0, 0), (250, 250, 250))
+        self.p1_score = self.font.render("0", True, (0, 0, 0), (250, 250, 250))
         self.p1_score_rect = self.p1_score.get_rect()
         self.p1_score_rect.y = 30
 
-        self.p2_score = self.font.render("0 MB", True, (0, 0, 0), (250, 250, 250))
+        self.p2_score = self.font.render("0", True, (0, 0, 0), (250, 250, 250))
         self.p2_score_rect = self.p2_score.get_rect()
         self.p2_score_rect.y = 30
 
@@ -44,11 +46,15 @@ class GameEngine(object):
         self.timer = GAME.time
         self.totalscore = 0
 
-        self.camera = Camera(self.complex_camera, self.stage.level.width, self.stage.level.height)
-        self.menu = Menu(SCREEN.width, SCREEN.height)
+        self.camera = Camera(self.complex_camera, self.stage.level.width, self.stage.level.height)        
 
         self.bg = SCREEN.bg
         self.screen_color = (choice(COLOR.colors))
+        self.menu = Menu(SCREEN.width, SCREEN.height, self.screen_color)
+
+        self.screen_number = 1
+        self.capture_video = False
+
         try:
             self.player1_joy = pygame.joystick.Joystick(0)
             self.player1_joy.init()
@@ -61,8 +67,8 @@ class GameEngine(object):
         self.stage = Stage()
         self.timer = GAME.time
         self.camera = Camera(self.complex_camera, self.stage.level.width, self.stage.level.height)
-        self.menu = Menu(SCREEN.width, SCREEN.height)
         self.screen_color = (choice(COLOR.colors))
+        self.menu = Menu(SCREEN.width, SCREEN.height, self.screen_color)        
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -73,7 +79,10 @@ class GameEngine(object):
                 if event.key == K_ESCAPE:
                     self.state = STATE.menu
                 if event.key == K_p:
-                    pygame.image.save(self.screen, os.path.join("screenshots", "screen01.jpg"))
+                    if not self.capture_video:
+                        self.capture_video = True
+                    else:
+                        self.capture_video = False
                 if event.key == K_q:
                     self.stage.level.spawn_data()
             if self.state == STATE.game:                
@@ -89,6 +98,9 @@ class GameEngine(object):
                 sys.exit()
 
     def update(self):
+        if self.capture_video:
+            self.makeVideo()
+
         self.camera.update(self.stage.level.player1)
         self.menu.update()
         if self.timer == 0:
@@ -110,17 +122,17 @@ class GameEngine(object):
                 self.ticks += 1
 
             displayTime = self.format_timer(self.timer)
-            self.gameTime = self.font.render(displayTime, True, COLOR.white)
+            self.gameTime = self.time_font.render(displayTime, True, COLOR.white)
             self.textRect = self.gameTime.get_rect()
             self.textRect.centerx = self.screen.get_rect().centerx
-            self.textRect.y = 10
+            self.textRect.y = 20
 
-            self.p1_score = self.font.render(str(self.stage.level.p1_data) + "MB", True, COLOR.white)
+            self.p1_score = self.font.render(str(self.stage.level.p1_data), True, COLOR.white)
             self.p1_score_rect = self.p1_score.get_rect()
             self.p1_score_rect.left = 30
             self.p1_score_rect.y = 10
 
-            self.p2_score = self.font.render(str(self.stage.level.p2_data) + "MB", True, COLOR.white)
+            self.p2_score = self.font.render(str(self.stage.level.p2_data), True, COLOR.white)
             self.p2_score_rect = self.p2_score.get_rect()
             self.p2_score_rect.right = self.screen.get_rect().right - 30
             self.p2_score_rect.y = 10
@@ -128,14 +140,10 @@ class GameEngine(object):
 
     def draw(self):
         self.screen.fill(COLOR.white)
-        #self.screen.blit(self.bg, (0,0))
-        self.screen.fill(self.screen_color)
-
-
-        self.screen.blit(ASSET.score_bg, (0, 0))
+        self.screen.fill(self.screen_color)        
 
         if self.state == STATE.game:
-            #self.screen.blit(self.bg, (0,0))
+            self.screen.blit(ASSET.score_bg, (0, 0))
             for entity in self.stage.level.display_group:
                 self.screen.blit(entity.image, self.camera.apply(entity))
             for particle in self.stage.level.particles:
@@ -145,7 +153,7 @@ class GameEngine(object):
             self.screen.blit(self.p2_score, self.p2_score_rect)
 
         elif self.state == STATE.menu:
-            self.screen.blit(self.menu.bg, self.menu.bg.get_rect())
+            #self.screen.blit(self.menu.bg, self.menu.bg.get_rect())
             self.menu.draw(self.screen)
             if not self.firstrun:
                 pass
@@ -179,3 +187,7 @@ class GameEngine(object):
         if seconds < 10:
             seconds = "0" + str(seconds)
         return str(minutes)+":"+str(seconds)
+
+    def makeVideo(self):
+        pygame.image.save(self.screen, os.path.join("screenshots", "screenshot%d.jpg" %self.screen_number))
+        self.screen_number += 1        
