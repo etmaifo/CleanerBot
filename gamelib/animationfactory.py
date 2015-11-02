@@ -1,6 +1,5 @@
 import pygame
 
-
 class Animation(object):
     def __init__(self, frames, duration):
         self.frames = frames
@@ -9,3 +8,4 @@ class Animation(object):
 
     def animate(self):
         pass
+

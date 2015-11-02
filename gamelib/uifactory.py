@@ -1,6 +1,6 @@
 import pygame, os, sys
 from pygame.locals import *
-from constants import COLOR, MENU, SCREEN, STATE
+from constants import COLOR, MENU, SCREEN, STATE, ASSET
 from physicsbody import PhysicsBody
 import pygame.mixer as mixer
 
@@ -33,6 +33,7 @@ class Menu(object):
 
 
     def handle_events(self, event):
+        self.state = STATE.menu
         if event.type == KEYDOWN:
             if (event.key == K_DOWN or event.key == K_s) and self.button_pos < 2:
                 self.button.rect.y += self.button.rect.height
@@ -84,3 +85,24 @@ class Menu(object):
         screen.blit(self.text_play, self.play_rect)
         screen.blit(self.text_controls, self.controls_rect)
         screen.blit(self.text_exit, self.exit_rect)
+
+
+class CountDownOverlay(object):
+    def __init__(self):
+        self.overlay = PhysicsBody(0, SCREEN.height/3, SCREEN.width, 54, ASSET.countdown_overlay)
+        self.font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 20)
+        self.font.set_bold(True)
+        self.text = self.font.render("3", True, COLOR.white)
+
+        self.text_rect = self.text.get_rect()
+        self.text_rect.center = self.overlay.rect.center
+
+    def update(self, remainingSeconds):
+        seconds = str(remainingSeconds + 1)
+        self.text = self.font.render(seconds, True, COLOR.white)
+        self.text_rect = self.text.get_rect()
+        self.text_rect.center = self.overlay.rect.center
+
+    def draw(self, screen):
+        screen.blit(self.overlay.image, self.overlay.rect)
+        screen.blit(self.text, self.text_rect)

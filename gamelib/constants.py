@@ -21,6 +21,7 @@ class MENU(object):
 class STATE(object):
     menu = "menu"
     game = "game"
+    paused = "paused"
     countdown = "countdown"
     exit = "exit"
 
@@ -50,6 +51,8 @@ class PLAYER(object):
     ai = "ai"
     p1_label = pygame.image.load(os.path.join("assets", "images", "p1_label.png"))
     p2_label = pygame.image.load(os.path.join("assets", "images", "p2_label.png"))
+    jump = -18
+    speed = 5
 
 class DIRECTION(object):
     left = "left"
@@ -87,3 +90,8 @@ class ASSET(object):
 
     score_bg = pygame.image.load(os.path.join("assets", "images", "score_bg.png"))
     score_bg = pygame.transform.smoothscale(score_bg, (SCREEN.width, 54))
+
+    countdown_overlay = pygame.image.load(os.path.join("assets", "images", "countdown_bg.png"))
+
+    animateBG = pygame.image.load(os.path.join("assets", "images", "bg_block.png"))
+    

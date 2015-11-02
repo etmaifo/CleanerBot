@@ -7,8 +7,8 @@ class Player(PhysicsBody):
     def __init__(self, x, y , width, height, animationFrames, id):
         image = animationFrames.get_walk_frames()[0]
         PhysicsBody.__init__(self, x, y, width, height, image)
-        self.jumpHeight = -18
-        self.speed = 5
+        self.jumpHeight = PLAYER.jump
+        self.speed = PLAYER.speed
         self.has_data = False
         self.shoot_data = False
         self.direction = DIRECTION.left
@@ -50,13 +50,13 @@ class Player(PhysicsBody):
         else:
             self.shrink()
 
-    def update(self):
-        self.animate_size()
-        if self.has_data:
-            self.grow()
-        self.check_bounds()
+    def update_label(self):
         self.label.rect.centerx = self.rect.centerx
         self.label.rect.bottom = self.rect.top - 5
+
+    def update(self):
+        self.animate_size()
+        self.check_bounds()
         self.grounded = False
         key = pygame.key.get_pressed()
         if self.id == PLAYER.one:
@@ -83,6 +83,7 @@ class Player(PhysicsBody):
         self.vspeed += self.gravity
         self.move(self.hspeed, self.vspeed)
         self.detect_data()
+        self.update_label()
 
     def detect_data(self):
         for sprite in self.movingforce_group:
@@ -106,6 +107,7 @@ class Player(PhysicsBody):
         self.rect = self.image.get_rect()
         self.rect.centerx = centerx
         self.rect.bottom = bottom
+        self.jumpHeight = PLAYER.jump + 2
 
     def shrink(self):
         centerx = self.rect.centerx
@@ -114,4 +116,5 @@ class Player(PhysicsBody):
         self.rect = self.image.get_rect()
         self.rect.centerx = centerx
         self.rect.bottom = bottom
+        self.jumpHeight = PLAYER.jump
 

@@ -5,7 +5,7 @@ from random import choice
 from constants import SCREEN, COLOR, STATE, GAME, ASSET
 from levelfactory import Stage
 from camera import Camera
-from uifactory import Menu
+from uifactory import Menu, CountDownOverlay
 
 class GameEngine(object):
     def __init__(self):
@@ -55,6 +55,10 @@ class GameEngine(object):
         self.screen_number = 1
         self.capture_video = False
 
+        self.countdownOverlay = CountDownOverlay()
+        self.intro = True
+        self.intro_countdown = self.fps * 3
+
         try:
             self.player1_joy = pygame.joystick.Joystick(0)
             self.player1_joy.init()
@@ -69,6 +73,10 @@ class GameEngine(object):
         self.camera = Camera(self.complex_camera, self.stage.level.width, self.stage.level.height)
         self.screen_color = (choice(COLOR.colors))
         self.menu = Menu(SCREEN.width, SCREEN.height, self.screen_color)        
+        
+        self.countdownOverlay = CountDownOverlay()
+        self.intro = True
+        self.intro_countdown = self.fps * 3        
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -98,6 +106,7 @@ class GameEngine(object):
                 sys.exit()
 
     def update(self):
+        print self.state
         if self.capture_video:
             self.makeVideo()
 
@@ -108,24 +117,29 @@ class GameEngine(object):
 
         if self.stage == STATE.menu:
             self.menu.update()
-        elif self.state == STATE.countdown:
-            pass
-        elif self.state == STATE.game:            
-            self.stage.level.update()
-            self.stage.update()
-            if self.stage.level.intro:
-                self.timer = 60
-            if self.ticks > self.fps:
-                self.ticks = 0
-                self.timer -= 1
+        elif self.state == STATE.game:
+            if self.intro_countdown <= 0:
+                self.intro = False
+                self.intro_countdown = 0
+            if self.intro:
+                self.countdownOverlay.update(self.intro_countdown/self.fps)
+                self.intro_countdown -= 1
             else:
-                self.ticks += 1
+                self.stage.level.update()
+                self.stage.update()
+                if self.stage.level.intro:
+                    self.timer = 60
+                if self.ticks > self.fps:
+                    self.ticks = 0
+                    self.timer -= 1
+                else:
+                    self.ticks += 1
 
             displayTime = self.format_timer(self.timer)
             self.gameTime = self.time_font.render(displayTime, True, COLOR.white)
             self.textRect = self.gameTime.get_rect()
             self.textRect.centerx = self.screen.get_rect().centerx
-            self.textRect.y = 20
+            self.textRect.y = 18
 
             self.p1_score = self.font.render(str(self.stage.level.p1_data), True, COLOR.white)
             self.p1_score_rect = self.p1_score.get_rect()
@@ -151,6 +165,9 @@ class GameEngine(object):
             self.screen.blit(self.gameTime, self.textRect)
             self.screen.blit(self.p1_score, self.p1_score_rect)
             self.screen.blit(self.p2_score, self.p2_score_rect)
+
+            if self.intro:
+                self.countdownOverlay.draw(self.screen)
 
         elif self.state == STATE.menu:
             #self.screen.blit(self.menu.bg, self.menu.bg.get_rect())
