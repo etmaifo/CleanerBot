@@ -45,3 +45,7 @@ Temporary Items
 # Python stuff
 *.pyc
 .idea/
+
+# Folders
+*screenshots/
+screenshots/*
