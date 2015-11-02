@@ -49,3 +49,5 @@ Temporary Items
 # Folders
 *screenshots/
 screenshots/*
+screenshots\*
+*screenshots\
