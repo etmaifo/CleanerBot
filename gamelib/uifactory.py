@@ -1,6 +1,6 @@
 import pygame, os, sys
 from pygame.locals import *
-from constants import COLOR, MENU, SCREEN, STATE, ASSET
+from constants import COLOR, MENU, SCREEN, STATE, ASSET, GAME
 from physicsbody import PhysicsBody
 import pygame.mixer as mixer
 
@@ -12,9 +12,9 @@ class Menu(object):
         self.width = width
         self.height = height
         self.cursor_index = 0
-        self.title_font = pygame.font.Font(os.path.join("assets", "fonts", "molot.ttf"), 100)
+        self.title_font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 100)
         self.title_font.set_bold(True)
-        self.font = pygame.font.Font(os.path.join("assets", "fonts", "molot.ttf"), 30)
+        self.font = pygame.font.Font(os.path.join("assets", "fonts", "showg.ttf"), 24)
         self.font.set_bold(True)
         self.color = color
         self.title = self.title_font.render("CleanerBot", True, COLOR.white)
@@ -22,7 +22,7 @@ class Menu(object):
         self.text_controls = self.font.render("Controls", True, COLOR.white)
         self.text_exit = self.font.render("Exit", True, COLOR.white)
         self.bg = MENU.menuScreen
-        self.button = PhysicsBody(0, 250, SCREEN.width, 58, MENU.button)
+        self.button = PhysicsBody(0, 250, SCREEN.width, 48, MENU.button)
         self.button_pos = 0
         self.state = STATE.menu
         self.assemble()
@@ -89,7 +89,8 @@ class Menu(object):
 
 class CountDownOverlay(object):
     def __init__(self):
-        self.overlay = PhysicsBody(0, SCREEN.height/3, SCREEN.width, 54, ASSET.countdown_overlay)
+        self.overlay = PhysicsBody(0, SCREEN.height/5, SCREEN.width * 3/4, 37, ASSET.countdown_overlay)
+        self.overlay.rect.centerx = SCREEN.width/2
         self.font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 20)
         self.font.set_bold(True)
         self.text = self.font.render("3", True, COLOR.white)
@@ -97,12 +98,20 @@ class CountDownOverlay(object):
         self.text_rect = self.text.get_rect()
         self.text_rect.center = self.overlay.rect.center
 
+        self.blink = 0
+
     def update(self, remainingSeconds):
-        seconds = str(remainingSeconds + 1)
+        self.blink += 1
+        if self.blink > GAME.fps:
+            self.blink = 0
+        seconds = str(remainingSeconds/GAME.fps)
+        if seconds == "0":
+            seconds = "Start!"
         self.text = self.font.render(seconds, True, COLOR.white)
         self.text_rect = self.text.get_rect()
         self.text_rect.center = self.overlay.rect.center
 
     def draw(self, screen):
-        screen.blit(self.overlay.image, self.overlay.rect)
-        screen.blit(self.text, self.text_rect)
+        if self.blink < GAME.fps/2:
+            screen.blit(self.overlay.image, self.overlay.rect)
+            screen.blit(self.text, self.text_rect)

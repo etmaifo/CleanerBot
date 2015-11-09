@@ -57,7 +57,7 @@ class GameEngine(object):
 
         self.countdownOverlay = CountDownOverlay()
         self.intro = True
-        self.intro_countdown = self.fps * 3
+        self.intro_countdown = self.fps * 4
 
         try:
             self.player1_joy = pygame.joystick.Joystick(0)
@@ -76,7 +76,7 @@ class GameEngine(object):
         
         self.countdownOverlay = CountDownOverlay()
         self.intro = True
-        self.intro_countdown = self.fps * 3        
+        self.intro_countdown = self.fps * 4        
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -106,7 +106,6 @@ class GameEngine(object):
                 sys.exit()
 
     def update(self):
-        print self.state
         if self.capture_video:
             self.makeVideo()
 
@@ -118,11 +117,11 @@ class GameEngine(object):
         if self.stage == STATE.menu:
             self.menu.update()
         elif self.state == STATE.game:
-            if self.intro_countdown <= 0:
+            if self.intro_countdown <= GAME.fps:
                 self.intro = False
                 self.intro_countdown = 0
             if self.intro:
-                self.countdownOverlay.update(self.intro_countdown/self.fps)
+                self.countdownOverlay.update(self.intro_countdown)
                 self.intro_countdown -= 1
             else:
                 self.stage.level.update()
