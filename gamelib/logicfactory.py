@@ -2,10 +2,10 @@ import pygame
 import sys, os
 from pygame import *
 from random import choice
-from constants import SCREEN, COLOR, STATE, GAME, ASSET
 from levelfactory import Stage
 from camera import Camera
 from uifactory import Menu, CountDownOverlay
+from constants import SCREEN, COLOR, STATE, GAME, ASSET
 
 class GameEngine(object):
     def __init__(self):
@@ -17,7 +17,8 @@ class GameEngine(object):
 
         os.environ["SDL_VIDEO_CENTERED"] = "1"
 
-        self.screen = pygame.display.set_mode((SCREEN.width, SCREEN.height))
+        #self.screen = pygame.display.set_mode((SCREEN.width, SCREEN.height))
+        self.screen = SCREEN.display
         self.fpsClock = pygame.time.Clock()
         self.fps = GAME.fps
         self.ticks = 0
@@ -135,17 +136,17 @@ class GameEngine(object):
                     self.ticks += 1
 
             displayTime = self.format_timer(self.timer)
-            self.gameTime = self.time_font.render(displayTime, True, COLOR.white)
+            self.gameTime = self.time_font.render(displayTime, True, COLOR.ice_blue)
             self.textRect = self.gameTime.get_rect()
             self.textRect.centerx = self.screen.get_rect().centerx
             self.textRect.y = 18
 
-            self.p1_score = self.font.render(str(self.stage.level.p1_data), True, COLOR.white)
+            self.p1_score = self.font.render(str(self.stage.level.p1_data), True, COLOR.ice_blue)
             self.p1_score_rect = self.p1_score.get_rect()
             self.p1_score_rect.left = 30
             self.p1_score_rect.y = 10
 
-            self.p2_score = self.font.render(str(self.stage.level.p2_data), True, COLOR.white)
+            self.p2_score = self.font.render(str(self.stage.level.p2_data), True, COLOR.ice_blue)
             self.p2_score_rect = self.p2_score.get_rect()
             self.p2_score_rect.right = self.screen.get_rect().right - 30
             self.p2_score_rect.y = 10
@@ -156,6 +157,7 @@ class GameEngine(object):
         self.screen.fill(self.screen_color)        
 
         if self.state == STATE.game:
+            self.screen.blit(SCREEN.bg, (0, 0))
             self.screen.blit(ASSET.score_bg, (0, 0))
             for entity in self.stage.level.display_group:
                 self.screen.blit(entity.image, self.camera.apply(entity))

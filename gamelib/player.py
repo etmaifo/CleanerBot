@@ -5,7 +5,8 @@ from constants import DIRECTION, PLAYER
 
 class Player(PhysicsBody):
     def __init__(self, x, y , width, height, animationFrames, id):
-        image = animationFrames.get_walk_frames()[0]
+        #image = animationFrames.get_walk_frames()[0]
+        image = animationFrames
         PhysicsBody.__init__(self, x, y, width, height, image)
         self.jumpHeight = PLAYER.jump
         self.speed = PLAYER.speed
@@ -13,8 +14,9 @@ class Player(PhysicsBody):
         self.shoot_data = False
         self.direction = DIRECTION.left
         self.id = id
-        self.label = PhysicsBody(0, 0, 21, 32, PLAYER.p1_label)
+        self.label = PhysicsBody(0, 0, 17, 12, PLAYER.p1_label)
         self.original_image = self.image
+        self.update_label()
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

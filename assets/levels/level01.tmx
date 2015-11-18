@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="32" tileheight="32" nextobjectid="66">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="32" tileheight="32" nextobjectid="69">
  <tileset firstgid="1" name="block" tilewidth="32" tileheight="32">
   <image source="../images/block.png" trans="eeeddf" width="32" height="32"/>
  </tileset>
@@ -15,11 +15,11 @@
  <tileset firstgid="5" name="sawblade" tilewidth="64" tileheight="64">
   <image source="../images/sawblade.png" width="64" height="64"/>
  </tileset>
- <tileset firstgid="6" name="iosprites" tilewidth="65" tileheight="107">
-  <image source="../images/iosprites.png" width="65" height="107"/>
- </tileset>
- <tileset firstgid="7" name="io_in" tilewidth="61" tileheight="15">
+ <tileset firstgid="6" name="io_in" tilewidth="61" tileheight="15">
   <image source="../images/io_in.png" width="61" height="15"/>
+ </tileset>
+ <tileset firstgid="7" name="portal" tilewidth="63" tileheight="10">
+  <image source="../images/portal_base.png" width="63" height="10"/>
  </tileset>
  <layer name="blocks" width="32" height="18">
   <data encoding="base64" compression="zlib">
@@ -27,19 +27,7 @@
   </data>
  </layer>
  <objectgroup name="io_in">
-  <object id="65" gid="7" x="480" y="64" width="61" height="15"/>
- </objectgroup>
- <objectgroup name="io_out">
-  <object id="57" gid="6" x="928" y="544" width="65" height="107">
-   <properties>
-    <property name="player" value="p2"/>
-   </properties>
-  </object>
-  <object id="58" gid="6" x="32" y="544" width="65" height="107">
-   <properties>
-    <property name="player" value="p1"/>
-   </properties>
-  </object>
+  <object id="65" gid="6" x="480" y="64" width="61" height="15"/>
  </objectgroup>
  <objectgroup name="enemies"/>
  <objectgroup name="player">
@@ -63,5 +51,10 @@
  <objectgroup name="saw_bounds">
   <object id="63" x="928" y="512" width="32" height="32"/>
   <object id="64" x="64" y="512" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup name="portals">
+  <object id="66" gid="6" x="1216" y="448" width="61" height="15"/>
+  <object id="67" gid="7" x="928" y="544" width="63" height="10"/>
+  <object id="68" gid="7" x="32" y="544" width="63" height="10"/>
  </objectgroup>
 </map>

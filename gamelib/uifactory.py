@@ -93,7 +93,7 @@ class CountDownOverlay(object):
         self.overlay.rect.centerx = SCREEN.width/2
         self.font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 20)
         self.font.set_bold(True)
-        self.text = self.font.render("3", True, COLOR.white)
+        self.text = self.font.render("3", True, COLOR.ice_blue)
 
         self.text_rect = self.text.get_rect()
         self.text_rect.center = self.overlay.rect.center
@@ -107,7 +107,7 @@ class CountDownOverlay(object):
         seconds = str(remainingSeconds/GAME.fps)
         if seconds == "0":
             seconds = "Start!"
-        self.text = self.font.render(seconds, True, COLOR.white)
+        self.text = self.font.render(seconds, True, COLOR.ice_blue)
         self.text_rect = self.text.get_rect()
         self.text_rect.center = self.overlay.rect.center
 

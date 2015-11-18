@@ -21,6 +21,11 @@ class PhysicsBody(pygame.sprite.Sprite):
 
         self.collision_group = pygame.sprite.Group()
         self.movingforce_group = pygame.sprite.Group()
+        self.assign_player()
+
+    def assign_player(self):
+        if self.rect.x > (SCREEN.width / 2):
+            self.playerId = "p2"
 
     def handle_events(self, event):
         pass

@@ -47,7 +47,4 @@ Temporary Items
 .idea/
 
 # Folders
-*screenshots/
-screenshots/*
-screenshots\*
-*screenshots\
+screenshots/
