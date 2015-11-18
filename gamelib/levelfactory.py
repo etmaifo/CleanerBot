@@ -5,7 +5,7 @@ from player import Player
 from physicsbody import PhysicsBody
 from datafragment import DataFragment
 from saw import Saw
-from particlefactory import Particle
+from particlefactory import Particle, LightParticle
 from random import choice
 
 class Level(object):
@@ -45,6 +45,7 @@ class Level(object):
         self.p2_data = 0
         self.elapsed = 0
         self.spawnTimer = 0
+        self.bubbleTimer = 0
         self.display_group = pygame.sprite.OrderedUpdates()
 
         self.load_map(mapfile)
@@ -140,8 +141,12 @@ class Level(object):
         now = pygame.time.get_ticks()/1000.0
         self.elapsed = now - self.timer
         self.spawnTimer += 1
+        self.bubbleTimer += 1
+        if self.bubbleTimer >= 1 * GAME.fps:
+            self.spawn_light_particles(self.portals_group, choice([1, 2, 3, 4]))
+            self.bubbleTimer = 0
         if self.spawnTimer >= 1.5 * GAME.fps:
-            self.spawn_data()
+            self.spawn_data()            
             self.spawnTimer = 0
         if self.intro:
             if self.elapsed > 2:
@@ -187,13 +192,14 @@ class Level(object):
             particle = Particle(x, y, size, size, PARTICLE.image)
             self.particles.add(particle)
 
-    def spawn_light_particles(self, x, y, number):
-        for i in xrange(number):
-            size = choice([2, 3, 4, 5, 6])
-            x = choice[x, x+2, x+3, x+4] # pick new random starting position
-            particle = Particle(x, y, size, size, ASSET.light_particle)
-            particle.collision_group.add(self.portal_group)
-            self.light_particles.add(particle)
+    def spawn_light_particles(self, portals, number):
+        for portal in portals:        
+            for i in xrange(number):
+                size = choice([2, 3, 4, 4, 6])
+                particle = LightParticle(portal.rect.x, portal.rect.bottom, size, size, ASSET.light_particle)
+                particle.portal_group.add(portals)
+                self.light_particles.add(particle)
+            self.display_group.add(self.light_particles)
 
     def spawn_data(self):
         datafragment = DataFragment(self.fragmentSpawnPos[0], self.fragmentSpawnPos[1], self.fragmentWidth, self.fragmentHeight, ASSET.dataFragmentFrames)

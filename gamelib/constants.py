@@ -1,4 +1,4 @@
-import os
+import os, sys
 import pygame
 from assets import ObjectAsset
 
