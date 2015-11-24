@@ -29,6 +29,7 @@ class Level(object):
         self.saw_group = pygame.sprite.Group()
         self.bounds_group = pygame.sprite.Group()
         self.portal_group = pygame.sprite.Group()
+        self.display_group = pygame.sprite.OrderedUpdates()
 
         self.width = SCREEN.width
         self.height = SCREEN.height
@@ -45,8 +46,7 @@ class Level(object):
         self.p2_data = 0
         self.elapsed = 0
         self.spawnTimer = 0
-        self.bubbleTimer = 0
-        self.display_group = pygame.sprite.OrderedUpdates()
+        self.bubbleTimer = 0        
 
         self.load_map(mapfile)
         self.create_level()

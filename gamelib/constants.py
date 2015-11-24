@@ -104,3 +104,5 @@ class ASSET(object):
 
     bg = pygame.image.load(os.path.join("assets", "images", "bg.png")).convert_alpha()
     
+
+    

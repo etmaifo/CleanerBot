@@ -17,7 +17,6 @@ class GameEngine(object):
 
         os.environ["SDL_VIDEO_CENTERED"] = "1"
 
-        #self.screen = pygame.display.set_mode((SCREEN.width, SCREEN.height))
         self.screen = SCREEN.display
         self.fpsClock = pygame.time.Clock()
         self.fps = GAME.fps
