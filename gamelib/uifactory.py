@@ -27,8 +27,9 @@ class Menu(object):
         self.state = STATE.menu
         self.assemble()
 
-        self.nav_sound = mixer.Sound(os.path.join("assets", "sfx", "menu_nav.wav"))
+        self.nav_sound = mixer.Sound(os.path.join("assets", "sfx", "flashlight off.wav"))
         self.nav_sound.set_volume(0.5)
+        self.select_sound = mixer.Sound(os.path.join("assets", "sfx", "comical pop and swirl.wav"))
 
 
 
@@ -44,6 +45,7 @@ class Menu(object):
                 self.button_pos -= 1
                 self.nav_sound.play()
             elif event.key == K_RETURN:
+                self.select_sound.play()
                 if self.button_pos == 0:
                     self.state = STATE.game
                 elif self.button_pos == 2:
@@ -115,3 +117,23 @@ class CountDownOverlay(object):
         if self.blink < GAME.fps/2:
             screen.blit(self.overlay.image, self.overlay.rect)
             screen.blit(self.text, self.text_rect)
+            
+
+class ScanLines(object):
+    def __init__(self):
+        self.collection = pygame.sprite.Group()
+        self.assemble()
+        
+        
+    def assemble(self):
+        for i in range(160):
+            scanline = PhysicsBody(0, i * 4, SCREEN.width, 1, ASSET.scanline)
+            self.collection.add(scanline)
+            
+            
+    def draw(self, screen):
+        for scanline in self.collection:
+            screen.blit(scanline.image, scanline.rect)
+            
+            
+            

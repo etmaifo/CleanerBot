@@ -4,7 +4,7 @@ from pygame import *
 from random import choice
 from levelfactory import Stage
 from camera import Camera
-from uifactory import Menu, CountDownOverlay
+from uifactory import Menu, CountDownOverlay, ScanLines
 from constants import SCREEN, COLOR, STATE, GAME, ASSET
 
 class GameEngine(object):
@@ -23,8 +23,9 @@ class GameEngine(object):
         self.ticks = 0
         self.firstrun = True
 
-        pygame.mixer.music.load(os.path.join("assets", "music", "galactic.ogg"))
-        #pygame.mixer.music.play()
+        pygame.mixer.music.load(os.path.join("assets", "music", "bensound-moose.ogg"))
+        pygame.mixer.music.set_volume(0.3)
+        #pygame.mixer.music.play(-1)
         self.font = pygame.font.Font(os.path.join("assets", "fonts", "molot.ttf"), 30)
         self.font.set_bold(False)
         self.time_font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 20)
@@ -58,6 +59,8 @@ class GameEngine(object):
         self.countdownOverlay = CountDownOverlay()
         self.intro = True
         self.intro_countdown = self.fps * 4
+        
+        self.scanlines = ScanLines()
 
         try:
             self.player1_joy = pygame.joystick.Joystick(0)
@@ -125,7 +128,7 @@ class GameEngine(object):
                 self.intro_countdown -= 1
             else:
                 self.stage.level.update()
-                self.stage.update()
+                #self.stage.update()
                 if self.stage.level.intro:
                     self.timer = 60
                 if self.ticks > self.fps:
@@ -174,6 +177,8 @@ class GameEngine(object):
             self.menu.draw(self.screen)
             if not self.firstrun:
                 pass
+            
+        self.scanlines.draw(self.screen)
 
     def run_game(self, fps=30):
         self.fps = fps

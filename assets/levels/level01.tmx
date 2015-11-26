@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="32" tileheight="32" nextobjectid="69">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="32" tileheight="32" nextobjectid="73">
  <tileset firstgid="1" name="block" tilewidth="32" tileheight="32">
   <image source="../images/block.png" trans="eeeddf" width="32" height="32"/>
  </tileset>
@@ -21,9 +21,15 @@
  <tileset firstgid="7" name="portal" tilewidth="63" tileheight="10">
   <image source="../images/portal_base.png" width="63" height="10"/>
  </tileset>
+ <tileset firstgid="8" name="bg" tilewidth="1024" tileheight="576">
+  <image source="../images/bg.png" width="1024" height="576"/>
+ </tileset>
+ <objectgroup name="Object Layer 8">
+  <object id="72" gid="8" x="0" y="576" width="1024" height="576"/>
+ </objectgroup>
  <layer name="blocks" width="32" height="18">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjIJRQAgwomFi5UbBKBgF2AF6vqE3BgAvQAAp
+   eJxjZGBgYBwEeCDAqP2j9o/aP2o/IXcQU2YRW64NdDk42OwfBSMbDHS7AwBPzgCA
   </data>
  </layer>
  <objectgroup name="io_in">

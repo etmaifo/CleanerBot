@@ -7,9 +7,12 @@ from datafragment import DataFragment
 from saw import Saw
 from particlefactory import Particle, LightParticle
 from random import choice
+import pygame.mixer as mixer
 
 class Level(object):
     def __init__(self, mapfile):
+        mixer.init()
+        
         self.players = []
         self.blocks = []
         self.datafragments = []
@@ -50,6 +53,8 @@ class Level(object):
 
         self.load_map(mapfile)
         self.create_level()
+        
+        self.datafragment_break_sound = mixer.Sound(os.path.join("assets", "sfx", "glass break 01.wav"))
 
     def load_map(self, filename):
         self.data = pytmx.TiledMap(filename)
@@ -172,6 +177,7 @@ class Level(object):
 
             for datafragment in self.datafragment_group:
                 if datafragment.captured:
+                    self.datafragment_break_sound.play()
                     self.spawn_particles(datafragment.rect.centerx, datafragment.rect.centery, 10)
                     datafragment.kill()
                 elif datafragment.safe:
@@ -188,7 +194,6 @@ class Level(object):
     def spawn_particles(self, x, y, number):
         for i in xrange(number):
             size = choice([2, 4, 6, 8, 10])
-            # particle = Particle(x, y, PARTICLE.width, PARTICLE.height, PARTICLE.image)
             particle = Particle(x, y, size, size, PARTICLE.image)
             self.particles.add(particle)
 
@@ -250,29 +255,3 @@ class Stage(object):
     def load_file(self, filename):
         level = Level(os.path.join("assets", "levels", filename))
         self.levels.append(level)
-
-    def get_next(self):
-        if self.levelIndex >= len(self.levels):
-            self.levelIndex = 0
-
-        i = self.levelIndex + 1
-        self.levelIndex += 1
-        return self.levels[i]
-
-    def load_next(self):
-        self.levelIndex += 1
-        if self.levelIndex >= len(self.levels):
-            self.levelIndex = 0
-        i = self.levelIndex
-        self.level = self.levels[i]
-        self.level.timer = pygame.time.get_ticks()/1000.0
-
-    def reload_level(self):
-        number = self.levelIndex
-        if number < 10:
-            number = "0" + str(self.levelIndex + 1)
-        number = str(number)
-        self.level = self.levels[self.levelIndex - 1]
-
-    def update(self):
-        pass

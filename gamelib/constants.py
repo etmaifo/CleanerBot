@@ -2,21 +2,26 @@ import os, sys
 import pygame
 from assets import ObjectAsset
 
+def load_image(filename):
+    image = os.path.join("assets", "images", filename)
+    surface = pygame.image.load(image).convert_alpha()
+    return surface
+
 class SCREEN(object):
     width =1024
     height = 576
     display = pygame.display.set_mode((width, height))
-    bg = pygame.image.load(os.path.join("assets", "images", "bg.png")).convert_alpha()
+    bg = load_image("bg.png")
     bg = pygame.transform.smoothscale(bg, (width, height))
 
 class GAME(object):
     fps = 60
     time = 60 * 1
 
-class MENU(object):
-    menuScreen = pygame.image.load(os.path.join("assets", "images", "menuBG.png")).convert_alpha()
-    scoreScreen = pygame.image.load(os.path.join("assets", "images", "scorescreen.png")).convert_alpha()
-    button = pygame.image.load(os.path.join("assets", "images", "menu_button.png")).convert_alpha()
+class MENU(object):    
+    menuScreen = load_image("menuBG.png")
+    scoreScreen = load_image("scorescreen.png")
+    button = load_image("menu_button.png")
 
 
 class STATE(object):
@@ -52,8 +57,8 @@ class PLAYER(object):
     one = "p1"
     two = "p2"
     ai = "ai"
-    p1_label = pygame.image.load(os.path.join("assets", "images", "p1_label.png")).convert_alpha()
-    p2_label = pygame.image.load(os.path.join("assets", "images", "p2_label.png")).convert_alpha()
+    p1_label = load_image("p1_label.png")
+    p2_label = load_image("p2_label.png")
     jump = -18
     speed = 5
 
@@ -66,43 +71,46 @@ class DIRECTION(object):
 class PARTICLE(object):
     width = 8
     height = 8
-    image = pygame.image.load(os.path.join("assets", "images", "datafragmentsprite.png")).convert_alpha()
+    image = load_image("datafragmentsprite.png")
 
 class ASSET(object):
-    playerSheet = pygame.image.load(os.path.join("assets", "images", "player1.png")).convert_alpha()
+    playerSheet = load_image("player1.png")
     playerMap = os.path.join("assets", "images", "playermap.txt")
-    player = ObjectAsset(playerSheet, playerMap)
-    player = pygame.image.load(os.path.join("assets", "images", "player1.png")).convert_alpha()
+    #player = ObjectAsset(playerSheet, playerMap)
+    player = load_image("player1.png")
 
-    platform = pygame.image.load(os.path.join("assets", "images", "platform.png")).convert_alpha()
+    platform = load_image("platform.png")
 
-    dataFragmentSheet = pygame.image.load(os.path.join("assets", "images", "datafragmentsprite.png")).convert_alpha()
+    dataFragmentSheet = load_image("datafragmentsprite.png")
     dataFragmentMap = os.path.join("assets", "images", "datafragmentmap.txt")
     dataFragmentFrames = ObjectAsset(dataFragmentSheet, dataFragmentMap)
 
-    light_particle = pygame.image.load(os.path.join("assets", "images", "light_particle.png")).convert_alpha()
+    light_particle = load_image("light_particle.png")
 
-    enemySheet = pygame.image.load(os.path.join("assets", "images", "enemysprites.png")).convert_alpha()
+    enemySheet = load_image("enemysprites.png")
     enemyMap = os.path.join("assets", "images", "enemymap.txt")
     enemyFrames = ObjectAsset(enemySheet, enemyMap)
 
-    blockImage = pygame.image.load(os.path.join("assets", "images", "block.png")).convert_alpha()
-    ioInImage = pygame.image.load(os.path.join("assets", "images", "io_in.png")).convert_alpha()
-    portal = pygame.image.load(os.path.join("assets", "images", "portal.png")).convert_alpha()
-    portal_base = pygame.image.load(os.path.join("assets", "images", "portal_base.png")).convert_alpha()
+    blockImage = load_image("block.png")
+    ioInImage = load_image("io_in.png")
+    portal = load_image("portal.png")
+    portal_base = load_image("portal_base.png")
 
-    sawSheet = pygame.image.load(os.path.join("assets", "images", "sawspritesheet.png")).convert_alpha()
+    sawSheet = load_image("sawspritesheet.png")
     sawMap = os.path.join("assets", "images", "sawspritesheet.txt")
     sawFrames = ObjectAsset(sawSheet, sawMap)
 
-    score_bg = pygame.image.load(os.path.join("assets", "images", "score_bg.png")).convert_alpha()
+    score_bg = load_image("score_bg.png")
     score_bg = pygame.transform.smoothscale(score_bg, (SCREEN.width, 54))
 
-    countdown_overlay = pygame.image.load(os.path.join("assets", "images", "countdown_bg.png")).convert_alpha()
+    countdown_overlay = load_image("countdown_bg.png")
 
-    animateBG = pygame.image.load(os.path.join("assets", "images", "bg_block.png")).convert_alpha()
+    animateBG = load_image("bg_block.png")
 
-    bg = pygame.image.load(os.path.join("assets", "images", "bg.png")).convert_alpha()
+    bg = load_image("bg.png")
+
+    scanline = load_image("scan_line.png")
+
     
 
     
