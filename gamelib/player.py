@@ -14,6 +14,7 @@ class Player(PhysicsBody):
         self.shoot_data = False
         self.direction = DIRECTION.left
         self.id = id
+        self.invulnerable = False
         self.label = PhysicsBody(0, 0, 17, 12, PLAYER.p1_label)
         self.original_image = self.image
         self.update_label()

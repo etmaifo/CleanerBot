@@ -177,7 +177,7 @@ class Level(object):
 
             for datafragment in self.datafragment_group:
                 if datafragment.captured:
-                    self.datafragment_break_sound.play()
+                    #self.datafragment_break_sound.play()
                     self.spawn_particles(datafragment.rect.centerx, datafragment.rect.centery, 10)
                     datafragment.kill()
                 elif datafragment.safe:

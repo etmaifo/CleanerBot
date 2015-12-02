@@ -49,6 +49,11 @@ class COLOR(object):
 
     colors = [regal_red, deep_blue, ice_blue, burnt_orange, petal_green]
     colors = [ice_blue]
+    
+class FONT(object):
+    default = os.path.join("assets", "fonts", "tinyfont.ttf")
+    tall_boulder = os.path.join("assets", "fonts", "tallbolder.ttf")
+
 
 class WORLD(object):
     gravity = 1

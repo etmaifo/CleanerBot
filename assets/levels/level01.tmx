@@ -29,7 +29,7 @@
  </objectgroup>
  <layer name="blocks" width="32" height="18">
   <data encoding="base64" compression="zlib">
-   eJxjZGBgYBwEeCDAqP2j9o/aP2o/IXcQU2YRW64NdDk42OwfBSMbDHS7AwBPzgCA
+   eJxjZGBgYBwEmN5g1P5R+0ftH7Wf3u4Y6HJwsNlPjh5segdLvTIKSAMD3e4AAHQWAIk=
   </data>
  </layer>
  <objectgroup name="io_in">
