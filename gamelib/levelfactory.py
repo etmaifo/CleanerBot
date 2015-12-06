@@ -65,8 +65,8 @@ class Level(object):
             if layer.name.upper() == "PLAYER":
                 p1 = layer[0]
                 p2 = layer[1]
-                self.player1 = Player(p1.x, p1.y, p1.width, p1.height, ASSET.player, PLAYER.one)
-                self.player2 = Player(p2.x, p2.y, p2.width, p2.height, ASSET.player, PLAYER.two)
+                self.player1 = Player(p1.x, p1.y, p1.width, p1.height, ASSET.player1, PLAYER.one)
+                self.player2 = Player(p2.x, p2.y, p2.width, p2.height, ASSET.player2, PLAYER.two)
                 self.player2.label.image = PLAYER.p2_label
             elif layer.name.upper() == "BLOCKS":
                 self.blocks = layer

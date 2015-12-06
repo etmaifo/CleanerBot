@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
 from physicsbody import PhysicsBody
-from constants import DIRECTION, PLAYER
+from constants import DIRECTION, PLAYER, ASSET
 
 class Player(PhysicsBody):
     def __init__(self, x, y , width, height, animationFrames, id):
@@ -16,12 +16,15 @@ class Player(PhysicsBody):
         self.id = id
         self.invulnerable = False
         self.label = PhysicsBody(0, 0, 17, 12, PLAYER.p1_label)
+        self.glow = PhysicsBody(0, 0, 64, 64, ASSET.player1_glow)
         self.original_image = self.image
         self.update_label()
+        self.update_effects()
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
         screen.blit(self.label.image, self.label.rect)
+        screen.blit(self.glow, self.glow.rect)
 
     def handle_events(self, event):
         if event.type == JOYAXISMOTION:
@@ -56,6 +59,9 @@ class Player(PhysicsBody):
     def update_label(self):
         self.label.rect.centerx = self.rect.centerx
         self.label.rect.bottom = self.rect.top - 5
+        
+    def update_effects(self):
+        self.glow.rect.center = self.rect.center
 
     def update(self):
         self.animate_size()
@@ -87,6 +93,7 @@ class Player(PhysicsBody):
         self.move(self.hspeed, self.vspeed)
         self.detect_data()
         self.update_label()
+        self.update_effects()
 
     def detect_data(self):
         for sprite in self.movingforce_group:

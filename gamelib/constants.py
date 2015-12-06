@@ -22,6 +22,8 @@ class MENU(object):
     menuScreen = load_image("menuBG.png")
     scoreScreen = load_image("scorescreen.png")
     button = load_image("menu_button.png")
+    buttonWidth = 178
+    buttonHeight = 40
 
 
 class STATE(object):
@@ -44,6 +46,7 @@ class COLOR(object):
     desert_blue = (51, 102, 153)
     gold = (204, 153, 51)
     burnt_orange = (214, 89, 49)
+    deep_yellow = (251, 200, 0)
     petal_green = (128, 190, 31)
     ice_blue = (153, 255, 255)
 
@@ -82,7 +85,10 @@ class ASSET(object):
     playerSheet = load_image("player1.png")
     playerMap = os.path.join("assets", "images", "playermap.txt")
     #player = ObjectAsset(playerSheet, playerMap)
-    player = load_image("player1.png")
+    player1 = load_image("player1_glow.png")
+    player2 = load_image("player2.png")
+    player1_glow = load_image("player1_glow.png")
+    player2_glow = load_image("player2_glow.png")
 
     platform = load_image("platform.png")
 
@@ -90,11 +96,7 @@ class ASSET(object):
     dataFragmentMap = os.path.join("assets", "images", "datafragmentmap.txt")
     dataFragmentFrames = ObjectAsset(dataFragmentSheet, dataFragmentMap)
 
-    light_particle = load_image("light_particle.png")
-
-    enemySheet = load_image("enemysprites.png")
-    enemyMap = os.path.join("assets", "images", "enemymap.txt")
-    enemyFrames = ObjectAsset(enemySheet, enemyMap)
+    light_particle = load_image("particle.png")
 
     blockImage = load_image("block.png")
     ioInImage = load_image("io_in.png")

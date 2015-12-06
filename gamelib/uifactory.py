@@ -14,7 +14,7 @@ class Menu(object):
         self.cursor_index = 0
         self.title_font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 100)
         self.title_font.set_bold(True)
-        self.font = pygame.font.Font(os.path.join("assets", "fonts", "showg.ttf"), 24)
+        self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 24)
         self.font.set_bold(True)
         self.color = color
         self.title = self.title_font.render("CleanerBot", True, COLOR.white)
@@ -22,7 +22,8 @@ class Menu(object):
         self.text_controls = self.font.render("Controls", True, COLOR.white)
         self.text_exit = self.font.render("Exit", True, COLOR.white)
         self.bg = MENU.menuScreen
-        self.button = PhysicsBody(0, 250, SCREEN.width, 48, MENU.button)
+        self.button = PhysicsBody(0, 250, MENU.buttonWidth, MENU.buttonHeight, MENU.button)
+        self.button.rect.centerx = SCREEN.width/2
         self.button_pos = 0
         self.state = STATE.menu
         self.assemble()
@@ -73,15 +74,17 @@ class Menu(object):
         self.text_play = self.font.render("Play", True, COLOR.white)
         self.text_controls = self.font.render("Controls", True, COLOR.white)
         self.text_exit = self.font.render("Exit", True, COLOR.white)
-
+        
         if self.play_rect.colliderect(self.button.rect):
-            self.text_play = self.font.render("Play", True, self.color)
+            self.text_play = self.font.render("Play", True, COLOR.deep_yellow)
         elif self.controls_rect.colliderect(self.button.rect):
-            self.text_controls = self.font.render("Controls", True, self.color)
+            self.text_controls = self.font.render("Controls", True, COLOR.deep_yellow)
         elif self.exit_rect.colliderect(self.button.rect):
-            self.text_exit = self.font.render("Exit", True, self.color)
+            self.text_exit = self.font.render("Exit", True, COLOR.deep_yellow)
+    
 
     def draw(self, screen):
+        screen.blit(self.bg, (0, 0))
         screen.blit(self.title, self.title_rect)
         screen.blit(self.button.image, self.button.rect)
         screen.blit(self.text_play, self.play_rect)
