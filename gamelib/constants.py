@@ -37,6 +37,7 @@ class COLOR(object):
     white = (255, 255, 255)
     black = (0, 0, 0)
     gray = (31, 31, 31)
+    half_black = (128, 128, 128)
     green = (0, 196, 0)
     blue = (0, 109, 135)
     deep_rose = (204, 51, 153)
@@ -85,16 +86,14 @@ class ASSET(object):
     playerSheet = load_image("player1.png")
     playerMap = os.path.join("assets", "images", "playermap.txt")
     #player = ObjectAsset(playerSheet, playerMap)
-    player1 = load_image("player1_glow.png")
+    player1 = load_image("player1.png")
     player2 = load_image("player2.png")
     player1_glow = load_image("player1_glow.png")
     player2_glow = load_image("player2_glow.png")
 
     platform = load_image("platform.png")
 
-    dataFragmentSheet = load_image("datafragmentsprite.png")
-    dataFragmentMap = os.path.join("assets", "images", "datafragmentmap.txt")
-    dataFragmentFrames = ObjectAsset(dataFragmentSheet, dataFragmentMap)
+    dataFragment = load_image("datafragment.png")
 
     light_particle = load_image("particle.png")
 
@@ -103,9 +102,10 @@ class ASSET(object):
     portal = load_image("portal.png")
     portal_base = load_image("portal_base.png")
 
-    sawSheet = load_image("sawspritesheet.png")
-    sawMap = os.path.join("assets", "images", "sawspritesheet.txt")
-    sawFrames = ObjectAsset(sawSheet, sawMap)
+    saw1 = load_image("saw_spin1.png")
+    saw2 = load_image("saw_spin2.png")
+    saw3 = load_image("saw_spin3.png")
+    sawFrames = [saw1, saw2, saw3]
 
     score_bg = load_image("score_bg.png")
     score_bg = pygame.transform.smoothscale(score_bg, (SCREEN.width, 54))

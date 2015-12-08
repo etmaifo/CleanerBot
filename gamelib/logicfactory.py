@@ -155,8 +155,7 @@ class GameEngine(object):
             self.totalscore = self.stage.level.p1_data
 
     def draw(self):
-        self.screen.fill(COLOR.white)
-        self.screen.fill(self.screen_color)        
+        self.screen.fill(COLOR.white) 
 
         if self.state == STATE.game:
             self.screen.blit(SCREEN.bg, (0, 0))

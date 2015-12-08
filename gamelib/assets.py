@@ -18,7 +18,7 @@ class Asset(object):
     def get_image(self, x, y, width, height):
         image = pygame.Surface((width, height))
         image.blit(self.spriteSheet, (0, 0), (x, y, width, height))
-        image.set_colorkey((0, 0, 0))
+        #image.set_colorkey((0, 0, 0))
 
         return image
 

@@ -5,8 +5,8 @@ from constants import GAME
 
 class Saw(PhysicsBody):
     def __init__(self, x, y, width, height, frames):
-        self.frames = frames.get_spin_frames()
-        image = frames.get_spin_frames()[0]
+        self.frames = frames
+        image = frames[0]
         PhysicsBody.__init__(self, x, y, width, height, image)
         self.bounds = pygame.sprite.Group()
         self.changeDirection = False

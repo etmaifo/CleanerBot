@@ -139,8 +139,10 @@ class Level(object):
         self.player2.collision_group.add(self.portals_group)
         self.display_group.add(self.player1)
         self.display_group.add(self.player1.label)
+        self.display_group.add(self.player1.glow)
         self.display_group.add(self.player2)
         self.display_group.add(self.player2.label)
+        self.display_group.add(self.player2.glow)
 
     def update(self):
         now = pygame.time.get_ticks()/1000.0
@@ -207,7 +209,7 @@ class Level(object):
             self.display_group.add(self.light_particles)
 
     def spawn_data(self):
-        datafragment = DataFragment(self.fragmentSpawnPos[0], self.fragmentSpawnPos[1], self.fragmentWidth, self.fragmentHeight, ASSET.dataFragmentFrames)
+        datafragment = DataFragment(self.fragmentSpawnPos[0], self.fragmentSpawnPos[1], self.fragmentWidth, self.fragmentHeight, ASSET.dataFragment)
         datafragment.collision_group = self.player1.collision_group.copy()
         datafragment.collision_group = self.player2.collision_group.copy()
         self.player1.movingforce_group.add(datafragment)
@@ -222,7 +224,7 @@ class Level(object):
 
 
     def shoot_data(self, x, y, hspeed, vspeed):
-        datafragment = DataFragment(x, y, self.fragmentWidth, self.fragmentHeight, ASSET.dataFragmentFrames)
+        datafragment = DataFragment(x, y, self.fragmentWidth, self.fragmentHeight, ASSET.dataFragment)
         datafragment.collision_group = self.player1.collision_group.copy()
         datafragment.collision_group = self.player2.collision_group.copy()
         self.player1.movingforce_group.add(datafragment)

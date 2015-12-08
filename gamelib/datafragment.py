@@ -1,12 +1,11 @@
 from physicsbody import PhysicsBody
-from constants import GAME
+from constants import GAME, COLOR
 import pygame
 
 class DataFragment(PhysicsBody):
-    def __init__(self, x, y, width, height, animationFrames):
-        self.animationFrames = animationFrames
-        image = animationFrames.get_walk_frames()[0]
+    def __init__(self, x, y, width, height, image):
         PhysicsBody.__init__(self, x, y, width, height, image)
+        self.image.set_colorkey(COLOR.black)
         self.frameNumber = 0
         self.speed = 3
         self.timeout = 0
@@ -34,12 +33,7 @@ class DataFragment(PhysicsBody):
             self.givePoint = True
 
     def animate_walk(self):
-        self.image = self.animationFrames.get_walk_frames()[self.frameNumber]
-        x = self.rect.x
-        y = self.rect.y
-        self.rect = self.image.get_rect()
-        self.rect.x = x
-        self.rect.y = y        
+        pass   
 
     def animate_jump(self):
         self.image = pygame.transform.smoothscale(self.image, (self.rect.width/2, self.rect.height))

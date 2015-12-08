@@ -2,6 +2,7 @@ import pygame, os, sys
 from pygame.locals import *
 from constants import COLOR, MENU, SCREEN, STATE, ASSET, GAME
 from physicsbody import PhysicsBody
+from controlsfactory import Controller
 import pygame.mixer as mixer
 
 
@@ -17,10 +18,10 @@ class Menu(object):
         self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 24)
         self.font.set_bold(True)
         self.color = color
-        self.title = self.title_font.render("CleanerBot", True, COLOR.white)
+        self.title = self.title_font.render("CleanerBot", True, COLOR.half_black)
         self.text_play = self.font.render("Play", True, self.color)
-        self.text_controls = self.font.render("Controls", True, COLOR.white)
-        self.text_exit = self.font.render("Exit", True, COLOR.white)
+        self.text_controls = self.font.render("Controls", True, COLOR.half_black)
+        self.text_exit = self.font.render("Exit", True, COLOR.half_black)
         self.bg = MENU.menuScreen
         self.button = PhysicsBody(0, 250, MENU.buttonWidth, MENU.buttonHeight, MENU.button)
         self.button.rect.centerx = SCREEN.width/2
@@ -32,20 +33,50 @@ class Menu(object):
         self.nav_sound.set_volume(0.5)
         self.select_sound = mixer.Sound(os.path.join("assets", "sfx", "comical pop and swirl.wav"))
 
+        self.controller = self.get_controller()
+
+
+    def get_controller(self):
+        number_of_joysticks = pygame.joystick.get_count()
+        if number_of_joysticks > 0:
+            joystick = pygame.joystick.Joystick(0)
+            joystick.init()
+            return joystick
+        return None
 
 
     def handle_events(self, event):
         self.state = STATE.menu
+    
         if event.type == KEYDOWN:
-            if (event.key == K_DOWN or event.key == K_s) and self.button_pos < 2:
+            if (event.key == K_s) and self.button_pos < 2:
                 self.button.rect.y += self.button.rect.height
                 self.button_pos += 1
                 self.nav_sound.play()
-            elif (event.key == K_UP or event.key == K_w) and self.button_pos > 0:
+            elif (event.key == K_w) and self.button_pos > 0:
                 self.button.rect.y -= self.button.rect.height
                 self.button_pos -= 1
                 self.nav_sound.play()
-            elif event.key == K_RETURN:
+            elif event.key == K_e or event.key == K_RETURN:
+                self.select_sound.play()
+                if self.button_pos == 0:
+                    self.state = STATE.game
+                elif self.button_pos == 2:
+                    pygame.quit()
+                    sys.exit()
+
+        elif event.type == JOYHATMOTION:            
+            if (self.controller.get_hat(0)[1] == -1) and self.button_pos < 2:
+                self.button.rect.y += self.button.rect.height
+                self.button_pos += 1
+                self.nav_sound.play()
+            elif (self.controller.get_hat(0)[1] == 1) and self.button_pos > 0:
+                self.button.rect.y -= self.button.rect.height
+                self.button_pos -= 1
+                self.nav_sound.play()
+
+        elif event.type == JOYBUTTONDOWN:
+            if self.controller.get_button(2): 
                 self.select_sound.play()
                 if self.button_pos == 0:
                     self.state = STATE.game
@@ -71,9 +102,9 @@ class Menu(object):
         self.exit_rect.centery = self.button.rect.centery + self.button.rect.height * 2
 
     def update(self):
-        self.text_play = self.font.render("Play", True, COLOR.white)
-        self.text_controls = self.font.render("Controls", True, COLOR.white)
-        self.text_exit = self.font.render("Exit", True, COLOR.white)
+        self.text_play = self.font.render("Play", True, COLOR.half_black)
+        self.text_controls = self.font.render("Controls", True, COLOR.half_black)
+        self.text_exit = self.font.render("Exit", True, COLOR.half_black)
         
         if self.play_rect.colliderect(self.button.rect):
             self.text_play = self.font.render("Play", True, COLOR.deep_yellow)
