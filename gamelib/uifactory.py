@@ -2,7 +2,6 @@ import pygame, os, sys
 from pygame.locals import *
 from constants import COLOR, MENU, SCREEN, STATE, ASSET, GAME
 from physicsbody import PhysicsBody
-from controlsfactory import Controller
 import pygame.mixer as mixer
 
 
@@ -32,6 +31,7 @@ class Menu(object):
         self.nav_sound = mixer.Sound(os.path.join("assets", "sfx", "flashlight off.wav"))
         self.nav_sound.set_volume(0.5)
         self.select_sound = mixer.Sound(os.path.join("assets", "sfx", "comical pop and swirl.wav"))
+        self.select_sound.set_volume(0.1)
 
         self.controller = self.get_controller()
 
@@ -107,11 +107,11 @@ class Menu(object):
         self.text_exit = self.font.render("Exit", True, COLOR.half_black)
         
         if self.play_rect.colliderect(self.button.rect):
-            self.text_play = self.font.render("Play", True, COLOR.deep_yellow)
+            self.text_play = self.font.render("Play", True, COLOR.petal_green)
         elif self.controls_rect.colliderect(self.button.rect):
-            self.text_controls = self.font.render("Controls", True, COLOR.deep_yellow)
+            self.text_controls = self.font.render("Controls", True, COLOR.petal_green)
         elif self.exit_rect.colliderect(self.button.rect):
-            self.text_exit = self.font.render("Exit", True, COLOR.deep_yellow)
+            self.text_exit = self.font.render("Exit", True, COLOR.petal_green)
     
 
     def draw(self, screen):

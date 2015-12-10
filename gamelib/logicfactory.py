@@ -12,8 +12,6 @@ class GameEngine(object):
         pygame.init()
         pygame.font.init()
         pygame.mixer.init()
-        joystick_count = pygame.joystick.get_count()
-        print "%d connected." %joystick_count
 
         os.environ["SDL_VIDEO_CENTERED"] = "1"
 
@@ -26,9 +24,9 @@ class GameEngine(object):
         pygame.mixer.music.load(os.path.join("assets", "music", "bensound-moose.ogg"))
         pygame.mixer.music.set_volume(0.3)
         #pygame.mixer.music.play(-1)
-        self.font = pygame.font.Font(os.path.join("assets", "fonts", "molot.ttf"), 30)
-        self.font.set_bold(False)
-        self.time_font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 20)
+        self.font = pygame.font.Font(os.path.join("assets", "fonts", "kenvector_future.ttf"), 20)
+        self.font.set_bold(True)
+        self.time_font = pygame.font.Font(os.path.join("assets", "fonts", "kenvector_future.ttf"), 20)
         self.time_font.set_bold(True)
         self.gameTime = self.font.render("0", True, (0, 0, 0), (250, 250, 250))
         self.textRect = self.gameTime.get_rect()
@@ -138,17 +136,17 @@ class GameEngine(object):
                     self.ticks += 1
 
             displayTime = self.format_timer(self.timer)
-            self.gameTime = self.time_font.render(displayTime, True, COLOR.ice_blue)
+            self.gameTime = self.time_font.render(displayTime, True, COLOR.white)
             self.textRect = self.gameTime.get_rect()
             self.textRect.centerx = self.screen.get_rect().centerx
             self.textRect.y = 18
 
-            self.p1_score = self.font.render(str(self.stage.level.p1_data), True, COLOR.ice_blue)
+            self.p1_score = self.font.render(str(self.stage.level.p1_data), True, COLOR.deep_blue)
             self.p1_score_rect = self.p1_score.get_rect()
             self.p1_score_rect.left = 30
             self.p1_score_rect.y = 10
 
-            self.p2_score = self.font.render(str(self.stage.level.p2_data), True, COLOR.ice_blue)
+            self.p2_score = self.font.render(str(self.stage.level.p2_data), True, COLOR.petal_green)
             self.p2_score_rect = self.p2_score.get_rect()
             self.p2_score_rect.right = self.screen.get_rect().right - 30
             self.p2_score_rect.y = 10

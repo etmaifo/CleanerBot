@@ -1,6 +1,5 @@
-import os, sys
+import os
 import pygame
-from assets import ObjectAsset
 
 def load_image(filename):
     image = os.path.join("assets", "images", filename)
