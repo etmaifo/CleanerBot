@@ -32,7 +32,7 @@
    eJxjZGBgYBwEmN5g1P5R+0ftH7Wf3u4Y6HJwsNlPjh5segdLvTIKSAMD3e4AAHQWAIk=
   </data>
  </layer>
- <objectgroup name="io_in">
+ <objectgroup name="dataspawner">
   <object id="65" gid="6" x="480" y="64" width="61" height="15"/>
  </objectgroup>
  <objectgroup name="enemies"/>
@@ -58,8 +58,7 @@
   <object id="63" x="928" y="512" width="32" height="32"/>
   <object id="64" x="64" y="512" width="32" height="32"/>
  </objectgroup>
- <objectgroup name="portals">
-  <object id="66" gid="6" x="1216" y="448" width="61" height="15"/>
+ <objectgroup name="portals">  
   <object id="67" gid="7" x="928" y="544" width="63" height="10"/>
   <object id="68" gid="7" x="32" y="544" width="63" height="10"/>
  </objectgroup>

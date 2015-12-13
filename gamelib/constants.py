@@ -79,16 +79,16 @@ class DIRECTION(object):
 class PARTICLE(object):
     width = 8
     height = 8
-    image = load_image("datafragmentsprite.png")
+    image = load_image("datafragment.png")
 
 class ASSET(object):
     playerSheet = load_image("player1.png")
     playerMap = os.path.join("assets", "images", "playermap.txt")
-    #player = ObjectAsset(playerSheet, playerMap)
     player1 = load_image("player1.png")
     player2 = load_image("player2.png")
     player1_glow = load_image("player1_glow.png")
     player2_glow = load_image("player2_glow.png")
+    player_hurt = load_image("player_hurt.png")
 
     platform = load_image("platform.png")
 

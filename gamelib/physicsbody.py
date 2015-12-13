@@ -31,7 +31,8 @@ class PhysicsBody(pygame.sprite.Sprite):
         pass
 
     def update(self):
-        pass
+        self.move(self.hspeed, self.vspeed)
+        self.check_bounds()
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

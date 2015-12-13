@@ -1,0 +1,274 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"joysti",
+				"joystick_connected	statement"
+			],
+			[
+				"Phy",
+				"physicsbody"
+			],
+			[
+				"blue",
+				"blue_sea	statement"
+			],
+			[
+				"intro",
+				"intro_countdown	statement"
+			],
+			[
+				"jum",
+				"jumpHeight	statement"
+			],
+			[
+				"F",
+				"FULLSCREEN	instance"
+			],
+			[
+				"screen",
+				"screenshot_num	statement"
+			],
+			[
+				"get",
+				"get_data_pos	function"
+			],
+			[
+				"mov",
+				"movingforce_group	statement"
+			],
+			[
+				"displa",
+				"displayTime	statement"
+			],
+			[
+				"bloc",
+				"block_group	statement"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 86.0,
+		"last_filter": "install package",
+		"selected_items":
+		[
+			[
+				"install package",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 386.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"http://colorsublime.com/theme/arstotzka",
+			"install package",
+			"install",
+			"clear",
+			"cls",
+			"install package;",
+			"install Package",
+			"install package",
+			"import urllib.request,os,hashlib; h = 'eb2297e1a458f27d836c04bb0cbaf282' + 'd0e7a3098092775ccb37ca9d6b2e4b7d'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/phrbt/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/E/[Game Dev]/CleanerBot - Copy/gamelib/physicsbody.py",
+		"/E/[Game Dev]/CleanerBot - Copy/gamelib/uifactory.py",
+		"/E/[Game Dev]/CleanerBot - Copy/README.md",
+		"/E/[Game Dev]/CleanerBot - Copy/main.py",
+		"/E/[Game Dev]/CleanerBot/gamelib/player.py",
+		"/E/[Game Dev]/CleanerBot/gamelib/physicsbody.py",
+		"/E/[Game Dev]/CleanerBot/gamelib/animationfactory.py",
+		"/E/[Game Dev]/CleanerBot/gamelib/particlefactory.py",
+		"/E/[Game Dev]/CleanerBot/gamelib/levelfactory.py",
+		"/E/[Game Dev]/CleanerBot/gamelib/uifactory.py",
+		"/E/[Game Dev]/CleanerBot/gamelib/logicfactory.py",
+		"/E/[Game Dev]/CleanerBot/main.py",
+		"/E/[Game Dev]/CleanerBot/gamelib/constants.py",
+		"/E/[Game Dev]/CleanerBot/gamelib/assets.py",
+		"/H/YAFB.py",
+		"/E/[Game Dev]/Tools/cocos2d-0.6.3/samples/balldrive_toy_game/balldrive_toy_game.py",
+		"/E/[Game Dev]/CleanerBot/.gitignore",
+		"/E/[Game Dev]/CleanerBot/gamelib/datafragment.py",
+		"/E/[Game Dev]/CleanerBot/gamelib/saw.py",
+		"/C/Users/phrbt/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/E/[Game Dev]/Archived/FreeFall/FreeFall/gamelib/engine.py",
+		"/C/PyGames/CleanerBot/pygame2exe.py",
+		"/C/PyGames/CleanerBot/run_game.py",
+		"/E/[Game Dev]/pygame2exe.py",
+		"/E/[Game Dev]/Archived/FreeFall/FreeFall/gamelib/worldobject.py",
+		"/E/[Game Dev]/Archived/Humanoids/gamelib/launcher.py",
+		"/E/[Game Dev]/Love2DGame/main.lua",
+		"/E/[Game Dev]/Love2DGame/shapes/main.lua",
+		"/E/[Game Dev]/Love2DGame/conf.lua",
+		"/E/[Game Dev]/Love2D/PlatformerHeadchant/main.lua",
+		"/E/[Game Dev]/Love2D/PlatformerHeadchant/AdvTiledLoader/Tile.lua",
+		"/C/Users/phrbt/AppData/Roaming/Sublime Text 3/Packages/User/Love2D-User.sublime-build",
+		"/C/Users/phrbt/AppData/Roaming/Sublime Text 3/Packages/Anaconda/Anaconda.sublime-settings",
+		"/C/Users/phrbt/AppData/Roaming/Sublime Text 3/Packages/Package Control/Package Control.sublime-settings",
+		"/C/Users/phrbt/AppData/Roaming/Sublime Text 3/Packages/Colorsublime/Colorsublime.sublime-settings",
+		"/C/Users/phrbt/AppData/Roaming/Sublime Text 3/Packages/User/Colorsublime.sublime-settings",
+		"/C/Users/phrbt/AppData/Roaming/Sublime Text 3/Packages/User/Python.sublime-settings",
+		"/C/Users/phrbt/Documents/tech49.py"
+	],
+	"find":
+	{
+		"height": 24.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			".print",
+			"print",
+			"font",
+			"level_losed",
+			"cshape",
+			"cm",
+			"io_out",
+			"self.menu",
+			"timer",
+			"particle",
+			"menu"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			".printText",
+			"__print",
+			"portals"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 34.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "main.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 229.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

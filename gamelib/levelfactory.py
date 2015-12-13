@@ -17,7 +17,7 @@ class Level(object):
         self.blocks = []
         self.datafragments = []
         self.enemies = []
-        self.io_in = []
+        self.dataspawner = []
         self.portals = []
         self.saws = []
         self.bounds = []
@@ -27,7 +27,7 @@ class Level(object):
         self.enemy_group = pygame.sprite.Group()
         self.particles = pygame.sprite.Group()
         self.light_particles = pygame.sprite.Group()
-        self.io_in_group = pygame.sprite.Group()
+        self.dataspawner_group = pygame.sprite.Group()
         self.portals_group = pygame.sprite.Group()
         self.saw_group = pygame.sprite.Group()
         self.bounds_group = pygame.sprite.Group()
@@ -66,8 +66,8 @@ class Level(object):
                 p1 = layer[0]
                 p2 = layer[1]
                 self.player1 = Player(p1.x, p1.y, p1.width, p1.height, ASSET.player1, PLAYER.one)
-                self.player2 = Player(p2.x, p2.y, p2.width, p2.height, ASSET.player2, PLAYER.two)
-                self.player2.label.image = PLAYER.p2_label
+                self.player2 = Player(p2.x, p2.y, p2.width, p2.height, ASSET.player2, PLAYER.two)                
+
             elif layer.name.upper() == "BLOCKS":
                 self.blocks = layer
             elif layer.name.upper() == "DATA":
@@ -78,8 +78,8 @@ class Level(object):
                 self.saws = layer
             elif layer.name.upper() == "SAW_BOUNDS":
                 self.bounds = layer
-            elif layer.name.upper() == "IO_IN":
-                self.io_in = layer
+            elif layer.name.upper() == "DATASPAWNER":
+                self.dataspawner = layer
             elif layer.name.upper() == "PORTALS":
                 self.portals = layer
 
@@ -100,9 +100,10 @@ class Level(object):
             self.fragmentWidth = dataorb.width
             self.fragmentHeight = dataorb.height
 
-        for vport in self.io_in:
+        for vport in self.dataspawner:
             io_port = PhysicsBody(vport.x, vport.y, vport.width, vport.height, ASSET.ioInImage)
-            self.io_in_group.add(io_port)
+            io_port.hspeed = 4
+            self.dataspawner_group.add(io_port)
             self.display_group.add(io_port)
             self.fragmentSpawnPos = [vport.x + vport.width/2, vport.y + vport.height]
 
@@ -128,11 +129,13 @@ class Level(object):
             self.display_group.empty()
             self.display_group.add(sawblade)
             self.display_group.add(tempgroup)
+            self.player1.danger_group.add(self.saw_group)
+            self.player2.danger_group.add(self.saw_group)
 
         for fragment in self.datafragment_group:
             fragment.killer_group = self.enemy_group.copy()
             fragment.storage_group.add(self.portals_group)
-            fragment.collision_group.add(self.io_in_group)
+            fragment.collision_group.add(self.dataspawner_group)
             fragment.killer_group.add(self.saw_group)
 
         self.player1.collision_group.add(self.portals_group)
@@ -149,6 +152,8 @@ class Level(object):
         self.elapsed = now - self.timer
         self.spawnTimer += 1
         self.bubbleTimer += 1
+
+
         if self.bubbleTimer >= 1 * GAME.fps:
             self.spawn_light_particles(self.portals_group, choice([1, 2, 3, 4]))
             self.bubbleTimer = 0
@@ -209,7 +214,13 @@ class Level(object):
             self.display_group.add(self.light_particles)
 
     def spawn_data(self):
-        datafragment = DataFragment(self.fragmentSpawnPos[0], self.fragmentSpawnPos[1], self.fragmentWidth, self.fragmentHeight, ASSET.dataFragment)
+        speed = 0
+        for spawner in self.dataspawner_group:
+            x = spawner.rect.x + spawner.rect.width/2
+            y = spawner.rect.y + spawner.rect.height
+            speed = spawner.hspeed
+        datafragment = DataFragment(x, y, self.fragmentWidth, self.fragmentHeight, ASSET.dataFragment)
+        datafragment.hspeed = speed
         datafragment.collision_group = self.player1.collision_group.copy()
         datafragment.collision_group = self.player2.collision_group.copy()
         self.player1.movingforce_group.add(datafragment)
@@ -219,7 +230,7 @@ class Level(object):
 
         datafragment.killer_group = self.enemy_group.copy()
         datafragment.storage_group.add(self.portals_group)
-        datafragment.collision_group.add(self.io_in_group)
+        datafragment.collision_group.add(self.dataspawner_group)
         datafragment.killer_group.add(self.saw_group)
 
 
@@ -234,7 +245,7 @@ class Level(object):
 
         datafragment.killer_group = self.enemy_group.copy()
         datafragment.storage_group.add(self.portals_group)
-        datafragment.collision_group.add(self.io_in_group)
+        datafragment.collision_group.add(self.dataspawner_group)
         datafragment.killer_group.add(self.saw_group)
 
         datafragment.hspeed = hspeed        
