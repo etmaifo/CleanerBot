@@ -66,7 +66,7 @@ class Particle(PhysicsBody):
         self.rect = pygame.Rect(tempRect)
 
 
-class LightParticle(Particle):
+class Bubble(Particle):
     def __init__(self, x, bottom, width, height, image):
         Particle.__init__(self, x, bottom, width, height, image)
         self.rect.bottom = bottom
@@ -85,10 +85,5 @@ class LightParticle(Particle):
             self.kill()
             
     def animate(self):
-        self.frame += 1
-        if self.frame < 30:
-            self.image.set_alpha(40 - self.frame * 2)
-        else:
-            self.frame = 0            
-
+        pass
                 

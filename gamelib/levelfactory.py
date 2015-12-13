@@ -5,7 +5,7 @@ from player import Player
 from physicsbody import PhysicsBody
 from datafragment import DataFragment
 from saw import Saw
-from particlefactory import Particle, LightParticle
+from particlefactory import Particle, Bubble
 from random import choice
 import pygame.mixer as mixer
 
@@ -26,7 +26,7 @@ class Level(object):
         self.datafragment_group = pygame.sprite.Group()
         self.enemy_group = pygame.sprite.Group()
         self.particles = pygame.sprite.Group()
-        self.light_particles = pygame.sprite.Group()
+        self.bubbles = pygame.sprite.Group()
         self.dataspawner_group = pygame.sprite.Group()
         self.portals_group = pygame.sprite.Group()
         self.saw_group = pygame.sprite.Group()
@@ -155,7 +155,7 @@ class Level(object):
 
 
         if self.bubbleTimer >= 1 * GAME.fps:
-            self.spawn_light_particles(self.portals_group, choice([1, 2, 3, 4]))
+            self.spawn_bubbles(self.portals_group, choice([1, 2, 3, 4]))
             self.bubbleTimer = 0
         if self.spawnTimer >= 1.5 * GAME.fps:
             self.spawn_data()            
@@ -204,14 +204,14 @@ class Level(object):
             particle = Particle(x, y, size, size, PARTICLE.image)
             self.particles.add(particle)
 
-    def spawn_light_particles(self, portals, number):
+    def spawn_bubbles(self, portals, number):
         for portal in portals:        
             for i in xrange(number):
                 size = choice([2, 3, 4, 4, 6])
-                particle = LightParticle(portal.rect.x, portal.rect.bottom, size, size, ASSET.light_particle)
+                particle = Bubble(portal.rect.x, portal.rect.bottom, size, size, ASSET.bubble)
                 particle.portal_group.add(portals)
-                self.light_particles.add(particle)
-            self.display_group.add(self.light_particles)
+                self.bubbles.add(particle)
+            self.display_group.add(self.bubbles)
 
     def spawn_data(self):
         speed = 0

@@ -76,7 +76,7 @@ class Menu(object):
                 self.nav_sound.play()
 
         elif event.type == JOYBUTTONDOWN:
-            if self.controller.get_button(2): 
+            if self.controller.get_button(0): 
                 self.select_sound.play()
                 if self.button_pos == 0:
                     self.state = STATE.game
@@ -169,5 +169,36 @@ class ScanLines(object):
         for scanline in self.collection:
             screen.blit(scanline.image, scanline.rect)
             
+
+class SplashScreen(object):
+    def __init__(self, x, y, width, height):
+        self.logo = PhysicsBody(0, 0, width, height, ASSET.pygame_logo)
+        self.timer = 0
+        self.timeout = False
+        self.state = STATE.splashscreen
+
+        self.assemble()
+
+
+    def assemble(self):
+        self.logo.rect.center = (SCREEN.width/2, SCREEN.height/2)
+
+    def update(self):
+        self.animate()
+        self.timer += 1
+        if self.timer >= GAME.fps * 7:
+            self.timeout = True
+
+        if self.timeout:
+            self.state = STATE.menu
             
+    def draw(self, screen):
+        screen.fill((0, 0, 0))
+        screen.blit(self.logo.image, self.logo.rect)
+
+    def animate(self):
+        #image = self.image
+        if self.timer >= GAME.fps * 2:
+            alpha = 254
+            self.logo.image.fill((255, 255, 255, alpha), None, pygame.BLEND_RGBA_MULT)
             

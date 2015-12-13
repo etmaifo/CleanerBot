@@ -43,6 +43,12 @@ class PhysicsBody(pygame.sprite.Sprite):
         if dy != 0:
             self.detect_collision(0, dy)
 
+    def resize_image(self, width, height):
+        center = self.rect.center
+        self.image = pygame.transform.smoothscale(self.image, (width, height))
+        self.rect = self.image.get_rect()
+        self.rect.center = center
+
     def check_bounds(self):
         if self.rect.left < 0:
             self.rect.left = 0

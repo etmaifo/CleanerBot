@@ -31,6 +31,7 @@ class STATE(object):
     paused = "paused"
     countdown = "countdown"
     exit = "exit"
+    splashscreen = "splashscreen"
 
 class COLOR(object):
     white = (255, 255, 255)
@@ -82,6 +83,7 @@ class PARTICLE(object):
     image = load_image("datafragment.png")
 
 class ASSET(object):
+    pygame_logo = load_image("pygame_logo.png")
     playerSheet = load_image("player1.png")
     playerMap = os.path.join("assets", "images", "playermap.txt")
     player1 = load_image("player1.png")
@@ -94,7 +96,7 @@ class ASSET(object):
 
     dataFragment = load_image("datafragment.png")
 
-    light_particle = load_image("particle.png")
+    bubble = load_image("particle.png")
 
     blockImage = load_image("block.png")
     ioInImage = load_image("io_in.png")
@@ -117,6 +119,9 @@ class ASSET(object):
 
     scanline = load_image("scan_line.png")
 
+class SPLASHSCREEN(object):
+    width = 450
+    height = 178
     
 
     
