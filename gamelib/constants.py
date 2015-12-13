@@ -9,7 +9,7 @@ def load_image(filename):
 class SCREEN(object):
     width =1024
     height = 576
-    display = pygame.display.set_mode((width, height))
+    display = pygame.display.set_mode((width, height), pygame.FULLSCREEN)
     bg = load_image("bg.png")
     bg = pygame.transform.smoothscale(bg, (width, height))
 

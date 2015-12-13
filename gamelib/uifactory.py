@@ -193,7 +193,7 @@ class SplashScreen(object):
             self.state = STATE.menu
             
     def draw(self, screen):
-        screen.fill((0, 0, 0))
+        screen.fill((16, 16, 16))
         screen.blit(self.logo.image, self.logo.rect)
 
     def animate(self):
