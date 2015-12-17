@@ -9,7 +9,7 @@ def load_image(filename):
 class SCREEN(object):
     width =1024
     height = 576
-    display = pygame.display.set_mode((width, height), pygame.FULLSCREEN)
+    display = pygame.display.set_mode((width, height))
     bg = load_image("bg.png")
     bg = pygame.transform.smoothscale(bg, (width, height))
 
@@ -51,13 +51,17 @@ class COLOR(object):
     petal_green = (128, 190, 31)
     ice_blue = (153, 255, 255)
 
-    colors = [regal_red, deep_blue, ice_blue, burnt_orange, petal_green]
+    #colors = [regal_red, deep_blue, ice_blue, burnt_orange, petal_green]
     colors = [ice_blue]
     
 class FONT(object):
-    default = os.path.join("assets", "fonts", "tinyfont.ttf")
-    tall_boulder = os.path.join("assets", "fonts", "tallbolder.ttf")
+    default = os.path.join("assets", "fonts", "hoog0553.ttf")
+    hoog0553 = os.path.join("assets", "fonts", "hoog0553.ttf")
+    square = os.path.join("assets", "fonts", "square.ttf")
 
+class TITLE(object):
+    width = 604
+    height = 60
 
 class WORLD(object):
     gravity = 1
@@ -108,6 +112,7 @@ class ASSET(object):
     saw3 = load_image("saw_spin3.png")
     sawFrames = [saw1, saw2, saw3]
 
+    title = load_image("title.png")
     score_bg = load_image("score_bg.png")
     score_bg = pygame.transform.smoothscale(score_bg, (SCREEN.width, 54))
 
@@ -118,6 +123,7 @@ class ASSET(object):
     bg = load_image("bg.png")
 
     scanline = load_image("scan_line.png")
+    scanline.set_alpha(20)
 
 class SPLASHSCREEN(object):
     width = 450

@@ -20,9 +20,9 @@ class GameText(object):
         self.rect = self.render.get_rect()
         
     def update(self):
-        self.font = pygame.font.render(self.text, self.isBold, self.color)
-        self.rect.x = x
-        self.rect.y = y
+        self.font = self.font.render(self.text, self.isBold, self.color)
+        self.rect.x = self.x
+        self.rect.y = self.y
     
         
     def draw(self, screen):

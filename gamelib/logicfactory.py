@@ -24,9 +24,9 @@ class GameEngine(object):
         pygame.mixer.music.load(os.path.join("assets", "music", "bensound-moose.ogg"))
         pygame.mixer.music.set_volume(0.3)
         #pygame.mixer.music.play(-1)
-        self.font = pygame.font.Font(os.path.join("assets", "fonts", "kenvector_future.ttf"), 20)
+        self.font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 20)
         self.font.set_bold(True)
-        self.time_font = pygame.font.Font(os.path.join("assets", "fonts", "kenvector_future.ttf"), 20)
+        self.time_font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 20)
         self.time_font.set_bold(True)
         self.gameTime = self.font.render("0", True, (0, 0, 0), (250, 250, 250))
         self.textRect = self.gameTime.get_rect()
@@ -42,6 +42,7 @@ class GameEngine(object):
 
         self.state = STATE.splashscreen
         self.stage = Stage()
+        self.stage_number = 1
         self.splashscreen = SplashScreen(0, 0, SPLASHSCREEN.width, SPLASHSCREEN.height)
         self.timer = GAME.time
         self.totalscore = 0

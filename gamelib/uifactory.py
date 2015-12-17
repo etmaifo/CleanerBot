@@ -1,7 +1,10 @@
-import pygame, os, sys
+
+import pygame
+import os, sys
 from pygame.locals import *
-from constants import COLOR, MENU, SCREEN, STATE, ASSET, GAME
+from constants import COLOR, MENU, SCREEN, STATE, ASSET, GAME, TITLE
 from physicsbody import PhysicsBody
+from fontfactory import GameText
 import pygame.mixer as mixer
 
 
@@ -12,12 +15,12 @@ class Menu(object):
         self.width = width
         self.height = height
         self.cursor_index = 0
-        self.title_font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 100)
+        self.title_font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 100)
         self.title_font.set_bold(True)
-        self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 24)
+        self.font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 24)
         self.font.set_bold(True)
         self.color = color
-        self.title = self.title_font.render("CleanerBot", True, COLOR.half_black)
+        self.title = PhysicsBody(0, 0, TITLE.width, TITLE.height, ASSET.title)
         self.text_play = self.font.render("Play", True, self.color)
         self.text_controls = self.font.render("Controls", True, COLOR.half_black)
         self.text_exit = self.font.render("Exit", True, COLOR.half_black)
@@ -85,9 +88,8 @@ class Menu(object):
                     sys.exit()
 
     def assemble(self):
-        self.title_rect = self.title.get_rect()
-        self.title_rect.centerx = SCREEN.width / 2
-        self.title_rect.y = 50
+        self.title.rect.centerx = SCREEN.width / 2
+        self.title.rect.y = 50
 
         self.play_rect = self.text_play.get_rect()
         self.play_rect.centerx = SCREEN.width/2
@@ -116,7 +118,7 @@ class Menu(object):
 
     def draw(self, screen):
         screen.blit(self.bg, (0, 0))
-        screen.blit(self.title, self.title_rect)
+        screen.blit(self.title.image, self.title)
         screen.blit(self.button.image, self.button.rect)
         screen.blit(self.text_play, self.play_rect)
         screen.blit(self.text_controls, self.controls_rect)
@@ -129,7 +131,7 @@ class CountDownOverlay(object):
         self.overlay.rect.centerx = SCREEN.width/2
         self.font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 20)
         self.font.set_bold(True)
-        self.text = self.font.render("3", True, COLOR.ice_blue)
+        self.text = self.font.render("3", True, COLOR.white)
 
         self.text_rect = self.text.get_rect()
         self.text_rect.center = self.overlay.rect.center
@@ -143,7 +145,7 @@ class CountDownOverlay(object):
         seconds = str(remainingSeconds/GAME.fps)
         if seconds == "0":
             seconds = "Start!"
-        self.text = self.font.render(seconds, True, COLOR.ice_blue)
+        self.text = self.font.render(seconds, True, COLOR.white)
         self.text_rect = self.text.get_rect()
         self.text_rect.center = self.overlay.rect.center
 
@@ -201,4 +203,16 @@ class SplashScreen(object):
         if self.timer >= GAME.fps * 2:
             alpha = 254
             self.logo.image.fill((255, 255, 255, alpha), None, pygame.BLEND_RGBA_MULT)
-            
+
+
+class ScoreScreen(object):
+    def __init__(self):
+        self.title = GameText("Scoreboard", 48)
+        self.title.x = SCREEN.width / 2
+        self.title.y = 64
+        self.title.color = COLOR.gray
+
+        self.title.create()
+
+    def update(self):
+        self.title.update()
