@@ -11,8 +11,14 @@ class GameText(object):
         self.fontFile = FONT.default
         self.color = COLOR.white
         self.rect = pygame.Rect(0, 0, 0, 0)
-        self.x = 0
-        self.y = 0
+        self.x = None
+        self.y = None
+        self.centerx = None
+        self.centery = None
+        self.left = None
+        self.right = None
+        self.top = None
+        self.bottom = None
         
     def create(self):
         self.font = pygame.font.Font(self.fontFile, self.size)
@@ -20,12 +26,26 @@ class GameText(object):
         self.rect = self.render.get_rect()
         
     def update(self):
-        self.font = self.font.render(self.text, self.isBold, self.color)
-        self.rect.x = self.x
-        self.rect.y = self.y
+        self.render = self.font.render(self.text, self.isBold, self.color)
+        if self.x is not None:
+            self.rect.x = self.x
+        if self.y is not None:
+            self.rect.y = self.y
+        if self.centerx is not None:
+            self.rect.centerx = self.centerx
+        if self.centery is not None:
+            self.rect.centery = self.centery
+        if self.left is not None:
+            self.rect.left = self.left
+        if self.right is not None:
+            self.rect.right = self.right
+        if self.top is not None:
+            self.rect.top = self.top
+        if self.bottom is not None:
+            self.rect.bottom = self.bottom
     
         
-    def draw(self, screen):
-        screen.blit(self.font, self.rect)
+    def draw_to(self, screen):
+        screen.blit(self.render, self.rect)
     
         

@@ -4,7 +4,7 @@ from pygame import *
 from random import choice
 from levelfactory import Stage
 from camera import Camera
-from uifactory import Menu, CountDownOverlay, ScanLines, SplashScreen
+from uifactory import Menu, CountDownOverlay, ScanLines, SplashScreen, ScoreScreen
 from constants import SCREEN, COLOR, STATE, GAME, ASSET, SPLASHSCREEN
 
 class GameEngine(object):
@@ -52,6 +52,7 @@ class GameEngine(object):
         self.bg = SCREEN.bg
         self.screen_color = (choice(COLOR.colors))
         self.menu = Menu(SCREEN.width, SCREEN.height, self.screen_color)
+        self.score_screen = ScoreScreen()
 
         self.screen_number = 1
         self.capture_video = False
@@ -114,13 +115,16 @@ class GameEngine(object):
 
         #self.camera.update(self.stage.level.player1)
         if self.timer == 0:
-            self.reset()
+            #self.reset()
+            self.state = STATE.scorescreen
 
         if self.state == STATE.splashscreen:
             self.splashscreen.update()
             self.state = self.splashscreen.state
         elif self.state == STATE.menu:
             self.menu.update()
+        elif self.state == STATE.scorescreen:
+            self.score_screen.update()
         elif self.state == STATE.game:
             self.camera.update(self.stage.level.player1)
             if self.intro_countdown <= GAME.fps:
@@ -162,6 +166,8 @@ class GameEngine(object):
 
         if self.state == STATE.splashscreen:
             self.splashscreen.draw(self.screen)
+        elif self.state == STATE.scorescreen:
+            self.score_screen.draw(self.screen)
         elif self.state == STATE.game:
             self.screen.blit(SCREEN.bg, (0, 0))
             self.screen.blit(ASSET.score_bg, (0, 0))

@@ -207,12 +207,44 @@ class SplashScreen(object):
 
 class ScoreScreen(object):
     def __init__(self):
-        self.title = GameText("Scoreboard", 48)
-        self.title.x = SCREEN.width / 2
-        self.title.y = 64
-        self.title.color = COLOR.gray
+        self.title = GameText("Scoreboard", 94)
+        self.title.centerx = SCREEN.width / 2
+        self.title.y = 48
+        self.title.color = COLOR.half_black
+
+        self.hi_score = GameText("Hi-score: 0", 38)
+        self.hi_score.centerx = SCREEN.width / 2
+        self.hi_score.y = 172
+        self.hi_score.color = COLOR.light_gray
+
+        self.p1 = GameText("P1", 20, True)
+        self.p1.x = 92
+        self.p1.y = 280
+        self.p1.color = COLOR.blue_sea
+
+        self.p2 = GameText("P2", 20, True)
+        self.p2.x = 92
+        self.p2.y = 340
+        self.p2.color = COLOR.petal_green
+
+        self.bg = MENU.scoreScreen
+        self.state = STATE.scorescreen
 
         self.title.create()
+        self.hi_score.create()
+        self.p1.create()
+        self.p2.create()
 
     def update(self):
         self.title.update()
+        self.hi_score.update()
+        self.p1.update()
+        self.p2.update()
+
+    def draw(self, screen):
+        screen.fill(COLOR.black)
+        screen.blit(self.bg, (0, 0))
+        self.title.draw_to(screen)
+        self.hi_score.draw_to(screen)
+        self.p1.draw_to(screen)
+        self.p2.draw_to(screen)

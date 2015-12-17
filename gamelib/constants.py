@@ -32,11 +32,13 @@ class STATE(object):
     countdown = "countdown"
     exit = "exit"
     splashscreen = "splashscreen"
+    scorescreen = "scorescreen"
 
 class COLOR(object):
     white = (255, 255, 255)
     black = (0, 0, 0)
     gray = (31, 31, 31)
+    light_gray = (102, 102, 102)
     half_black = (128, 128, 128)
     green = (0, 196, 0)
     blue = (0, 109, 135)
