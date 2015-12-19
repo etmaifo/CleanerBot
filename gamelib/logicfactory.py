@@ -4,8 +4,8 @@ from pygame import *
 from random import choice
 from levelfactory import Stage
 from camera import Camera
-from uifactory import Menu, CountDownOverlay, ScanLines, SplashScreen, ScoreScreen
-from constants import SCREEN, COLOR, STATE, GAME, ASSET, SPLASHSCREEN
+from uifactory import Menu, CountDownOverlay, ScanLines, SplashScreen, ScoreScreen, LogoScreen
+from constants import SCREEN, COLOR, STATE, GAME, ASSET, SPLASHSCREEN, LOGO
 
 class GameEngine(object):
     def __init__(self):
@@ -40,10 +40,11 @@ class GameEngine(object):
         self.p2_score_rect = self.p2_score.get_rect()
         self.p2_score_rect.y = 30
 
-        self.state = STATE.splashscreen
+        self.state = STATE.logo
         self.stage = Stage()
         self.stage_number = 1
         self.splashscreen = SplashScreen(0, 0, SPLASHSCREEN.width, SPLASHSCREEN.height)
+        self.logoscreen = LogoScreen(0, 0, LOGO.width, LOGO.height)
         self.timer = GAME.time
         self.totalscore = 0
 
@@ -118,6 +119,9 @@ class GameEngine(object):
             #self.reset()
             self.state = STATE.scorescreen
 
+        if self.state == STATE.logo:
+            self.logoscreen.update()
+            self.state = self.logoscreen.state
         if self.state == STATE.splashscreen:
             self.splashscreen.update()
             self.state = self.splashscreen.state
@@ -164,7 +168,9 @@ class GameEngine(object):
     def draw(self):
         self.screen.fill(COLOR.white) 
 
-        if self.state == STATE.splashscreen:
+        if self.state == STATE.logo:
+            self.logoscreen.draw(self.screen)
+        elif self.state == STATE.splashscreen:
             self.splashscreen.draw(self.screen)
         elif self.state == STATE.scorescreen:
             self.score_screen.draw(self.screen)

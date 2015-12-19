@@ -1,4 +1,4 @@
-from random import randrange, choice
+from random import randrange, choice, uniform
 from physicsbody import PhysicsBody
 from constants import GAME
 import pygame
@@ -13,7 +13,7 @@ class Particle(PhysicsBody):
         self.timeout = 0
         self.frame = 0
 
-        self.vspeed = randrange(-13, -3)
+        self.vspeed = uniform(-8, -1)
         self.hspeed = randrange(-3, 4, 1)
 
     def update(self):
@@ -22,9 +22,7 @@ class Particle(PhysicsBody):
             self.kill()
         
         self.vspeed += 0.5 #WORLD.gravity
-        self.move(self.hspeed, self.vspeed)
-        #self.rect.x += self.hspeed
-        #self.rect.y += self.vspeed
+        self.move(self.hspeed, int(self.vspeed))
         self.animate_fade()
 
     def animate_fade(self):

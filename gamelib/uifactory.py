@@ -29,6 +29,9 @@ class Menu(object):
         self.button.rect.centerx = SCREEN.width/2
         self.button_pos = 0
         self.state = STATE.menu
+        self.timer = 0
+        self.overlay = ASSET.overlay.convert()
+
         self.assemble()
 
         self.nav_sound = mixer.Sound(os.path.join("assets", "sfx", "flashlight off.wav"))
@@ -104,6 +107,7 @@ class Menu(object):
         self.exit_rect.centery = self.button.rect.centery + self.button.rect.height * 2
 
     def update(self):
+        self.animate_overlay()
         self.text_play = self.font.render("Play", True, COLOR.half_black)
         self.text_controls = self.font.render("Controls", True, COLOR.half_black)
         self.text_exit = self.font.render("Exit", True, COLOR.half_black)
@@ -118,11 +122,18 @@ class Menu(object):
 
     def draw(self, screen):
         screen.blit(self.bg, (0, 0))
-        screen.blit(self.title.image, self.title)
-        screen.blit(self.button.image, self.button.rect)
-        screen.blit(self.text_play, self.play_rect)
-        screen.blit(self.text_controls, self.controls_rect)
-        screen.blit(self.text_exit, self.exit_rect)
+        if self.timer > 32:
+            screen.blit(self.title.image, self.title)
+            screen.blit(self.button.image, self.button.rect)
+            screen.blit(self.text_play, self.play_rect)
+            screen.blit(self.text_controls, self.controls_rect)
+            screen.blit(self.text_exit, self.exit_rect)
+        screen.blit(self.overlay, (0, 0))
+
+    def animate_overlay(self):
+        if self.timer < 255:
+            self.timer += 1
+            self.overlay.set_alpha(255 - self.timer * 2)
 
 
 class CountDownOverlay(object):
@@ -178,6 +189,8 @@ class SplashScreen(object):
         self.timer = 0
         self.timeout = False
         self.state = STATE.splashscreen
+        self.overlay = ASSET.overlay
+        self.overlay = self.overlay.convert()
 
         self.assemble()
 
@@ -188,21 +201,40 @@ class SplashScreen(object):
     def update(self):
         self.animate()
         self.timer += 1
-        if self.timer >= GAME.fps * 7:
+        if self.timer >= GAME.fps * 5:
             self.timeout = True
 
         if self.timeout:
             self.state = STATE.menu
             
     def draw(self, screen):
-        screen.fill((16, 16, 16))
+        screen.fill((0, 0, 0))
         screen.blit(self.logo.image, self.logo.rect)
+        screen.blit(self.overlay, (0, 0))
 
     def animate(self):
-        #image = self.image
-        if self.timer >= GAME.fps * 2:
-            alpha = 254
-            self.logo.image.fill((255, 255, 255, alpha), None, pygame.BLEND_RGBA_MULT)
+        if self.timer <= 32:
+            self.overlay.set_alpha(255 - self.timer * 4)
+        elif self.timer > 170:
+            self.overlay.set_alpha(self.timer - 20)
+
+
+class LogoScreen(SplashScreen):
+    def __init__(self, x, y, width, height):
+        SplashScreen.__init__(self, x, y, width, height)
+        self.logo = PhysicsBody(0, 0, width, height, ASSET.studio_logo)
+        self.state = STATE.logo
+
+        self.assemble()
+
+    def update(self):
+        self.animate()
+        self.timer += 1
+        if self.timer >= GAME.fps * 5:
+            self.timeout = True
+
+        if self.timeout:
+            self.state = STATE.splashscreen
 
 
 class ScoreScreen(object):
@@ -234,6 +266,9 @@ class ScoreScreen(object):
         self.hi_score.create()
         self.p1.create()
         self.p2.create()
+
+    def handle_events(self, event):
+        pass
 
     def update(self):
         self.title.update()

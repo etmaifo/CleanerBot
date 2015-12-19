@@ -33,6 +33,7 @@ class STATE(object):
     exit = "exit"
     splashscreen = "splashscreen"
     scorescreen = "scorescreen"
+    logo = "logo"
 
 class COLOR(object):
     white = (255, 255, 255)
@@ -127,9 +128,20 @@ class ASSET(object):
     scanline = load_image("scan_line.png")
     scanline.set_alpha(20)
 
+    studio_logo = load_image("phrbt_logo.png")
+    try:
+        overlay = load_image("overlay.jpg")
+    except:
+        overlay = load_image("overlay.png")
+
+
 class SPLASHSCREEN(object):
     width = 450
     height = 178
+
+class LOGO(object):
+    width = 128
+    height = 128
     
 
     
