@@ -15,7 +15,7 @@ class SCREEN(object):
 
 class GAME(object):
     fps = 60
-    time = 60 * 1
+    time = 5 * 1
 
 class MENU(object):    
     menuScreen = load_image("menuBG.png")
@@ -39,6 +39,7 @@ class COLOR(object):
     white = (255, 255, 255)
     black = (0, 0, 0)
     gray = (31, 31, 31)
+    gray7 = (77, 77, 77)
     light_gray = (102, 102, 102)
     half_black = (128, 128, 128)
     green = (0, 196, 0)

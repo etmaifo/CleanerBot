@@ -6,6 +6,7 @@ from levelfactory import Stage
 from camera import Camera
 from uifactory import Menu, CountDownOverlay, ScanLines, SplashScreen, ScoreScreen, LogoScreen
 from constants import SCREEN, COLOR, STATE, GAME, ASSET, SPLASHSCREEN, LOGO
+from soundfactory import Music
 
 class GameEngine(object):
     def __init__(self):
@@ -21,9 +22,9 @@ class GameEngine(object):
         self.ticks = 0
         self.firstrun = True
 
-        pygame.mixer.music.load(os.path.join("assets", "music", "bensound-moose.ogg"))
-        pygame.mixer.music.set_volume(0.3)
-        #pygame.mixer.music.play(-1)
+        self.menu_music = Music("MainMenu.ogg", 0.3, -1)
+        self.music_on = False
+
         self.font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 20)
         self.font.set_bold(True)
         self.time_font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 20)
@@ -43,6 +44,7 @@ class GameEngine(object):
         self.state = STATE.logo
         self.stage = Stage()
         self.stage_number = 1
+        self.hi_score = 0
         self.splashscreen = SplashScreen(0, 0, SPLASHSCREEN.width, SPLASHSCREEN.height)
         self.logoscreen = LogoScreen(0, 0, LOGO.width, LOGO.height)
         self.timer = GAME.time
@@ -114,7 +116,6 @@ class GameEngine(object):
         if self.capture_video:
             self.makeVideo()
 
-        #self.camera.update(self.stage.level.player1)
         if self.timer == 0:
             #self.reset()
             self.state = STATE.scorescreen
@@ -127,8 +128,11 @@ class GameEngine(object):
             self.state = self.splashscreen.state
         elif self.state == STATE.menu:
             self.menu.update()
+            if not self.music_on:
+                #self.menu_music.play()
+                self.music_on = True
         elif self.state == STATE.scorescreen:
-            self.score_screen.update()
+            self.score_screen.update(self.stage_number, 1, self.hi_score)
         elif self.state == STATE.game:
             self.camera.update(self.stage.level.player1)
             if self.intro_countdown <= GAME.fps:
@@ -141,7 +145,7 @@ class GameEngine(object):
                 self.stage.level.update()
                 #self.stage.update()
                 if self.stage.level.intro:
-                    self.timer = 60
+                    self.timer = GAME.time
                 if self.ticks > self.fps:
                     self.ticks = 0
                     self.timer -= 1
@@ -166,7 +170,7 @@ class GameEngine(object):
             self.totalscore = self.stage.level.p1_data
 
     def draw(self):
-        self.screen.fill(COLOR.white) 
+        self.screen.fill(COLOR.black)
 
         if self.state == STATE.logo:
             self.logoscreen.draw(self.screen)

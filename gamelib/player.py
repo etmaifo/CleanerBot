@@ -37,9 +37,12 @@ class Player(PhysicsBody):
     def get_controller(self, player):
         number_of_joysticks = pygame.joystick.get_count()
         if number_of_joysticks == 1:
-            joystick = pygame.joystick.Joystick(0)
-            joystick.init()
-            return joystick
+            if player == 1:
+                joystick = pygame.joystick.Joystick(0)
+                joystick.init()
+                return joystick
+            else:
+                return None
         elif number_of_joysticks > 1:
             if player == 1:
                 joystick = pygame.joystick.Joystick(0)
@@ -86,12 +89,12 @@ class Player(PhysicsBody):
                     if self.has_data:
                         self.shoot_data = True
 
-            if event.type == JOYBUTTONDOWN:
+            if event.type == JOYBUTTONDOWN and self.controller2 is not None:
                 if (self.controller2.get_button(1) == 1) and self.grounded:
                     self.vspeed = self.jumpHeight
                 if (self.controller2.get_button(2) == 1):
                     if self.has_data:
-                        self.shoot_data = True                        
+                        self.shoot_data = True
     
     def animate_size(self):
         if self.has_data:
