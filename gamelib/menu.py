@@ -1,7 +1,7 @@
 import pygame
 import os, sys
 from pygame.locals import *
-from constants import COLOR, MENU, SCREEN, STATE, ASSET, TITLE
+from constants import COLOR, MENU, SCREEN, STATE, ASSET, TITLE, FONT
 from physicsbody import PhysicsBody
 import pygame.mixer as mixer
 
@@ -13,9 +13,9 @@ class Menu(object):
         self.width = width
         self.height = height
         self.cursor_index = 0
-        self.title_font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 100)
+        self.title_font = pygame.font.Font(FONT.default, 100)
         self.title_font.set_bold(True)
-        self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 24)
+        self.font = pygame.font.Font(FONT.default, 24)
         self.font.set_bold(True)
         self.color = color
         self.title = PhysicsBody(0, 0, TITLE.width, TITLE.height, ASSET.title)

@@ -6,7 +6,7 @@ import pygame
 class Particle(PhysicsBody):
     def __init__(self, x, y, width, height, image):
         PhysicsBody.__init__(self, x, y, width, height, image)
-        self.image = pygame.transform.smoothscale(image, (width, height))
+        self.image = pygame.transform.smoothscale(image, (width, height)).convert_alpha()
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
@@ -67,21 +67,37 @@ class Particle(PhysicsBody):
 class Bubble(Particle):
     def __init__(self, x, bottom, width, height, image):
         Particle.__init__(self, x, bottom, width, height, image)
+        self.image = self.image.convert()
         self.rect.bottom = bottom
         x+=8
         self.rect.x = choice([x, x+8, x+16, x+32])
-        self.vspeed = choice([-0.5, -1, -1.5, -2])
+        self.vspeed = uniform(-2, 0)
         self.initial_pos = bottom
         self.portal_group = pygame.sprite.Group()
         self.frame = 0
 
-
     def update(self):
         self.rect.y += self.vspeed
         self.animate()
-        if self.initial_pos - self.rect.y > 64:
+        if self.rect.width > 1:
+            if self.frame in [1, 15, 30, 60]:
+                self.animate_size()
+        if self.initial_pos - self.rect.y > 60:
             self.kill()
-            
+
     def animate(self):
-        pass
-                
+        self.frame += 1
+        alpha = 240 - self.frame * 8
+        if alpha < 0:
+            alpha = 0
+        if self.frame < 60:
+            self.image.set_alpha(alpha)
+        else:
+            self.frame = 0
+
+    def animate_size(self):
+        x, y, width, height = self.rect
+        self.image = pygame.transform.smoothscale(self.image, (width-1, height-1))
+        self.rect = self.image.get_rect()
+        self.rect.x = x
+        self.rect.y = y

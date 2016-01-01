@@ -6,7 +6,7 @@ from physicsbody import PhysicsBody
 from datafragment import DataFragment
 from saw import Saw
 from particlefactory import Particle, Bubble
-from random import choice
+from random import choice, randrange
 import pygame.mixer as mixer
 
 
@@ -90,6 +90,7 @@ class Level(object):
         for block in self.blocks:
             if block[2] != 0:
                 levelBlock = PhysicsBody(0, 0, self.data.tilewidth, self.data.tileheight, blockImage)
+                levelBlock.image = levelBlock.image.convert_alpha()
                 levelBlock.rect.x = self.data.tilewidth * block[0]
                 levelBlock.rect.y = self.data.tileheight * block[1]
                 self.player1.collision_group.add(levelBlock)
@@ -155,7 +156,7 @@ class Level(object):
         self.bubbleTimer += 1
 
 
-        if self.bubbleTimer >= 1 * GAME.fps:
+        if self.bubbleTimer >= GAME.fps/3:
             self.spawn_bubbles(self.portals_group, choice([1, 2, 3, 4]))
             self.bubbleTimer = 0
         if self.spawnTimer >= 1.5 * GAME.fps:
@@ -209,7 +210,7 @@ class Level(object):
         for portal in portals:        
             for i in xrange(number):
                 size = choice([2, 3, 4, 4, 6])
-                particle = Bubble(portal.rect.x, portal.rect.bottom, size, size, ASSET.bubble)
+                particle = Bubble(portal.rect.x, portal.rect.top, size, size, ASSET.bubble)
                 particle.portal_group.add(portals)
                 self.bubbles.add(particle)
             self.display_group.add(self.bubbles)
@@ -234,7 +235,6 @@ class Level(object):
         datafragment.collision_group.add(self.dataspawner_group)
         datafragment.killer_group.add(self.saw_group)
 
-
     def shoot_data(self, x, y, hspeed, vspeed):
         datafragment = DataFragment(x, y, self.fragmentWidth, self.fragmentHeight, ASSET.dataFragment)
         datafragment.collision_group = self.player1.collision_group.copy()
@@ -254,12 +254,16 @@ class Level(object):
 
 
 class Stage(object):
-    def __init__(self):
+    def __init__(self, level):
         self.levels = []
         self.levelIndex = 0
 
         self.load_files()
-        self.level = self.levels[0]
+        try:
+            self.level = self.levels[level-1]
+        except:
+            self.level = self.levels[0]
+        self.number_of_levels = len(self.levels)
 
     def load_files(self):
         levels = os.listdir(os.path.join("assets", "levels"))

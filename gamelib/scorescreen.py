@@ -1,8 +1,8 @@
 
 import pygame
-import os, sys
+import shelve
 from pygame.locals import *
-from constants import COLOR, MENU, SCREEN, STATE, ASSET, GAME, TITLE
+from constants import COLOR, MENU, SCREEN, STATE, RESULT, FILES
 from fontfactory import GameText
 
 
@@ -53,10 +53,15 @@ class ScoreScreen(object):
         self.p2_total.y = 340
         self.p2_total.color = COLOR.petal_green
 
-        self.winner = GameText("Winner", 24, True)
-        self.winner.right = SCREEN.width - 96
-        self.winner.y = 280
-        self.winner.color = COLOR.burnt_orange
+        self.p1_results = GameText("", 24, True)
+        self.p1_results.right = SCREEN.width - 96
+        self.p1_results.y = 280
+        self.p1_results.color = COLOR.burnt_orange
+
+        self.p2_results = GameText("", 24, True)
+        self.p2_results.right = SCREEN.width - 96
+        self.p2_results.y = 340
+        self.p2_results.color = COLOR.burnt_orange
 
         self.bg = MENU.scoreScreen
         self.state = STATE.scorescreen
@@ -74,7 +79,8 @@ class ScoreScreen(object):
 
         self.p1_total.create()
         self.p2_total.create()
-        self.winner.create()
+        self.p1_results.create()
+        self.p2_results.create()
 
         self.controller = self.get_controller()
 
@@ -87,17 +93,26 @@ class ScoreScreen(object):
         return None
 
     def handle_events(self, event):
+        self.state = STATE.scorescreen
+
         if event.type == KEYDOWN:
             if event.key == K_e or event.key == K_RETURN:
-                self.state = STATE.game
+                self.state = STATE.nextlevel
 
         elif event.type == JOYBUTTONDOWN:
             if self.controller.get_button(0):
-                self.state = STATE.game
+                self.state = STATE.nextlevel
 
     def update(self, stage, player, hi_score):
+        score1 = 0
+        score2 = 0
+        for i in range(len(self.p1_scores)):
+            score1 += int(self.p1_scores[i].text)
+            score2 += int(self.p2_scores[i].text)
+        self.p1_total.text = str(score1)
+        self.p2_total.text = str(score2)
+
         self.title.update()
-        self.hi_score.update()
         self.p1.update()
         self.p2.update()
         for score in self.p1_scores:
@@ -106,8 +121,30 @@ class ScoreScreen(object):
             score.update()
         self.p1_total.update()
         self.p2_total.update()
-        self.winner.update()
+
+        self.p1_results.text = ''
+        self.p2_results.text = ''
+        if stage == 5:
+            if int(self.p1_total.text) > int(self.p2_total.text):
+                self.p1_results.text = RESULT.win
+            elif int(self.p1_total.text) < int(self.p2_total.text):
+                self.p2_results.text = RESULT.win
+            else:
+                self.p1_results.text = RESULT.draw
+                self.p2_results.text = RESULT.draw
+        self.p1_results.update()
+        self.p2_results.update()
         self.stage = stage
+
+        p1_total = int(self.p1_total.text)
+        p2_total = int(self.p2_total.text)
+        if p1_total > self.get_highscore():
+            self.set_highscore(p1_total)
+        elif p2_total > self.get_highscore():
+            self.set_highscore(p2_total)
+
+        self.hi_score.text = "Hi-score: " + str(self.get_highscore())
+        self.hi_score.update()
 
     def draw(self, screen):
         screen.fill(COLOR.black)
@@ -123,4 +160,15 @@ class ScoreScreen(object):
 
         self.p1_total.draw_to(screen)
         self.p2_total.draw_to(screen)
-        self.winner.draw_to(screen)
+        self.p1_results.draw_to(screen)
+        self.p2_results.draw_to(screen)
+
+    def get_highscore(self):
+        d = shelve.open(FILES.hiscore)
+        score = d['score']
+        return int(score)
+
+    def set_highscore(self, score):
+        d = shelve.open(FILES.hiscore)
+        d['score'] = score
+        d.close()

@@ -47,8 +47,8 @@ class GameEngine(object):
         self.p2_score_rect.y = 30
 
         self.state = STATE.logo
-        self.stage = Stage()
         self.stage_number = 1
+        self.stage = Stage(self.stage_number)
         self.hi_score = 0
         self.splashscreen = SplashScreen(0, 0, SPLASHSCREEN.width, SPLASHSCREEN.height)
         self.logoscreen = LogoScreen(0, 0, LOGO.width, LOGO.height)
@@ -81,13 +81,21 @@ class GameEngine(object):
             pass
 
     def reset(self):
-        self.firstrun = False
-        self.state = STATE.menu
-        self.stage = Stage()
+        self.stage_number += 1
+        if self.stage_number > self.stage.number_of_levels:
+            self.stage_number = 1
+            self.state = STATE.menu
+            self.score_screen = ScoreScreen()
+            self.firstrun = True
+        else:
+            self.firstrun = False
+            self.state = STATE.game
+
+        self.stage = Stage(self.stage_number)
         self.timer = GAME.time
         self.camera = Camera(self.complex_camera, self.stage.level.width, self.stage.level.height)
         self.screen_color = (choice(COLOR.colors))
-        self.menu = Menu(SCREEN.width, SCREEN.height, self.screen_color)        
+        self.menu = Menu(SCREEN.width, SCREEN.height, self.screen_color)
         
         self.countdownOverlay = CountDownOverlay()
         self.intro = True
@@ -116,16 +124,21 @@ class GameEngine(object):
             elif self.state == STATE.menu:
                 self.menu.handle_events(event)
                 self.state = self.menu.state
+            elif self.state == STATE.scorescreen:
+                self.score_screen.handle_events(event)
+                self.state = self.score_screen.state
             elif self.state == STATE.exit:
                 pygame.quit()
                 sys.exit()
 
     def update(self):
+        if self.state == STATE.nextlevel:
+            self.reset()
+            return
         if self.capture_video:
             self.makeVideo()
 
         if self.timer == 0:
-            #self.reset()
             self.state = STATE.scorescreen
 
         if self.state == STATE.logo:
@@ -207,7 +220,6 @@ class GameEngine(object):
                 self.countdownOverlay.draw(self.screen)
 
         elif self.state == STATE.menu:
-            #self.screen.blit(self.menu.bg, self.menu.bg.get_rect())
             self.menu.draw(self.screen)
             if not self.firstrun:
                 pass

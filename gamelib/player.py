@@ -5,7 +5,6 @@ from constants import DIRECTION, PLAYER, ASSET, GAME
 
 class Player(PhysicsBody):
     def __init__(self, x, y , width, height, animationFrames, id):
-        #image = animationFrames.get_walk_frames()[0]
         image = animationFrames
         PhysicsBody.__init__(self, x, y, width, height, image)
         self.jumpHeight = PLAYER.jump
@@ -27,9 +26,9 @@ class Player(PhysicsBody):
         
         self.sort_players()
         self.update_label()
-        #self.update_effects()
         self.original_glow_image = self.glow.image
         self.original_blink_image = self.blink.image
+        self.respawn_position = x, y
 
         self.controller1 = self.get_controller(1)
         self.controller2 = self.get_controller(2)
@@ -54,8 +53,6 @@ class Player(PhysicsBody):
                 return joystick
         return None
 
-
-
     def handle_events(self, event):
         if self.hurt:
             return
@@ -73,10 +70,9 @@ class Player(PhysicsBody):
             if event.type == JOYBUTTONDOWN:
                 if (self.controller1.get_button(1) == 1) and self.grounded:
                     self.vspeed = self.jumpHeight
-                if (self.controller1.get_button(2) == 1):
+                if self.controller1.get_button(2) == 1:
                     if self.has_data:
                         self.shoot_data = True
-
 
         if self.id == PLAYER.two:
             if event.type == KEYDOWN:
@@ -92,7 +88,7 @@ class Player(PhysicsBody):
             if event.type == JOYBUTTONDOWN and self.controller2 is not None:
                 if (self.controller2.get_button(1) == 1) and self.grounded:
                     self.vspeed = self.jumpHeight
-                if (self.controller2.get_button(2) == 1):
+                if self.controller2.get_button(2) == 1:
                     if self.has_data:
                         self.shoot_data = True
     
@@ -110,7 +106,6 @@ class Player(PhysicsBody):
         self.label.rect.bottom = self.rect.top - 5
         
     def update_effects(self):
-        #self.glow.image = pygame.transform.smoothscale(self.glow.image, (48, 48))
         self.glow.rect.center = self.rect.center
         
     def sort_players(self):
@@ -127,30 +122,30 @@ class Player(PhysicsBody):
         key = pygame.key.get_pressed()
         if self.id == PLAYER.one:
             if not self.hurt:
-                if (key[K_a] or (self.controller1 is not None and self.controller1.get_hat(0)[0] == -1)):
+                if key[K_a] or (self.controller1 is not None and self.controller1.get_hat(0)[0] == -1):
                     self.direction = DIRECTION.left
                     if self.rect.x <= 0: # Avoid disappearing on left side of screen
                         self.hspeed = 0
                     else:
                         self.hspeed = -self.speed
-                elif (key[K_d] or (self.controller1 is not None and self.controller1.get_hat(0)[0] == 1)): 
+                elif key[K_d] or (self.controller1 is not None and self.controller1.get_hat(0)[0] == 1):
                     self.direction = DIRECTION.right
                     self.hspeed = self.speed
-            if (self.controller1 is not None and self.controller1.get_hat(0)[0] == 0):
+            if self.controller1 is not None and self.controller1.get_hat(0)[0] == 0:
                 self.hspeed = 0
 
         elif self.id == PLAYER.two:
             if not self.hurt:
-                if (key[K_LEFT] or (self.controller2 is not None and self.controller2.get_hat(0)[0] == -1)):
+                if key[K_LEFT] or (self.controller2 is not None and self.controller2.get_hat(0)[0] == -1):
                     self.direction = DIRECTION.left
                     if self.rect.x <= 0: # Avoid disappearing on left side of screen
                         self.hspeed = 0
                     else:
                         self.hspeed = -self.speed
-                elif (key[K_RIGHT] or (self.controller2 is not None and self.controller2.get_hat(0)[0] == 1)):
+                elif key[K_RIGHT] or (self.controller2 is not None and self.controller2.get_hat(0)[0] == 1):
                     self.direction = DIRECTION.right
                     self.hspeed = self.speed
-            if (self.controller2 is not None and self.controller2.get_hat(0)[0] == 0):
+            if self.controller2 is not None and self.controller2.get_hat(0)[0] == 0:
                 self.hspeed = 0
 
         self.vspeed += self.gravity

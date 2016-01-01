@@ -4,8 +4,15 @@ import pygame
 
 def load_image(filename):
     image = os.path.join("assets", "images", filename)
-    surface = pygame.image.load(image).convert_alpha()
+    if filename.endswith('.jpg'):
+        surface = pygame.image.load(image).convert()
+    else:
+        surface = pygame.image.load(image).convert_alpha()
     return surface
+
+
+class FILES(object):
+    hiscore = os.path.join('data', 'hiscore.txt')
 
 
 class SCREEN(object):
@@ -18,7 +25,7 @@ class SCREEN(object):
 
 class GAME(object):
     fps = 60
-    time = 30 * 1
+    time = 20 * 1
 
 
 class MENU(object):    
@@ -32,6 +39,7 @@ class MENU(object):
 class STATE(object):
     menu = "menu"
     game = "game"
+    nextlevel = "nextlevel"
     paused = "paused"
     countdown = "countdown"
     exit = "exit"
@@ -115,7 +123,7 @@ class ASSET(object):
 
     dataFragment = load_image("datafragment.png")
 
-    bubble = load_image("particle.png")
+    bubble = load_image("light_particle.png")
 
     blockImage = load_image("block.png")
     ioInImage = load_image("io_in.png")
@@ -155,3 +163,9 @@ class SPLASHSCREEN(object):
 class LOGO(object):
     width = 128
     height = 128
+
+
+class RESULT(object):
+    win = "WIN"
+    lose = "LOSE"
+    draw = "DRAW"
