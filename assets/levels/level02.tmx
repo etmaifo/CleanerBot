@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="32" tileheight="32" backgroundcolor="#353535" nextobjectid="88">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="18" tilewidth="32" tileheight="32" backgroundcolor="#353535" nextobjectid="39">
  <tileset firstgid="1" name="block" tilewidth="32" tileheight="32">
   <image source="../images/block.png" width="32" height="32"/>
  </tileset>
@@ -23,7 +23,7 @@
  </tileset>
  <layer name="blocks" width="32" height="18">
   <data encoding="base64" compression="zlib">
-   eJxjYBgFo2AUjALSACMaHmn2UwvQ2x/o9g20/aNgZANC6ZHWGABlcAA5
+   eJxjYBgFo2AUjIJRMBIBIxoe7Pah66e3+0cBdQGh+KQ1BgA5YAAx
   </data>
  </layer>
  <layer name="data" width="32" height="18">
@@ -40,34 +40,20 @@
   <object id="4" gid="5" x="32" y="544" width="63" height="10"/>
  </objectgroup>
  <objectgroup name="saw_bounds">
-  <object id="56" x="992" y="352" width="32" height="32"/>
-  <object id="57" x="896" y="352" width="32" height="32"/>
-  <object id="58" x="96" y="352" width="32" height="32"/>
-  <object id="59" x="0" y="352" width="32" height="32"/>
-  <object id="62" x="544" y="320" width="32" height="32"/>
-  <object id="63" x="448" y="320" width="32" height="32"/>
-  <object id="68" x="128" y="512" width="32" height="32"/>
-  <object id="69" x="224" y="512" width="32" height="32"/>
-  <object id="70" x="768" y="512" width="32" height="32"/>
-  <object id="71" x="864" y="512" width="32" height="32"/>
+  <object id="20" x="928" y="512" width="32" height="32"/>
+  <object id="21" x="64" y="512" width="32" height="32"/>
+  <object id="28" x="352" y="384" width="32" height="32"/>
+  <object id="30" x="640" y="384" width="32" height="32"/>
  </objectgroup>
  <objectgroup name="saws">
-  <object id="61" gid="2" x="480" y="352" width="64" height="64"/>
-  <object id="64" gid="2" x="800" y="576" width="64" height="64"/>
-  <object id="65" gid="2" x="160" y="576" width="64" height="64"/>
-  <object id="73" gid="2" x="928" y="384" width="64" height="64"/>
-  <object id="74" gid="2" x="32" y="384" width="64" height="64"/>
+  <object id="25" gid="2" x="480" y="448" width="64" height="64"/>
+  <object id="31" gid="2" x="96" y="576" width="64" height="64"/>
+  <object id="32" gid="2" x="864" y="576" width="64" height="64"/>
  </objectgroup>
  <objectgroup name="dataspawner">
-  <object id="78" gid="6" x="0" y="64" width="31" height="11"/>
-  <object id="79" gid="6" x="992" y="64" width="31" height="11"/>
-  <object id="84" gid="6" x="256" y="64" width="31" height="11"/>
-  <object id="85" gid="6" x="448" y="64" width="31" height="11"/>
-  <object id="86" gid="6" x="640" y="64" width="31" height="11"/>
-  <object id="87" gid="6" x="800" y="64" width="31" height="11"/>
+  <object id="23" gid="6" x="480" y="96" width="31" height="11"/>
  </objectgroup>
  <objectgroup name="data">
-  <object id="80" gid="7" x="0" y="96" width="24" height="24"/>
-  <object id="81" gid="7" x="992" y="96" width="24" height="24"/>
+  <object id="24" gid="7" x="480" y="128" width="24" height="24"/>
  </objectgroup>
 </map>

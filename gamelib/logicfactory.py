@@ -4,7 +4,12 @@ from pygame import *
 from random import choice
 from levelfactory import Stage
 from camera import Camera
-from uifactory import Menu, CountDownOverlay, ScanLines, SplashScreen, ScoreScreen, LogoScreen
+from logo import LogoScreen
+from menu import Menu
+from overlay import CountDownOverlay
+from scorescreen import ScoreScreen
+from splashscreen import SplashScreen
+from vfx import ScanLines
 from constants import SCREEN, COLOR, STATE, GAME, ASSET, SPLASHSCREEN, LOGO, FONT
 from soundfactory import Music
 
