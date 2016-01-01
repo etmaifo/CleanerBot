@@ -1,21 +1,25 @@
 import os
 import pygame
 
+
 def load_image(filename):
     image = os.path.join("assets", "images", filename)
     surface = pygame.image.load(image).convert_alpha()
     return surface
 
+
 class SCREEN(object):
-    width =1024
+    width = 1024
     height = 576
     display = pygame.display.set_mode((width, height))
     bg = load_image("bg.png")
     bg = pygame.transform.smoothscale(bg, (width, height))
 
+
 class GAME(object):
     fps = 60
-    time = 5 * 1
+    time = 30 * 1
+
 
 class MENU(object):    
     menuScreen = load_image("menuBG.png")
@@ -34,6 +38,7 @@ class STATE(object):
     splashscreen = "splashscreen"
     scorescreen = "scorescreen"
     logo = "logo"
+
 
 class COLOR(object):
     white = (255, 255, 255)
@@ -55,20 +60,23 @@ class COLOR(object):
     petal_green = (128, 190, 31)
     ice_blue = (153, 255, 255)
 
-    #colors = [regal_red, deep_blue, ice_blue, burnt_orange, petal_green]
     colors = [ice_blue]
-    
+
+
 class FONT(object):
-    default = os.path.join("assets", "fonts", "hoog0553.ttf")
+    default = os.path.join("assets", "fonts", "tinyfont.ttf")
     hoog0553 = os.path.join("assets", "fonts", "hoog0553.ttf")
     square = os.path.join("assets", "fonts", "square.ttf")
+
 
 class TITLE(object):
     width = 604
     height = 60
 
+
 class WORLD(object):
     gravity = 1
+
 
 class PLAYER(object):
     one = "p1"
@@ -79,16 +87,19 @@ class PLAYER(object):
     jump = -18
     speed = 5
 
+
 class DIRECTION(object):
     left = "left"
     right = "right"
     up = "up"
     down = "down"
 
+
 class PARTICLE(object):
     width = 8
     height = 8
     image = load_image("datafragment.png")
+
 
 class ASSET(object):
     pygame_logo = load_image("pygame_logo.png")
@@ -140,9 +151,7 @@ class SPLASHSCREEN(object):
     width = 450
     height = 178
 
+
 class LOGO(object):
     width = 128
     height = 128
-    
-
-    

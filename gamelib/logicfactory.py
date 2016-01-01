@@ -5,7 +5,7 @@ from random import choice
 from levelfactory import Stage
 from camera import Camera
 from uifactory import Menu, CountDownOverlay, ScanLines, SplashScreen, ScoreScreen, LogoScreen
-from constants import SCREEN, COLOR, STATE, GAME, ASSET, SPLASHSCREEN, LOGO
+from constants import SCREEN, COLOR, STATE, GAME, ASSET, SPLASHSCREEN, LOGO, FONT
 from soundfactory import Music
 
 class GameEngine(object):
@@ -25,9 +25,9 @@ class GameEngine(object):
         self.menu_music = Music("MainMenu.ogg", 0.3, -1)
         self.music_on = False
 
-        self.font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 20)
+        self.font = pygame.font.Font(FONT.default, 20)
         self.font.set_bold(True)
-        self.time_font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 20)
+        self.time_font = pygame.font.Font(FONT.default, 20)
         self.time_font.set_bold(True)
         self.gameTime = self.font.render("0", True, (0, 0, 0), (250, 250, 250))
         self.textRect = self.gameTime.get_rect()
@@ -49,6 +49,9 @@ class GameEngine(object):
         self.logoscreen = LogoScreen(0, 0, LOGO.width, LOGO.height)
         self.timer = GAME.time
         self.totalscore = 0
+
+        self.p1_scores = {}
+        self.p2_scores = {}
 
         self.camera = Camera(self.complex_camera, self.stage.level.width, self.stage.level.height)        
 
@@ -132,6 +135,12 @@ class GameEngine(object):
                 #self.menu_music.play()
                 self.music_on = True
         elif self.state == STATE.scorescreen:
+            self.p1_scores[self.stage_number-1] = self.stage.level.p1_data
+            self.p2_scores[self.stage_number-1] = self.stage.level.p2_data
+
+            self.score_screen.p1_scores[self.stage_number-1].text = self.stage.level.p1_data
+            self.score_screen.p2_scores[self.stage_number-1].text = self.stage.level.p2_data
+
             self.score_screen.update(self.stage_number, 1, self.hi_score)
         elif self.state == STATE.game:
             self.camera.update(self.stage.level.player1)

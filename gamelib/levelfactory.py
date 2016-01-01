@@ -9,6 +9,7 @@ from particlefactory import Particle, Bubble
 from random import choice
 import pygame.mixer as mixer
 
+
 class Level(object):
     def __init__(self, mapfile):
         mixer.init()

@@ -26,7 +26,7 @@ class GameText(object):
         self.rect = self.render.get_rect()
         
     def update(self):
-        self.render = self.font.render(self.text, self.isBold, self.color)
+        self.render = self.font.render(str(self.text), self.isBold, self.color)
         if self.x is not None:
             self.rect.x = self.x
         if self.y is not None:

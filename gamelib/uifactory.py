@@ -15,9 +15,9 @@ class Menu(object):
         self.width = width
         self.height = height
         self.cursor_index = 0
-        self.title_font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 100)
+        self.title_font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 100)
         self.title_font.set_bold(True)
-        self.font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 24)
+        self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 24)
         self.font.set_bold(True)
         self.color = color
         self.title = PhysicsBody(0, 0, TITLE.width, TITLE.height, ASSET.title)
@@ -140,7 +140,7 @@ class CountDownOverlay(object):
     def __init__(self):
         self.overlay = PhysicsBody(0, SCREEN.height/5, SCREEN.width * 3/4, 37, ASSET.countdown_overlay)
         self.overlay.rect.centerx = SCREEN.width/2
-        self.font = pygame.font.Font(os.path.join("assets", "fonts", "hoog0553.ttf"), 20)
+        self.font = pygame.font.Font(os.path.join("assets", "fonts", "tinyfont.ttf"), 20)
         self.font.set_bold(True)
         self.text = self.font.render("3", True, COLOR.white)
 
@@ -170,14 +170,12 @@ class ScanLines(object):
     def __init__(self):
         self.collection = pygame.sprite.Group()
         self.assemble()
-        
-        
+
     def assemble(self):
         for i in range(160):
             scanline = PhysicsBody(0, i * 4, SCREEN.width, 1, ASSET.scanline)
             self.collection.add(scanline)
-            
-            
+
     def draw(self, screen):
         for scanline in self.collection:
             screen.blit(scanline.image, scanline.rect)
@@ -193,7 +191,6 @@ class SplashScreen(object):
         self.overlay = self.overlay.convert()
 
         self.assemble()
-
 
     def assemble(self):
         self.logo.rect.center = (SCREEN.width/2, SCREEN.height/2)
@@ -262,13 +259,13 @@ class ScoreScreen(object):
         self.p1_scores = []
         self.p2_scores = []
         for i in xrange(5):
-            p1_score = GameText("0", 22, True)
+            p1_score = GameText("0", 24, True)
             p1_score.centerx = 92 + 144 + 96 * i
             p1_score.y = 280
             p1_score.color = COLOR.gray7
             self.p1_scores.append(p1_score)
 
-            p2_score = GameText("0", 22, True)
+            p2_score = GameText("0", 24, True)
             p2_score.centerx = 92 + 144 + 96 * i
             p2_score.y = 340
             p2_score.color = COLOR.gray7
