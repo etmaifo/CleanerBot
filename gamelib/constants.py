@@ -25,7 +25,7 @@ class SCREEN(object):
 
 class GAME(object):
     fps = 60
-    time = 20 * 1
+    time = 5 * 1
 
 
 class MENU(object):    
@@ -166,6 +166,6 @@ class LOGO(object):
 
 
 class RESULT(object):
-    win = "WIN"
-    lose = "LOSE"
+    win = "WINNER"
+    lose = "LOSER"
     draw = "DRAW"

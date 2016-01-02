@@ -169,7 +169,7 @@ class Player(PhysicsBody):
     def check_danger(self):
         for sprite in self.danger_group:
             if self.rect.colliderect(sprite.rect):
-                self.hurt = True        
+                self.hurt = True
 
     def get_data_pos(self):
         hspeed = 6

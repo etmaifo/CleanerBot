@@ -2,12 +2,14 @@
 import pygame
 import shelve
 from pygame.locals import *
-from constants import COLOR, MENU, SCREEN, STATE, RESULT, FILES
+from constants import COLOR, MENU, SCREEN, STATE, RESULT, FILES, GAME
 from fontfactory import GameText
 
 
 class ScoreScreen(object):
     def __init__(self):
+        self.timer = 0
+
         self.title = GameText("Scoreboard", 94)
         self.title.centerx = SCREEN.width / 2
         self.title.y = 48
@@ -54,12 +56,12 @@ class ScoreScreen(object):
         self.p2_total.color = COLOR.petal_green
 
         self.p1_results = GameText("", 24, True)
-        self.p1_results.right = SCREEN.width - 96
+        self.p1_results.x = SCREEN.width - SCREEN.width/4 + 64
         self.p1_results.y = 280
         self.p1_results.color = COLOR.burnt_orange
 
         self.p2_results = GameText("", 24, True)
-        self.p2_results.right = SCREEN.width - 96
+        self.p2_results.x = SCREEN.width - SCREEN.width/4 +64
         self.p2_results.y = 340
         self.p2_results.color = COLOR.burnt_orange
 
@@ -104,6 +106,7 @@ class ScoreScreen(object):
                 self.state = STATE.nextlevel
 
     def update(self, stage, player, hi_score):
+
         score1 = 0
         score2 = 0
         for i in range(len(self.p1_scores)):
@@ -146,6 +149,8 @@ class ScoreScreen(object):
         self.hi_score.text = "Hi-score: " + str(self.get_highscore())
         self.hi_score.update()
 
+        self.animate_flash()
+
     def draw(self, screen):
         screen.fill(COLOR.black)
         screen.blit(self.bg, (0, 0))
@@ -172,3 +177,14 @@ class ScoreScreen(object):
         d = shelve.open(FILES.hiscore)
         d['score'] = score
         d.close()
+
+    def animate_flash(self):
+        self.timer += 1
+        if self.timer < GAME.fps/8:
+            self.p1_results.color = COLOR.gray
+            self.p2_results.color = COLOR.gray
+        elif self.timer < GAME.fps/4:
+            self.p1_results.color = COLOR.burnt_orange
+            self.p2_results.color = COLOR.burnt_orange
+        else:
+            self.timer = 0
