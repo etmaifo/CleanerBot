@@ -12,6 +12,7 @@ from splashscreen import SplashScreen
 from vfx import ScanLines
 from constants import SCREEN, COLOR, STATE, GAME, ASSET, SPLASHSCREEN, LOGO, FONT
 from soundfactory import Music
+from fontfactory import GameText
 
 class GameEngine(object):
     def __init__(self):
@@ -30,21 +31,23 @@ class GameEngine(object):
         self.menu_music = Music("MainMenu.ogg", 0.3, -1)
         self.music_on = False
 
-        self.font = pygame.font.Font(FONT.default, 20)
-        self.font.set_bold(True)
-        self.time_font = pygame.font.Font(FONT.default, 20)
-        self.time_font.set_bold(True)
-        self.gameTime = self.font.render("0", True, (0, 0, 0), (250, 250, 250))
-        self.textRect = self.gameTime.get_rect()
-        self.textRect.y = 30
+        self.game_time = GameText("0", 24, True)
+        self.game_time.centerx = SCREEN.width/2
+        self.game_time.y = 18
+        self.game_time.color = COLOR.ice_blue
+        self.game_time.create()
 
-        self.p1_score = self.font.render("0", True, (0, 0, 0), (250, 250, 250))
-        self.p1_score_rect = self.p1_score.get_rect()
-        self.p1_score_rect.y = 30
+        self.p1_score = GameText("0", 24, True)
+        self.p1_score.left = 30
+        self.p1_score.y = 18
+        self.p1_score.color = COLOR.blue_sea
+        self.p1_score.create()
 
-        self.p2_score = self.font.render("0", True, (0, 0, 0), (250, 250, 250))
-        self.p2_score_rect = self.p2_score.get_rect()
-        self.p2_score_rect.y = 30
+        self.p2_score = GameText("0", 24, True)
+        self.p2_score.right = SCREEN.width - 30
+        self.p2_score.y = 18
+        self.p2_score.color = COLOR.petal_green
+        self.p2_score.create()
 
         self.state = STATE.logo
         self.stage_number = 1
@@ -150,7 +153,6 @@ class GameEngine(object):
         elif self.state == STATE.menu:
             self.menu.update()
             if not self.music_on:
-                #self.menu_music.play()
                 self.music_on = True
         elif self.state == STATE.scorescreen:
             self.p1_scores[self.stage_number-1] = self.stage.level.p1_data
@@ -170,7 +172,6 @@ class GameEngine(object):
                 self.intro_countdown -= 1
             else:
                 self.stage.level.update()
-                #self.stage.update()
                 if self.stage.level.intro:
                     self.timer = GAME.time
                 if self.ticks > self.fps:
@@ -179,22 +180,16 @@ class GameEngine(object):
                 else:
                     self.ticks += 1
 
-            displayTime = self.format_timer(self.timer)
-            self.gameTime = self.time_font.render(displayTime, True, COLOR.white)
-            self.textRect = self.gameTime.get_rect()
-            self.textRect.centerx = self.screen.get_rect().centerx
-            self.textRect.y = 18
+            display_time = self.format_timer(self.timer)
+            self.game_time.text = display_time
+            self.game_time.update()
 
-            self.p1_score = self.font.render(str(self.stage.level.p1_data), True, COLOR.deep_blue)
-            self.p1_score_rect = self.p1_score.get_rect()
-            self.p1_score_rect.left = 30
-            self.p1_score_rect.y = 10
+            self.p1_score.text = str(self.stage.level.p1_data)
+            self.p1_score.update()
 
-            self.p2_score = self.font.render(str(self.stage.level.p2_data), True, COLOR.petal_green)
-            self.p2_score_rect = self.p2_score.get_rect()
-            self.p2_score_rect.right = self.screen.get_rect().right - 30
-            self.p2_score_rect.y = 10
-            self.totalscore = self.stage.level.p1_data
+            self.p2_score.text = str(self.stage.level.p2_data)
+            self.p2_score.update()
+
 
     def draw(self):
         self.screen.fill(COLOR.black)
@@ -209,13 +204,12 @@ class GameEngine(object):
             self.screen.blit(SCREEN.bg, (0, 0))
             self.screen.blit(ASSET.score_bg, (0, 0))
             self.stage.draw(self.screen)
-            #for entity in self.stage.level.display_group:
-                #self.screen.blit(entity.image, self.camera.apply(entity))
             for particle in self.stage.level.particles:
                 self.screen.blit(particle.image, self.camera.apply(particle))
-            self.screen.blit(self.gameTime, self.textRect)
-            self.screen.blit(self.p1_score, self.p1_score_rect)
-            self.screen.blit(self.p2_score, self.p2_score_rect)
+
+            self.game_time.draw_to(self.screen)
+            self.p1_score.draw_to(self.screen)
+            self.p2_score.draw_to(self.screen)
 
             if self.intro:
                 self.countdownOverlay.draw(self.screen)

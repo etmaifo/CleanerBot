@@ -119,6 +119,8 @@ class ASSET(object):
     player2_glow = load_image("player2_glow.png")
     player_hurt = load_image("player_hurt.png")
     player_hurt_glow = load_image("player_hurt_glow.png")
+    p1_debris = load_image("p1_debris.png")
+    p2_debris = load_image("p2_debris.png")
 
     platform = load_image("platform.png")
 

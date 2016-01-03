@@ -120,8 +120,8 @@ class Level(object):
             self.display_group.add(portal)
 
         for bound in self.bounds:
-            sawBound = PhysicsBody(bound.x, bound.y, bound.width, bound.height, blockImage)
-            self.bounds_group.add(sawBound)
+            saw_bound = PhysicsBody(bound.x, bound.y, bound.width, bound.height, blockImage)
+            self.bounds_group.add(saw_bound)
 
         for saw in self.saws:
             sawblade = Saw(saw.x, saw.y, saw.width, saw.height, ASSET.sawFrames)
@@ -184,6 +184,13 @@ class Level(object):
                 shotHeight = self.player2.get_data_pos()[3]
                 self.shoot_data(shotx, shoty, shotSpeed, shotHeight)
 
+            if self.player1.dead:
+                self.spawn_player_debris(self.player1.death_pos[0], self.player1.death_pos[1], ASSET.p1_debris, 20)
+                self.player1.dead = False
+            if self.player2.dead:
+                self.spawn_player_debris(self.player2.death_pos[0], self.player2.death_pos[1], ASSET.p2_debris, 20)
+                self.player2.dead = False
+
             for datafragment in self.datafragment_group:
                 if datafragment.captured:
                     self.spawn_particles(datafragment.rect.centerx, datafragment.rect.centery, 10)
@@ -205,6 +212,17 @@ class Level(object):
             size = choice([2, 4, 6, 8, 10])
             particle = Particle(x, y, size, size, PARTICLE.image)
             self.particles.add(particle)
+
+    def spawn_player_debris(self, x, y, image, number):
+        for i in xrange(number):
+            size = choice([2, 4, 6, 8])
+            debris = Particle(x, y, size, size, image)
+            debris.hspeed = choice([-4, -3, -2, 2, 3, 4])
+            debris.vspeed = choice([-4, -3, -2, 2, 3, 4])
+            debris.gravity = 0
+            debris.fade = True
+            debris.friction = 0.010
+            self.particles.add(debris)
 
     def spawn_bubbles(self, portals, number):
         for portal in portals:        

@@ -20,12 +20,9 @@ class DataFragment(PhysicsBody):
         self.check_bounds()
         if self.grounded: 
             self.animate_walk()
-        if self.captured:
-            "print captured"
-        else:
+        if not self.captured:
             self.vspeed += self.gravity
             self.move(self.hspeed, self.vspeed)
-
 
     def animate_storage(self):
         self.timeout += 1
@@ -55,7 +52,6 @@ class DataFragment(PhysicsBody):
         tempRect = pygame.Rect(self.rect)
         tempRect.x += dx
         tempRect.y += dy
-        #self.grounded = False
 
         for sprite in self.killer_group:
             if tempRect.colliderect(sprite.rect):
@@ -96,7 +92,6 @@ class DataFragment(PhysicsBody):
                 elif dy < 0:
                     self.rect.top = sprite.rect.bottom
                     self.vspeed = 5
-
-                
                 return
+
         self.rect = pygame.Rect(tempRect)

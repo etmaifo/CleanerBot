@@ -15,6 +15,7 @@ class Player(PhysicsBody):
         self.id = id
         self.invulnerable = False
         self.hurt = False
+        self.dead = False
         self.cooldown = 0
         self.show = True
         self.blink_timer = 0
@@ -30,6 +31,7 @@ class Player(PhysicsBody):
         self.original_blink_image = self.blink.image
         self.respawn_position = x, y
         self.respawn = False
+        self.death_pos = self.rect.centerx, self.rect.centery
 
         self.controller1 = self.get_controller(1)
         self.controller2 = self.get_controller(2)
@@ -102,6 +104,7 @@ class Player(PhysicsBody):
             self.rect.x = self.respawn_position[0]
             self.rect.y = self.respawn_position[1]
             self.respawn = False
+            self.dead = True
         self.shrink()
         self.blink_timer += 1
         if self.blink_timer < GAME.fps/8:
@@ -193,6 +196,7 @@ class Player(PhysicsBody):
         for sprite in self.danger_group:
             if self.rect.colliderect(sprite.rect):
                 self.hurt = True
+                self.death_pos = self.rect.centerx, self.rect.centery
 
     def get_data_pos(self):
         hspeed = 6

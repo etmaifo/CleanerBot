@@ -6,29 +6,43 @@ import pygame
 class Particle(PhysicsBody):
     def __init__(self, x, y, width, height, image):
         PhysicsBody.__init__(self, x, y, width, height, image)
-        self.image = pygame.transform.smoothscale(image, (width, height)).convert_alpha()
+        self.image = pygame.transform.smoothscale(image, (width, height)).convert()
+        self.image.set_alpha(255)
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
         self.timeout = 0
         self.frame = 0
+        self.fade = False
 
-        self.vspeed = uniform(-8, -1)
+        self.vspeed = uniform(-12, -1)
         self.hspeed = randrange(-3, 4, 1)
+        self.gravity = 0.5
 
     def update(self):
         self.timeout += 1
         if self.timeout >= 2 * GAME.fps:
             self.kill()
         
-        self.vspeed += 0.5 #WORLD.gravity
+        self.vspeed += self.gravity
+
+        if self.hspeed < 0:
+            self.hspeed += self.friction
+        elif self.hspeed > 0:
+            self.hspeed -= self.friction
+        if self.vspeed < 0:
+            self.vspeed += self.friction
+        else:
+            self.vspeed -= self.friction
+
         self.move(self.hspeed, int(self.vspeed))
-        self.animate_fade()
+        if self.fade:
+            self.animate_fade()
 
     def animate_fade(self):
         self.frame += 1
-        if self.frame < 60:
-            self.image.set_alpha(120 - self.frame * 2)
+        if self.frame < GAME.fps * 2:
+            self.image.set_alpha(254 - self.frame * 2)
         else:
             self.frame = 0
 
