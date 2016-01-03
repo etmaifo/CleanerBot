@@ -21,8 +21,8 @@ class CountDownOverlay(object):
         if self.blink > GAME.fps:
             self.blink = 0
         seconds = str(remainingSeconds/GAME.fps)
-        if seconds == "0":
-            seconds = "Start!"
+        if seconds == "1":
+            seconds = "GO!"
         self.text = self.font.render(seconds, True, COLOR.white)
         self.text_rect = self.text.get_rect()
         self.text_rect.center = self.overlay.rect.center

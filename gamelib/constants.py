@@ -25,7 +25,7 @@ class SCREEN(object):
 
 class GAME(object):
     fps = 60
-    time = 10 * 1
+    time = 60 * 1
 
 
 class MENU(object):    

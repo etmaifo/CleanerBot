@@ -34,7 +34,7 @@ class GameEngine(object):
         self.game_time = GameText("0", 24, True)
         self.game_time.centerx = SCREEN.width/2
         self.game_time.y = 18
-        self.game_time.color = COLOR.ice_blue
+        self.game_time.color = COLOR.white
         self.game_time.create()
 
         self.p1_score = GameText("0", 24, True)
@@ -189,7 +189,6 @@ class GameEngine(object):
 
             self.p2_score.text = str(self.stage.level.p2_data)
             self.p2_score.update()
-
 
     def draw(self):
         self.screen.fill(COLOR.black)

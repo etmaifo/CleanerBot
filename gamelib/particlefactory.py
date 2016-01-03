@@ -18,10 +18,11 @@ class Particle(PhysicsBody):
         self.vspeed = uniform(-12, -1)
         self.hspeed = randrange(-3, 4, 1)
         self.gravity = 0.5
+        self.multiplier = 2
 
     def update(self):
         self.timeout += 1
-        if self.timeout >= 2 * GAME.fps:
+        if self.timeout >= self.multiplier * GAME.fps:
             self.kill()
         
         self.vspeed += self.gravity
@@ -42,9 +43,9 @@ class Particle(PhysicsBody):
     def animate_fade(self):
         self.frame += 1
         if self.frame < GAME.fps * 2:
-            self.image.set_alpha(254 - self.frame * 2)
+            self.image.set_alpha(254 - self.frame * 4)
         else:
-            self.frame = 0
+            self.image.set_alpha(0)
 
     def detect_collision(self, dx, dy):
         tempRect = pygame.Rect(self.rect)

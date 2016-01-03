@@ -19,6 +19,7 @@ class PhysicsBody(pygame.sprite.Sprite):
         self.speed = 0
         self.grounded = True
         self.friction = 0
+        self.frozen = False
 
         self.collision_group = pygame.sprite.Group()
         self.movingforce_group = pygame.sprite.Group()

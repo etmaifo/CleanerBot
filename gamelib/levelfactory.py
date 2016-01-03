@@ -190,6 +190,16 @@ class Level(object):
             if self.player2.dead:
                 self.spawn_player_debris(self.player2.death_pos[0], self.player2.death_pos[1], ASSET.p2_debris, 20)
                 self.player2.dead = False
+            if self.player1.reconstruct:
+                x_pos = self.player1.respawn_position[0] + self.player1.rect.width/2
+                y_pos = self.player1.respawn_position[1] + self.player1.rect.height/2
+                self.restructure_player(x_pos, y_pos, ASSET.p1_debris, 20, self.player1.particle_group)
+                self.player1.reconstruct = False
+            if self.player2.reconstruct:
+                x_pos = self.player2.respawn_position[0] + self.player2.rect.width/2
+                y_pos = self.player2.respawn_position[1] + self.player2.rect.height/2
+                self.restructure_player(x_pos, y_pos, ASSET.p2_debris, 20, self.player2.particle_group)
+                self.player2.reconstruct = False
 
             for datafragment in self.datafragment_group:
                 if datafragment.captured:
@@ -214,15 +224,37 @@ class Level(object):
             self.particles.add(particle)
 
     def spawn_player_debris(self, x, y, image, number):
+
         for i in xrange(number):
-            size = choice([2, 4, 6, 8])
+            size = choice([2, 4, 6, 8, 10])
+            debris = Particle(x, y, size, size, image)
+            debris.hspeed = choice([-4, -3, -2, 2, 3, 4])
+            debris.vspeed = choice([-4, -3, -2, 2, 3, 4])
+            debris.hspeed *= 2
+            debris.vspeed *= 2
+            debris.gravity = 0
+            debris.fade = True
+            debris.friction = 0.010 * 2
+            self.particles.add(debris)
+
+    def restructure_player(self, x, y, image, number, sprite_group):
+        for i in xrange(number):
+            size = choice([2, 4, 6, 8, 10])
             debris = Particle(x, y, size, size, image)
             debris.hspeed = choice([-4, -3, -2, 2, 3, 4])
             debris.vspeed = choice([-4, -3, -2, 2, 3, 4])
             debris.gravity = 0
-            debris.fade = True
-            debris.friction = 0.010
+            debris.fade = False
+
+            for i in range(GAME.fps/2):
+                debris.fade = False
+                debris.update()
+                debris.timeout = 0
+            debris.hspeed = -debris.hspeed
+            debris.vspeed = -debris.vspeed
+
             self.particles.add(debris)
+            sprite_group.add(debris)
 
     def spawn_bubbles(self, portals, number):
         for portal in portals:        
@@ -296,4 +328,5 @@ class Stage(object):
         for entity in self.level.display_group:
             screen.blit(entity.image, entity.rect)
         for player in self.level.player_group:
-            screen.blit(player.image, player.rect)
+            if not player.frozen:
+                screen.blit(player.image, player.rect)
