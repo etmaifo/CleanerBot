@@ -34,6 +34,7 @@ class Level(object):
         self.bounds_group = pygame.sprite.Group()
         self.portal_group = pygame.sprite.Group()
         self.display_group = pygame.sprite.OrderedUpdates()
+        self.player_group = pygame.sprite.Group()
 
         self.width = SCREEN.width
         self.height = SCREEN.height
@@ -142,19 +143,18 @@ class Level(object):
 
         self.player1.collision_group.add(self.portals_group)
         self.player2.collision_group.add(self.portals_group)
-        self.display_group.add(self.player1)
-        self.display_group.add(self.player1.label)
-        self.display_group.add(self.player1.glow)
-        self.display_group.add(self.player2)
-        self.display_group.add(self.player2.label)
-        self.display_group.add(self.player2.glow)
+        self.player_group.add(self.player1)
+        self.player_group.add(self.player1.label)
+        self.player_group.add(self.player1.glow)
+        self.player_group.add(self.player2)
+        self.player_group.add(self.player2.label)
+        self.player_group.add(self.player2.glow)
 
     def update(self):
         now = pygame.time.get_ticks()/1000.0
         self.elapsed = now - self.timer
         self.spawnTimer += 1
         self.bubbleTimer += 1
-
 
         if self.bubbleTimer >= GAME.fps/3:
             self.spawn_bubbles(self.portals_group, choice([1, 2, 3, 4]))
@@ -186,7 +186,6 @@ class Level(object):
 
             for datafragment in self.datafragment_group:
                 if datafragment.captured:
-                    #self.datafragment_break_sound.play()
                     self.spawn_particles(datafragment.rect.centerx, datafragment.rect.centery, 10)
                     datafragment.kill()
                 elif datafragment.safe:
@@ -198,6 +197,7 @@ class Level(object):
                     datafragment.kill()
 
             self.display_group.update()
+            self.player_group.update()
             self.particles.update()
 
     def spawn_particles(self, x, y, number):
@@ -273,3 +273,9 @@ class Stage(object):
     def load_file(self, filename):
         level = Level(os.path.join("assets", "levels", filename))
         self.levels.append(level)
+
+    def draw(self, screen):
+        for entity in self.level.display_group:
+            screen.blit(entity.image, entity.rect)
+        for player in self.level.player_group:
+            screen.blit(player.image, player.rect)

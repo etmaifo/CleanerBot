@@ -12,7 +12,7 @@ class Saw(PhysicsBody):
         self.changeDirection = False
         self.angle = 0
 
-        self.hspeed = choice([-2, 2])
+        self.hspeed = choice([-3, -2, 2, 3])
         self.index = 0
         self.frame = 0
 

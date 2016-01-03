@@ -25,7 +25,7 @@ class SCREEN(object):
 
 class GAME(object):
     fps = 60
-    time = 5 * 1
+    time = 10 * 1
 
 
 class MENU(object):    
@@ -118,6 +118,7 @@ class ASSET(object):
     player1_glow = load_image("player1_glow.png")
     player2_glow = load_image("player2_glow.png")
     player_hurt = load_image("player_hurt.png")
+    player_hurt_glow = load_image("player_hurt_glow.png")
 
     platform = load_image("platform.png")
 

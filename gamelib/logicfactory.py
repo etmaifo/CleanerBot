@@ -208,8 +208,9 @@ class GameEngine(object):
         elif self.state == STATE.game:
             self.screen.blit(SCREEN.bg, (0, 0))
             self.screen.blit(ASSET.score_bg, (0, 0))
-            for entity in self.stage.level.display_group:
-                self.screen.blit(entity.image, self.camera.apply(entity))
+            self.stage.draw(self.screen)
+            #for entity in self.stage.level.display_group:
+                #self.screen.blit(entity.image, self.camera.apply(entity))
             for particle in self.stage.level.particles:
                 self.screen.blit(particle.image, self.camera.apply(particle))
             self.screen.blit(self.gameTime, self.textRect)

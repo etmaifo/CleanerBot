@@ -17,7 +17,7 @@ class Player(PhysicsBody):
         self.hurt = False
         self.cooldown = 0
         self.show = True
-        self.blink = 0
+        self.blink_timer = 0
         self.label = PhysicsBody(0, 0, 17, 12, PLAYER.p1_label)
         self.glow = PhysicsBody(0, 0, 48, 48, ASSET.player1_glow)
         self.blink = PhysicsBody(0, 0, 32, 32, ASSET.player_hurt)
@@ -29,6 +29,7 @@ class Player(PhysicsBody):
         self.original_glow_image = self.glow.image
         self.original_blink_image = self.blink.image
         self.respawn_position = x, y
+        self.respawn = False
 
         self.controller1 = self.get_controller(1)
         self.controller2 = self.get_controller(2)
@@ -54,8 +55,6 @@ class Player(PhysicsBody):
         return None
 
     def handle_events(self, event):
-        if self.hurt:
-            return
         if self.id == PLAYER.one:
             if event.type == KEYDOWN:
                 if (event.key == K_o or event.key == K_SPACE) and self.grounded:
@@ -99,7 +98,23 @@ class Player(PhysicsBody):
             self.shrink()
 
     def animate_blink(self):
-        pass
+        if self.respawn:
+            self.rect.x = self.respawn_position[0]
+            self.rect.y = self.respawn_position[1]
+            self.respawn = False
+        self.shrink()
+        self.blink_timer += 1
+        if self.blink_timer < GAME.fps/8:
+            self.image = ASSET.player_hurt
+            self.original_glow_image = ASSET.player_hurt_glow
+        elif self.blink_timer < GAME.fps/4:
+            self.image = self.original_image
+            if self.id == PLAYER.one:
+                self.original_glow_image = ASSET.player1_glow
+            else:
+                self.original_glow_image = ASSET.player2_glow
+        else:
+            self.blink_timer = 0
 
     def update_label(self):
         self.label.rect.centerx = self.rect.centerx
@@ -119,46 +134,54 @@ class Player(PhysicsBody):
         self.check_bounds()
         self.check_danger()
         self.grounded = False
-        key = pygame.key.get_pressed()
-        if self.id == PLAYER.one:
-            if not self.hurt:
-                if key[K_a] or (self.controller1 is not None and self.controller1.get_hat(0)[0] == -1):
-                    self.direction = DIRECTION.left
-                    if self.rect.x <= 0: # Avoid disappearing on left side of screen
-                        self.hspeed = 0
-                    else:
-                        self.hspeed = -self.speed
-                elif key[K_d] or (self.controller1 is not None and self.controller1.get_hat(0)[0] == 1):
-                    self.direction = DIRECTION.right
-                    self.hspeed = self.speed
-            if self.controller1 is not None and self.controller1.get_hat(0)[0] == 0:
-                self.hspeed = 0
 
-        elif self.id == PLAYER.two:
-            if not self.hurt:
-                if key[K_LEFT] or (self.controller2 is not None and self.controller2.get_hat(0)[0] == -1):
-                    self.direction = DIRECTION.left
-                    if self.rect.x <= 0: # Avoid disappearing on left side of screen
-                        self.hspeed = 0
-                    else:
-                        self.hspeed = -self.speed
-                elif key[K_RIGHT] or (self.controller2 is not None and self.controller2.get_hat(0)[0] == 1):
-                    self.direction = DIRECTION.right
-                    self.hspeed = self.speed
-            if self.controller2 is not None and self.controller2.get_hat(0)[0] == 0:
-                self.hspeed = 0
+        self.get_movement()
 
         self.vspeed += self.gravity
         self.move(self.hspeed, self.vspeed)
         self.detect_data()
         self.update_label()
         self.update_effects()
+
         if self.hurt:
             self.animate_blink()
             self.cooldown += 1
             if self.cooldown > 3 * GAME.fps:
                 self.cooldown = 0
                 self.hurt = False
+            elif self.cooldown == 1:
+                self.respawn = True
+        else:
+            self.reset_images()
+
+    def get_movement(self):
+        key = pygame.key.get_pressed()
+
+        if self.id == PLAYER.one:
+            if key[K_a] or (self.controller1 is not None and self.controller1.get_hat(0)[0] == -1):
+                self.direction = DIRECTION.left
+                if self.rect.x <= 0:
+                    self.hspeed = 0
+                else:
+                    self.hspeed = -self.speed
+            elif key[K_d] or (self.controller1 is not None and self.controller1.get_hat(0)[0] == 1):
+                self.direction = DIRECTION.right
+                self.hspeed = self.speed
+            if self.controller1 is not None and self.controller1.get_hat(0)[0] == 0:
+                self.hspeed = 0
+
+        elif self.id == PLAYER.two:
+            if key[K_LEFT] or (self.controller2 is not None and self.controller2.get_hat(0)[0] == -1):
+                self.direction = DIRECTION.left
+                if self.rect.x <= 0: # Avoid disappearing on left side of screen
+                    self.hspeed = 0
+                else:
+                    self.hspeed = -self.speed
+            elif key[K_RIGHT] or (self.controller2 is not None and self.controller2.get_hat(0)[0] == 1):
+                self.direction = DIRECTION.right
+                self.hspeed = self.speed
+            if self.controller2 is not None and self.controller2.get_hat(0)[0] == 0:
+                self.hspeed = 0
 
     def detect_data(self):
         for sprite in self.movingforce_group:
@@ -205,4 +228,10 @@ class Player(PhysicsBody):
         self.glow.image = pygame.transform.smoothscale(self.original_glow_image, (48, 48))
         self.glow.rect = self.glow.image.get_rect()
         self.glow.rect.center = self.rect.center
+
+    def reset_images(self):
+        if self.id == PLAYER.one:
+            self.original_glow_image = ASSET.player1_glow
+        else:
+            self.original_glow_image = ASSET.player2_glow
 
