@@ -102,7 +102,7 @@ class Bubble(Particle):
 
     def animate(self):
         self.frame += 1
-        alpha = 240 - self.frame * 8
+        alpha = 255 - self.frame * 7
         if alpha < 0:
             alpha = 0
         if self.frame < 60:

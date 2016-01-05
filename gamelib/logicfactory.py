@@ -32,18 +32,21 @@ class GameEngine(object):
         self.music_on = False
 
         self.game_time = GameText("0", 24, True)
+        self.game_time.font_file = FONT.kenpixel
         self.game_time.centerx = SCREEN.width/2
         self.game_time.y = 18
         self.game_time.color = COLOR.white
         self.game_time.create()
 
         self.p1_score = GameText("0", 24, True)
+        self.p1_score.font_file = FONT.kenpixel
         self.p1_score.left = 30
         self.p1_score.y = 18
         self.p1_score.color = COLOR.blue_sea
         self.p1_score.create()
 
         self.p2_score = GameText("0", 24, True)
+        self.p2_score.font_file = FONT.kenpixel
         self.p2_score.right = SCREEN.width - 30
         self.p2_score.y = 18
         self.p2_score.color = COLOR.petal_green

@@ -15,11 +15,11 @@ class Player(PhysicsBody):
         self.shoot_data = False
         self.direction = DIRECTION.left
         self.id = id
-        self.invulnerable = False
+        #self.invulnerable = False
         self.hurt = False
         self.dead = False
         self.cooldown = 0
-        self.show = True
+        #self.show = True
         self.frozen = False
         self.respawn = False
         self.reconstruct = False
@@ -91,10 +91,42 @@ class Player(PhysicsBody):
             self.get_movement()
             self.vspeed += self.gravity
             self.move(self.hspeed, self.vspeed)
+        else:
+            self.hspeed = 0
+            self.vspeed = 0
 
         self.detect_data()
         self.update_label()
         self.update_effects()
+
+    def get_movement(self):
+        key = pygame.key.get_pressed()
+
+        if self.id == PLAYER.one:
+            if key[K_a] or (self.controller1 is not None and self.controller1.get_hat(0)[0] == -1):
+                self.direction = DIRECTION.left
+                if self.rect.x <= 0:
+                    self.hspeed = 0
+                else:
+                    self.hspeed = -self.speed
+            elif key[K_d] or (self.controller1 is not None and self.controller1.get_hat(0)[0] == 1):
+                self.direction = DIRECTION.right
+                self.hspeed = self.speed
+            else:
+                self.hspeed = 0
+
+        elif self.id == PLAYER.two:
+            if key[K_LEFT] or (self.controller2 is not None and self.controller2.get_hat(0)[0] == -1):
+                self.direction = DIRECTION.left
+                if self.rect.x <= 0:
+                    self.hspeed = 0
+                else:
+                    self.hspeed = -self.speed
+            elif key[K_RIGHT] or (self.controller2 is not None and self.controller2.get_hat(0)[0] == 1):
+                self.direction = DIRECTION.right
+                self.hspeed = self.speed
+            else:
+                self.hspeed = 0
 
     def get_controller(self, player):
         number_of_joysticks = pygame.joystick.get_count()
@@ -158,7 +190,7 @@ class Player(PhysicsBody):
                 self.frozen = False
                 self.label.frozen = False
                 self.glow.frozen = False
-            if self.cooldown > 4 * GAME.fps:
+            if self.cooldown > 3 * GAME.fps:
                 self.cooldown = 0
                 self.hurt = False
             elif self.cooldown == 1:
@@ -175,35 +207,6 @@ class Player(PhysicsBody):
             self.label = PhysicsBody(0, 0, 17, 12, PLAYER.p2_label)
         self.glow.rect.center = self.rect.center
 
-    def get_movement(self):
-        key = pygame.key.get_pressed()
-
-        if self.id == PLAYER.one:
-            if key[K_a] or (self.controller1 is not None and self.controller1.get_hat(0)[0] == -1):
-                self.direction = DIRECTION.left
-                if self.rect.x <= 0:
-                    self.hspeed = 0
-                else:
-                    self.hspeed = -self.speed
-            elif key[K_d] or (self.controller1 is not None and self.controller1.get_hat(0)[0] == 1):
-                self.direction = DIRECTION.right
-                self.hspeed = self.speed
-            if self.controller1 is not None and self.controller1.get_hat(0)[0] == 0:
-                self.hspeed = 0
-
-        elif self.id == PLAYER.two:
-            if key[K_LEFT] or (self.controller2 is not None and self.controller2.get_hat(0)[0] == -1):
-                self.direction = DIRECTION.left
-                if self.rect.x <= 0: # Avoid disappearing on left side of screen
-                    self.hspeed = 0
-                else:
-                    self.hspeed = -self.speed
-            elif key[K_RIGHT] or (self.controller2 is not None and self.controller2.get_hat(0)[0] == 1):
-                self.direction = DIRECTION.right
-                self.hspeed = self.speed
-            if self.controller2 is not None and self.controller2.get_hat(0)[0] == 0:
-                self.hspeed = 0
-
     def detect_data(self):
         for sprite in self.movingforce_group:
             if self.rect.colliderect(sprite.rect) and not self.has_data and not self.frozen:
@@ -217,6 +220,8 @@ class Player(PhysicsBody):
                     particle.kill()
                 self.particle_group.empty()
                 self.frozen = False
+                self.label.frozen = False
+                self.glow.frozen = False
                 return
 
     def check_danger(self):

@@ -74,7 +74,7 @@ class COLOR(object):
 class FONT(object):
     default = os.path.join("assets", "fonts", "tinyfont.ttf")
     hoog0553 = os.path.join("assets", "fonts", "hoog0553.ttf")
-    square = os.path.join("assets", "fonts", "square.ttf")
+    kenpixel = os.path.join("assets", "fonts", "kenpixel_mini_square.ttf")
 
 
 class TITLE(object):
@@ -132,6 +132,8 @@ class ASSET(object):
     ioInImage = load_image("io_in.png")
     portal = load_image("portal.png")
     portal_base = load_image("portal_base.png")
+    p1_portal = load_image("blue_portal.png")
+    p2_portal = load_image("green_portal.png")
 
     saw1 = load_image("saw_spin1.png")
     saw2 = load_image("saw_spin2.png")

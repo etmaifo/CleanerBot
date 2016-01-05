@@ -112,7 +112,10 @@ class Level(object):
 
         for port in self.portals:
             portal_base = PhysicsBody(port.x, port.y, port.width, port.height, ASSET.portal_base, "left")
-            portal = PhysicsBody(0, 0, 60, 55, ASSET.portal, "left")
+            if portal_base.rect.centerx < SCREEN.width/2:
+                portal = PhysicsBody(0, 0, 60, 55, ASSET.p1_portal, "left")
+            else:
+                portal = PhysicsBody(0, 0, 60, 55, ASSET.p2_portal, "left")
             portal.rect.centerx = portal_base.rect.centerx
             portal.rect.bottom = portal_base.rect.top
             self.portals_group.add(portal_base)
@@ -159,7 +162,7 @@ class Level(object):
         if self.bubbleTimer >= GAME.fps/3:
             self.spawn_bubbles(self.portals_group, choice([1, 2, 3, 4]))
             self.bubbleTimer = 0
-        if self.spawnTimer >= 1.5 * GAME.fps:
+        if self.spawnTimer >= 1 * GAME.fps:
             self.spawn_data()            
             self.spawnTimer = 0
         if self.intro:
@@ -222,6 +225,7 @@ class Level(object):
             size = choice([2, 4, 6, 8, 10])
             particle = Particle(x, y, size, size, PARTICLE.image)
             self.particles.add(particle)
+            particle.collision_group = self.player1.collision_group.copy()
 
     def spawn_player_debris(self, x, y, image, number):
 
@@ -230,14 +234,14 @@ class Level(object):
             debris = Particle(x, y, size, size, image)
             debris.hspeed = choice([-5, -4, -3, -2, 2, 3, 4, 5])
             debris.vspeed = choice([-5, -4, -3, -2, 2, 3, 4, 5])
-            debris.hspeed *= 2
-            debris.vspeed *= 2
+            debris.hspeed *= 1.5
+            debris.vspeed *= 1.5
             debris.gravity = 0
             debris.fade = True
             debris.friction = 0.010 * 2
             self.particles.add(debris)
 
-    def restructure_player(self, x, y, image, number, sprite_group, timeout_multiplier):
+    def restructure_player(self, x, y, image, number, sprite_group, kill_time):
         for i in xrange(number):
             size = choice([2, 4, 6, 8, 10])
             debris = Particle(x, y, size, size, image)
@@ -250,7 +254,7 @@ class Level(object):
                 debris.fade = False
                 debris.update()
                 debris.timeout = 0
-            debris.multiplier = timeout_multiplier
+            debris.multiplier = kill_time
             debris.hspeed = -debris.hspeed
             debris.vspeed = -debris.vspeed
 
@@ -258,16 +262,22 @@ class Level(object):
             sprite_group.add(debris)
 
     def spawn_bubbles(self, portals, number):
-        for portal in portals:        
+        for portal in portals:
+            if portal.rect.centerx < SCREEN.width/2:
+                image = ASSET.p1_debris
+            else:
+                image = ASSET.p2_debris
             for i in xrange(number):
-                size = choice([2, 3, 4, 4, 6])
-                particle = Bubble(portal.rect.x, portal.rect.top, size, size, ASSET.bubble)
+                size = choice([3, 4, 4, 6, 8])
+                particle = Bubble(portal.rect.x, portal.rect.top, size, size, image)
                 particle.portal_group.add(portals)
                 self.bubbles.add(particle)
             self.display_group.add(self.bubbles)
 
     def spawn_data(self):
         speed = 0
+        x = 0
+        y = 0
         for spawner in self.dataspawner_group:
             x = spawner.rect.x + spawner.rect.width/2
             y = spawner.rect.y + spawner.rect.height

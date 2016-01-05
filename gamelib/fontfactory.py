@@ -8,7 +8,7 @@ class GameText(object):
         self.text = text
         self.size = size
         self.isBold = isBold
-        self.fontFile = FONT.default
+        self.font_file = FONT.default
         self.color = COLOR.white
         self.rect = pygame.Rect(0, 0, 0, 0)
         self.x = None
@@ -23,7 +23,7 @@ class GameText(object):
         self.font = None
         
     def create(self):
-        self.font = pygame.font.Font(self.fontFile, self.size)
+        self.font = pygame.font.Font(self.font_file, self.size)
         self.render = self.font.render(self.text, self.isBold, self.color)
         self.rect = self.render.get_rect()
         
