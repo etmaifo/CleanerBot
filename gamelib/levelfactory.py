@@ -193,12 +193,12 @@ class Level(object):
             if self.player1.reconstruct:
                 x_pos = self.player1.respawn_position[0] + self.player1.rect.width/2
                 y_pos = self.player1.respawn_position[1] + self.player1.rect.height/2
-                self.restructure_player(x_pos, y_pos, ASSET.p1_debris, 20, self.player1.particle_group)
+                self.restructure_player(x_pos, y_pos, ASSET.p1_debris, 20, self.player1.particle_group, self.player2.reconstruction_timer)
                 self.player1.reconstruct = False
             if self.player2.reconstruct:
                 x_pos = self.player2.respawn_position[0] + self.player2.rect.width/2
                 y_pos = self.player2.respawn_position[1] + self.player2.rect.height/2
-                self.restructure_player(x_pos, y_pos, ASSET.p2_debris, 20, self.player2.particle_group)
+                self.restructure_player(x_pos, y_pos, ASSET.p2_debris, 20, self.player2.particle_group, self.player2.reconstruction_timer)
                 self.player2.reconstruct = False
 
             for datafragment in self.datafragment_group:
@@ -228,8 +228,8 @@ class Level(object):
         for i in xrange(number):
             size = choice([2, 4, 6, 8, 10])
             debris = Particle(x, y, size, size, image)
-            debris.hspeed = choice([-4, -3, -2, 2, 3, 4])
-            debris.vspeed = choice([-4, -3, -2, 2, 3, 4])
+            debris.hspeed = choice([-5, -4, -3, -2, 2, 3, 4, 5])
+            debris.vspeed = choice([-5, -4, -3, -2, 2, 3, 4, 5])
             debris.hspeed *= 2
             debris.vspeed *= 2
             debris.gravity = 0
@@ -237,7 +237,7 @@ class Level(object):
             debris.friction = 0.010 * 2
             self.particles.add(debris)
 
-    def restructure_player(self, x, y, image, number, sprite_group):
+    def restructure_player(self, x, y, image, number, sprite_group, timeout_multiplier):
         for i in xrange(number):
             size = choice([2, 4, 6, 8, 10])
             debris = Particle(x, y, size, size, image)
@@ -250,6 +250,7 @@ class Level(object):
                 debris.fade = False
                 debris.update()
                 debris.timeout = 0
+            debris.multiplier = timeout_multiplier
             debris.hspeed = -debris.hspeed
             debris.vspeed = -debris.vspeed
 

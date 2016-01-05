@@ -21,6 +21,9 @@ class Player(PhysicsBody):
         self.cooldown = 0
         self.show = True
         self.frozen = False
+        self.respawn = False
+        self.reconstruct = False
+        self.reconstruction_timer = 2.5
         self.blink_timer = 0
         self.label = PhysicsBody(0, 0, 17, 12, PLAYER.p1_label)
         self.glow = PhysicsBody(0, 0, 48, 48, ASSET.player1_glow)
@@ -34,8 +37,6 @@ class Player(PhysicsBody):
         self.original_glow_image = self.glow.image
         self.original_blink_image = self.blink.image
         self.respawn_position = x, y
-        self.respawn = False
-        self.reconstruct = False
         self.death_pos = self.rect.centerx, self.rect.centery
 
         self.controller1 = self.get_controller(1)
@@ -80,7 +81,6 @@ class Player(PhysicsBody):
                             self.shoot_data = True
 
     def update(self):
-        #self.particle_group.update()
         self.detect_reconstruction()
         self.animate_size()
         self.check_bounds()
@@ -213,7 +213,11 @@ class Player(PhysicsBody):
     def detect_reconstruction(self):
         for sprite in self.particle_group:
             if self.rect.colliderect(sprite.rect):
-                sprite.kill()
+                for particle in self.particle_group:
+                    particle.kill()
+                self.particle_group.empty()
+                self.frozen = False
+                return
 
     def check_danger(self):
         for sprite in self.danger_group:
