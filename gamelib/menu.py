@@ -64,7 +64,6 @@ class Menu(object):
                     self.state = STATE.game
                 elif self.button_pos == 1:
                     self.state = STATE.controls
-                    print "Showing controls"
                 elif self.button_pos == 2:
                     pygame.quit()
                     sys.exit()

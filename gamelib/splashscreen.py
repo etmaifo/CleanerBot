@@ -19,7 +19,7 @@ class SplashScreen(object):
     def update(self):
         self.animate()
         self.timer += 1
-        if self.timer >= GAME.fps * 5:
+        if self.timer >= GAME.fps * 4:
             self.timeout = True
 
         if self.timeout:

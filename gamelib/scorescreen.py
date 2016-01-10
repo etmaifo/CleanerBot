@@ -1,13 +1,15 @@
-
 import pygame
 import shelve
+import os
 from pygame.locals import *
 from constants import COLOR, MENU, SCREEN, STATE, RESULT, FILES, GAME
 from fontfactory import GameText
+import pygame.mixer as mixer
 
 
 class ScoreScreen(object):
     def __init__(self):
+        mixer.init()
         self.timer = 0
 
         self.title = GameText("Scoreboard", 94)
@@ -86,6 +88,9 @@ class ScoreScreen(object):
 
         self.controller = self.get_controller()
 
+        self.select_sound = mixer.Sound(os.path.join("assets", "sfx", "select.wav"))
+        self.select_sound.set_volume(0.5)
+
     def get_controller(self):
         number_of_joysticks = pygame.joystick.get_count()
         if number_of_joysticks > 0:
@@ -100,10 +105,12 @@ class ScoreScreen(object):
         if event.type == KEYDOWN:
             if event.key == K_e or event.key == K_RETURN:
                 self.state = STATE.nextlevel
+                self.select_sound.play()
 
         elif event.type == JOYBUTTONDOWN:
             if self.controller.get_button(0):
                 self.state = STATE.nextlevel
+                self.select_sound.play()
 
     def update(self, stage, player, hi_score):
 

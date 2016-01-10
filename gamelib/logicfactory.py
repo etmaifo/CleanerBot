@@ -35,22 +35,23 @@ class GameEngine(object):
         self.game_music = False
 
         self.game_time = GameText("0", 24, True)
-        self.game_time.font_file = FONT.kenpixel
+        self.game_time.font_file = FONT.default
         self.game_time.centerx = SCREEN.width/2
         self.game_time.y = 18
         self.game_time.color = COLOR.white
         self.game_time.create()
-        self.flash_timer = False
+        self.timer_red = False
+        self.flash_timer = 0
 
         self.p1_score = GameText("0", 24, True)
-        self.p1_score.font_file = FONT.kenpixel
+        self.p1_score.font_file = FONT.default
         self.p1_score.left = 30
         self.p1_score.y = 18
         self.p1_score.color = COLOR.blue_sea
         self.p1_score.create()
 
         self.p2_score = GameText("0", 24, True)
-        self.p2_score.font_file = FONT.kenpixel
+        self.p2_score.font_file = FONT.default
         self.p2_score.right = SCREEN.width - 30
         self.p2_score.y = 18
         self.p2_score.color = COLOR.petal_green
@@ -194,8 +195,8 @@ class GameEngine(object):
 
             display_time = self.format_timer(self.timer)
             self.game_time.text = display_time
-            if self.flash_timer:
-                self.game_time.color = COLOR.red
+            if self.timer_red:
+                self.animate_flash()
             else:
                 self.game_time.color = COLOR.white
             self.game_time.update()
@@ -262,15 +263,24 @@ class GameEngine(object):
         return pygame.Rect(x, y, w, h)
 
     def format_timer(self, timer):
-        self.flash_timer = False
+        self.timer_red = False
         minutes = timer/60
         seconds = timer % 60
         if minutes == 0 and seconds < 10:
-            self.flash_timer = True
+            self.timer_red = True
         if seconds < 10:
             seconds = "0" + str(seconds)
         return str(minutes)+":"+str(seconds)
 
     def makeVideo(self):
         pygame.image.save(self.screen, os.path.join("screenshots", "screenshot%d.jpg" %self.screen_number))
-        self.screen_number += 1        
+        self.screen_number += 1
+
+    def animate_flash(self):
+        self.flash_timer += 1
+        if self.flash_timer < GAME.fps/4:
+            self.game_time.color = COLOR.white
+        elif self.flash_timer < GAME.fps/2:
+            self.game_time.color = COLOR.red
+        else:
+            self.flash_timer = 0
