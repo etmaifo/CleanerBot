@@ -10,3 +10,10 @@ class Music(object):
 
     def play(self):
         pygame.mixer.music.play(-1)
+
+    def stop(self):
+        pygame.mixer.music.stop()
+
+    def fadeout(self, timeout):
+        pygame.mixer.music.fadeout(timeout)
+

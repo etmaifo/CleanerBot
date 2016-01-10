@@ -1,5 +1,6 @@
-import pygame
-from constants import WORLD, DIRECTION, SCREEN
+import pygame, os
+import pygame.mixer as mixer
+from constants import WORLD, DIRECTION, SCREEN, POSITION
 
 
 class PhysicsBody(pygame.sprite.Sprite):
@@ -63,7 +64,6 @@ class PhysicsBody(pygame.sprite.Sprite):
         tempRect = pygame.Rect(self.rect)
         tempRect.x += dx
         tempRect.y += dy
-        #self.grounded = False
 
         for sprite in self.collision_group:
             if tempRect.colliderect(sprite.rect):
@@ -86,3 +86,13 @@ class PhysicsBody(pygame.sprite.Sprite):
                 return
 
         self.rect = pygame.Rect(tempRect)
+
+    def get_paint_side(self, side):
+        if side == POSITION.left:
+            self.paint_pos = self.rect.left
+        elif side == POSITION.right:
+            self.paint_pos = self.rect.right
+        elif side == POSITION.top:
+            self.paint_pos = self.rect.top
+        elif side == POSITION.bottom:
+            self.paint_pos = self.rect.bottom

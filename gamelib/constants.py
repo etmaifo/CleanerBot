@@ -46,6 +46,7 @@ class STATE(object):
     splashscreen = "splashscreen"
     scorescreen = "scorescreen"
     logo = "logo"
+    controls = "controls"
 
 
 class COLOR(object):
@@ -67,6 +68,7 @@ class COLOR(object):
     deep_yellow = (251, 200, 0)
     petal_green = (128, 190, 31)
     ice_blue = (153, 255, 255)
+    red = (192, 0, 0)
 
     colors = [ice_blue]
 
@@ -106,7 +108,6 @@ class DIRECTION(object):
 class PARTICLE(object):
     width = 8
     height = 8
-    image = load_image("datafragment.png")
 
 
 class ASSET(object):
@@ -121,13 +122,11 @@ class ASSET(object):
     player_hurt_glow = load_image("player_hurt_glow.png")
     p1_debris = load_image("p1_debris.png")
     p2_debris = load_image("p2_debris.png")
-
+    particle = load_image("datafragment.png")
     platform = load_image("platform.png")
-
     dataFragment = load_image("datafragment.png")
-
     bubble = load_image("light_particle.png")
-
+    paint = load_image("paint.png")
     blockImage = load_image("block.png")
     ioInImage = load_image("io_in.png")
     portal = load_image("portal.png")
@@ -143,6 +142,7 @@ class ASSET(object):
     title = load_image("title.png")
     score_bg = load_image("score_bg.png")
     score_bg = pygame.transform.smoothscale(score_bg, (SCREEN.width, 54))
+    controls = load_image("controls.png")
 
     countdown_overlay = load_image("countdown_bg.png")
 
@@ -174,3 +174,10 @@ class RESULT(object):
     win = "WINNER"
     lose = "LOSER"
     draw = "DRAW"
+
+
+class POSITION(object):
+    left = "left"
+    right = "right"
+    top = "top"
+    bottom = "bottom"

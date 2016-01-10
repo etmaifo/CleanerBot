@@ -32,10 +32,10 @@ class Menu(object):
 
         self.assemble()
 
-        self.nav_sound = mixer.Sound(os.path.join("assets", "sfx", "flashlight off.wav"))
+        self.nav_sound = mixer.Sound(os.path.join("assets", "sfx", "nav.wav"))
         self.nav_sound.set_volume(0.5)
-        self.select_sound = mixer.Sound(os.path.join("assets", "sfx", "comical pop and swirl.wav"))
-        self.select_sound.set_volume(0.1)
+        self.select_sound = mixer.Sound(os.path.join("assets", "sfx", "select.wav"))
+        self.select_sound.set_volume(0.5)
 
         self.controller = self.get_controller()
 
@@ -49,7 +49,6 @@ class Menu(object):
 
     def handle_events(self, event):
         self.state = STATE.menu
-
         if event.type == KEYDOWN:
             if (event.key == K_s) and self.button_pos < 2:
                 self.button.rect.y += self.button.rect.height
@@ -63,6 +62,9 @@ class Menu(object):
                 self.select_sound.play()
                 if self.button_pos == 0:
                     self.state = STATE.game
+                elif self.button_pos == 1:
+                    self.state = STATE.controls
+                    print "Showing controls"
                 elif self.button_pos == 2:
                     pygame.quit()
                     sys.exit()
@@ -82,6 +84,8 @@ class Menu(object):
                 self.select_sound.play()
                 if self.button_pos == 0:
                     self.state = STATE.game
+                elif self.button_pos == 1:
+                    self.state = STATE.controls
                 elif self.button_pos == 2:
                     pygame.quit()
                     sys.exit()
@@ -104,16 +108,16 @@ class Menu(object):
 
     def update(self):
         self.animate_overlay()
-        self.text_play = self.font.render("Play", True, COLOR.half_black)
-        self.text_controls = self.font.render("Controls", True, COLOR.half_black)
-        self.text_exit = self.font.render("Exit", True, COLOR.half_black)
+        self.text_play = self.font.render("Play", True, COLOR.gray7)
+        self.text_controls = self.font.render("Controls", True, COLOR.gray7)
+        self.text_exit = self.font.render("Exit", True, COLOR.gray7)
 
         if self.play_rect.colliderect(self.button.rect):
-            self.text_play = self.font.render("Play", True, COLOR.petal_green)
+            self.text_play = self.font.render("Play", True, COLOR.half_black)
         elif self.controls_rect.colliderect(self.button.rect):
-            self.text_controls = self.font.render("Controls", True, COLOR.petal_green)
+            self.text_controls = self.font.render("Controls", True, COLOR.half_black)
         elif self.exit_rect.colliderect(self.button.rect):
-            self.text_exit = self.font.render("Exit", True, COLOR.petal_green)
+            self.text_exit = self.font.render("Exit", True, COLOR.half_black)
 
     def draw(self, screen):
         screen.blit(self.bg, (0, 0))

@@ -1,6 +1,7 @@
 from physicsbody import PhysicsBody
 from constants import GAME, COLOR
-import pygame
+import pygame, os
+import pygame.mixer as mixer
 
 class DataFragment(PhysicsBody):
     def __init__(self, x, y, width, height, image):
@@ -15,6 +16,11 @@ class DataFragment(PhysicsBody):
         self.id = 0
         self.killer_group = pygame.sprite.Group()
         self.storage_group = pygame.sprite.Group()
+
+        self.dead_sound = mixer.Sound(os.path.join("assets", "sfx", "data_explode.wav"))
+        self.point_sound = mixer.Sound(os.path.join("assets", "sfx", "data_clean.wav"))
+        self.dead_sound.set_volume(0.6)
+        self.point_sound.set_volume(0.3)
 
     def update(self):
         self.check_bounds()
@@ -56,12 +62,14 @@ class DataFragment(PhysicsBody):
         for sprite in self.killer_group:
             if tempRect.colliderect(sprite.rect):
                 self.captured = True
+                self.dead_sound.play()
                 return
 
         for sprite in self.storage_group:
             if tempRect.colliderect(sprite.rect):
                 self.playerId = sprite.playerId
                 self.safe = True
+                self.point_sound.play()
 
         for sprite in self.collision_group:
             if tempRect.colliderect(sprite.rect):

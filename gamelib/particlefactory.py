@@ -1,6 +1,6 @@
 from random import randrange, choice, uniform
 from physicsbody import PhysicsBody
-from constants import GAME
+from constants import GAME, POSITION
 import pygame
 
 class Particle(PhysicsBody):
@@ -19,11 +19,15 @@ class Particle(PhysicsBody):
         self.hspeed = randrange(-3, 4, 1)
         self.gravity = 0.5
         self.multiplier = 2
+        self.splash = False
+
+        self.splash_group = pygame.sprite.Group()
 
     def update(self):
         self.timeout += 1
         if self.timeout >= self.multiplier * GAME.fps:
-            self.kill()
+            if not self.splash:
+                self.kill()
         
         self.vspeed += self.gravity
 
@@ -51,6 +55,20 @@ class Particle(PhysicsBody):
         tempRect = pygame.Rect(self.rect)
         tempRect.x += dx
         tempRect.y += dy
+
+        if self.splash:
+            for sprite in self.splash_group:
+                if tempRect.colliderect(sprite.rect):
+                    if dx > 0:
+                        sprite.get_paint_side(POSITION.left)
+                    elif dx < 0:
+                        sprite.get_paint_side(POSITION.right)
+
+                    if dy > 0:
+                        sprite.get_paint_side(POSITION.bottom)
+                    elif dy < 0:
+                        sprite.get_paint_side(POSITION.top)
+                    return
 
         for sprite in self.collision_group:
             if tempRect.colliderect(sprite.rect):

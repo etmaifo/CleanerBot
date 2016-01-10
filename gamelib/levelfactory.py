@@ -223,9 +223,14 @@ class Level(object):
     def spawn_particles(self, x, y, number):
         for i in xrange(number):
             size = choice([2, 4, 6, 8, 10])
-            particle = Particle(x, y, size, size, PARTICLE.image)
+            particle = Particle(x, y, size, size, ASSET.particle)
+            particle.image = particle.image.convert()
+            particle.multiplier = 3
+            particle.frame = -64
+            particle.fade = False
             self.particles.add(particle)
-            particle.collision_group = self.player1.collision_group.copy()
+            #particle.collision_group = self.player1.collision_group.copy()
+            particle.splash_group = self.player1.collision_group.copy()
 
     def spawn_player_debris(self, x, y, image, number):
 

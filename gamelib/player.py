@@ -1,12 +1,12 @@
-import pygame
+import pygame, os
 from pygame.locals import *
 from physicsbody import PhysicsBody
 from constants import DIRECTION, PLAYER, ASSET, GAME
-from particlefactory import Particle
-from random import choice
+import pygame.mixer as mixer
 
 class Player(PhysicsBody):
     def __init__(self, x, y , width, height, animationFrames, id):
+        mixer.init()
         image = animationFrames
         PhysicsBody.__init__(self, x, y, width, height, image)
         self.jumpHeight = PLAYER.jump
@@ -15,11 +15,9 @@ class Player(PhysicsBody):
         self.shoot_data = False
         self.direction = DIRECTION.left
         self.id = id
-        #self.invulnerable = False
         self.hurt = False
         self.dead = False
         self.cooldown = 0
-        #self.show = True
         self.frozen = False
         self.respawn = False
         self.reconstruct = False
@@ -42,41 +40,44 @@ class Player(PhysicsBody):
         self.controller1 = self.get_controller(1)
         self.controller2 = self.get_controller(2)
 
+        self.dead_sound = mixer.Sound(os.path.join("assets", "sfx", "dead.wav"))
+        self.dead_sound.set_volume(0.7)
+
     def handle_events(self, event):
         if not self.frozen:
             if self.id == PLAYER.one:
                 if event.type == KEYDOWN:
-                    if (event.key == K_o or event.key == K_SPACE) and self.grounded:
+                    if event.key == K_y and self.grounded:
                         self.vspeed = self.jumpHeight
                 if event.type == KEYUP:
                     if event.key == K_a or event.key == K_d:
                         self.hspeed = 0
-                    if event.key == K_i:
+                    if event.key == K_g:
                         if self.has_data:
                             self.shoot_data = True
 
                 if event.type == JOYBUTTONDOWN:
-                    if (self.controller1.get_button(1) == 1) and self.grounded:
+                    if (self.controller1.get_button(2) == 1) and self.grounded:
                         self.vspeed = self.jumpHeight
-                    if self.controller1.get_button(2) == 1:
+                    if self.controller1.get_button(3) == 1:
                         if self.has_data:
                             self.shoot_data = True
 
             if self.id == PLAYER.two:
                 if event.type == KEYDOWN:
-                    if event.key == K_UP and self.grounded:
+                    if event.key == K_RSHIFT and self.grounded:
                         self.vspeed = self.jumpHeight
                 if event.type == KEYUP:
                     if event.key == K_LEFT or event.key == K_RIGHT:
                         self.hspeed = 0
-                    if event.key == K_m:
+                    if event.key == K_RCTRL:
                         if self.has_data:
                             self.shoot_data = True
 
                 if event.type == JOYBUTTONDOWN and self.controller2 is not None:
-                    if (self.controller2.get_button(1) == 1) and self.grounded:
+                    if (self.controller2.get_button(2) == 1) and self.grounded:
                         self.vspeed = self.jumpHeight
-                    if self.controller2.get_button(2) == 1:
+                    if self.controller2.get_button(3) == 1:
                         if self.has_data:
                             self.shoot_data = True
 
@@ -103,13 +104,13 @@ class Player(PhysicsBody):
         key = pygame.key.get_pressed()
 
         if self.id == PLAYER.one:
-            if key[K_a] or (self.controller1 is not None and self.controller1.get_hat(0)[0] == -1):
+            if key[K_a] or (self.controller1 is not None and (self.controller1.get_hat(0)[0] == -1)):
                 self.direction = DIRECTION.left
                 if self.rect.x <= 0:
                     self.hspeed = 0
                 else:
                     self.hspeed = -self.speed
-            elif key[K_d] or (self.controller1 is not None and self.controller1.get_hat(0)[0] == 1):
+            elif key[K_d] or (self.controller1 is not None and (self.controller1.get_hat(0)[0] == 1)):
                 self.direction = DIRECTION.right
                 self.hspeed = self.speed
             else:
@@ -198,6 +199,7 @@ class Player(PhysicsBody):
                 self.frozen = True
                 self.label.frozen = True
                 self.glow.frozen = True
+                self.dead_sound.play()
         else:
             self.reset_images()
         

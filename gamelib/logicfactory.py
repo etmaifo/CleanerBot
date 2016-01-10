@@ -13,6 +13,8 @@ from vfx import ScanLines
 from constants import SCREEN, COLOR, STATE, GAME, ASSET, SPLASHSCREEN, LOGO, FONT
 from soundfactory import Music
 from fontfactory import GameText
+from controlscreen import Controls
+
 
 class GameEngine(object):
     def __init__(self):
@@ -28,8 +30,9 @@ class GameEngine(object):
         self.ticks = 0
         self.firstrun = True
 
-        self.menu_music = Music("MainMenu.ogg", 0.3, -1)
-        self.music_on = False
+        self.music = Music("mainmenu.ogg", 0.5, -1)
+        self.menu_music = False
+        self.game_music = False
 
         self.game_time = GameText("0", 24, True)
         self.game_time.font_file = FONT.kenpixel
@@ -37,6 +40,7 @@ class GameEngine(object):
         self.game_time.y = 18
         self.game_time.color = COLOR.white
         self.game_time.create()
+        self.flash_timer = False
 
         self.p1_score = GameText("0", 24, True)
         self.p1_score.font_file = FONT.kenpixel
@@ -70,6 +74,7 @@ class GameEngine(object):
         self.screen_color = (choice(COLOR.colors))
         self.menu = Menu(SCREEN.width, SCREEN.height, self.screen_color)
         self.score_screen = ScoreScreen()
+        self.controls_screen = Controls()
 
         self.screen_number = 1
         self.capture_video = False
@@ -92,6 +97,7 @@ class GameEngine(object):
             self.stage_number = 1
             self.state = STATE.menu
             self.score_screen = ScoreScreen()
+            self.controls_screen = Controls()
             self.firstrun = True
         else:
             self.firstrun = False
@@ -130,6 +136,9 @@ class GameEngine(object):
             elif self.state == STATE.menu:
                 self.menu.handle_events(event)
                 self.state = self.menu.state
+            elif self.state == STATE.controls:
+                self.controls_screen.handle_events(event)
+                self.state = self.controls_screen.state
             elif self.state == STATE.scorescreen:
                 self.score_screen.handle_events(event)
                 self.state = self.score_screen.state
@@ -153,10 +162,10 @@ class GameEngine(object):
         if self.state == STATE.splashscreen:
             self.splashscreen.update()
             self.state = self.splashscreen.state
+        elif self.state == STATE.controls:
+            self.controls_screen.update()
         elif self.state == STATE.menu:
             self.menu.update()
-            if not self.music_on:
-                self.music_on = True
         elif self.state == STATE.scorescreen:
             self.p1_scores[self.stage_number-1] = self.stage.level.p1_data
             self.p2_scores[self.stage_number-1] = self.stage.level.p2_data
@@ -185,6 +194,10 @@ class GameEngine(object):
 
             display_time = self.format_timer(self.timer)
             self.game_time.text = display_time
+            if self.flash_timer:
+                self.game_time.color = COLOR.red
+            else:
+                self.game_time.color = COLOR.white
             self.game_time.update()
 
             self.p1_score.text = str(self.stage.level.p1_data)
@@ -202,6 +215,8 @@ class GameEngine(object):
             self.splashscreen.draw(self.screen)
         elif self.state == STATE.scorescreen:
             self.score_screen.draw(self.screen)
+        elif self.state == STATE.controls:
+            self.controls_screen.draw(self.screen)
         elif self.state == STATE.game:
             self.screen.blit(SCREEN.bg, (0, 0))
             self.screen.blit(ASSET.score_bg, (0, 0))
@@ -237,7 +252,7 @@ class GameEngine(object):
     def complex_camera(self, camera_rect, target_rect):
         x, y, dummy, dummy = target_rect
         dummy, dummy, w, h = camera_rect
-        x, y  = int(SCREEN.width/2)-x, int(SCREEN.height/2) - y
+        x, y = int(SCREEN.width/2)-x, int(SCREEN.height/2) - y
 
         x = min(0, x)
         x = max(-(camera_rect.width-SCREEN.width), x)
@@ -247,8 +262,11 @@ class GameEngine(object):
         return pygame.Rect(x, y, w, h)
 
     def format_timer(self, timer):
+        self.flash_timer = False
         minutes = timer/60
         seconds = timer % 60
+        if minutes == 0 and seconds < 10:
+            self.flash_timer = True
         if seconds < 10:
             seconds = "0" + str(seconds)
         return str(minutes)+":"+str(seconds)
