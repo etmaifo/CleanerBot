@@ -11,7 +11,6 @@ class ScoreScreen(object):
     def __init__(self):
         mixer.init()
         self.timer = 0
-        self.set_highscore(0)
 
         self.title = GameText("Scoreboard", 94)
         self.title.centerx = SCREEN.width / 2
