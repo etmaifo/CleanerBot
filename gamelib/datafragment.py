@@ -18,9 +18,9 @@ class DataFragment(PhysicsBody):
         self.storage_group = pygame.sprite.Group()
 
         self.dead_sound = mixer.Sound(os.path.join("assets", "sfx", "data_explode.wav"))
-        self.point_sound = mixer.Sound(os.path.join("assets", "sfx", "data_clean.wav"))
-        self.dead_sound.set_volume(0.6)
-        self.point_sound.set_volume(0.3)
+        self.point_sound = mixer.Sound(os.path.join("assets", "sfx", "sfx_zap.ogg"))
+        self.dead_sound.set_volume(0.4)
+        self.point_sound.set_volume(0.5)
 
     def update(self):
         self.check_bounds()

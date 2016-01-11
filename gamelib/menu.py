@@ -34,7 +34,7 @@ class Menu(object):
 
         self.nav_sound = mixer.Sound(os.path.join("assets", "sfx", "nav.wav"))
         self.nav_sound.set_volume(0.5)
-        self.select_sound = mixer.Sound(os.path.join("assets", "sfx", "select.wav"))
+        self.select_sound = mixer.Sound(os.path.join("assets", "sfx", "sfx_twoTone.ogg"))
         self.select_sound.set_volume(0.5)
 
         self.controller = self.get_controller()

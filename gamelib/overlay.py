@@ -16,8 +16,8 @@ class CountDownOverlay(object):
         self.text_rect = self.text.get_rect()
         self.text_rect.center = self.overlay.rect.center
         self.sound = mixer.Sound(os.path.join("assets", "sfx", "start.wav"))
-        self.sound.set_volume(0.5)
-
+        self.sound.set_volume(0.3)
+        self.sound_playing = False
         self.blink = 0
 
     def update(self, remainingSeconds):
@@ -27,7 +27,9 @@ class CountDownOverlay(object):
         seconds = str(remainingSeconds/GAME.fps)
         if seconds == "1":
             seconds = "GO!"
-            self.sound.play()
+            if not self.sound_playing:
+                self.sound.play()
+                self.sound_playing = True
         self.text = self.font.render(seconds, True, COLOR.white)
         self.text_rect = self.text.get_rect()
         self.text_rect.center = self.overlay.rect.center

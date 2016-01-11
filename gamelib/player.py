@@ -40,8 +40,12 @@ class Player(PhysicsBody):
         self.controller1 = self.get_controller(1)
         self.controller2 = self.get_controller(2)
 
-        self.dead_sound = mixer.Sound(os.path.join("assets", "sfx", "dead.wav"))
-        self.dead_sound.set_volume(0.7)
+        self.dead_sound = mixer.Sound(os.path.join("assets", "sfx", "sfx_lose.ogg"))
+        self.dead_sound.set_volume(0.5)
+        self.consume_sound = mixer.Sound(os.path.join("assets", "sfx", "sfx_shieldUp.ogg"))
+        self.consume_sound.set_volume(0.3)
+        self.throw_sound = mixer.Sound(os.path.join("assets", "sfx", "sfx_shieldDown.ogg"))
+        self.throw_sound.set_volume(0.3)
 
     def handle_events(self, event):
         if not self.frozen:
@@ -55,6 +59,7 @@ class Player(PhysicsBody):
                     if event.key == K_g:
                         if self.has_data:
                             self.shoot_data = True
+                            self.throw_sound.play()
 
                 if event.type == JOYBUTTONDOWN:
                     if (self.controller1.get_button(2) == 1) and self.grounded:
@@ -62,6 +67,7 @@ class Player(PhysicsBody):
                     if self.controller1.get_button(3) == 1:
                         if self.has_data:
                             self.shoot_data = True
+                            self.throw_sound.play()
 
             if self.id == PLAYER.two:
                 if event.type == KEYDOWN:
@@ -73,6 +79,7 @@ class Player(PhysicsBody):
                     if event.key == K_RCTRL:
                         if self.has_data:
                             self.shoot_data = True
+                            self.throw_sound.play()
 
                 if event.type == JOYBUTTONDOWN and self.controller2 is not None:
                     if (self.controller2.get_button(2) == 1) and self.grounded:
@@ -80,6 +87,7 @@ class Player(PhysicsBody):
                     if self.controller2.get_button(3) == 1:
                         if self.has_data:
                             self.shoot_data = True
+                            self.throw_sound.play()
 
     def update(self):
         self.detect_reconstruction()
@@ -214,6 +222,7 @@ class Player(PhysicsBody):
             if self.rect.colliderect(sprite.rect) and not self.has_data and not self.frozen:
                 self.has_data = True
                 sprite.kill()
+                self.consume_sound.play()
 
     def detect_reconstruction(self):
         for sprite in self.particle_group:

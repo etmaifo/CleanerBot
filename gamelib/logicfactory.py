@@ -86,9 +86,11 @@ class GameEngine(object):
         
         self.scanlines = ScanLines()
 
+        self.controller_present = False
         try:
             self.player1_joy = pygame.joystick.Joystick(0)
             self.player1_joy.init()
+            self.controller_present = True
         except:
             pass
 
@@ -129,6 +131,9 @@ class GameEngine(object):
                         self.capture_video = False
                 if event.key == K_q:
                     self.stage.level.spawn_data()
+            elif event.type == JOYBUTTONDOWN:
+                if self.player1_joy.get_button(9) == 1:
+                    self.state = STATE.menu
             if self.state == STATE.game:                
                 if self.stage.level.timer == 0:
                     self.stage.level.timer = pygame.time.get_ticks()/1000.0
@@ -167,6 +172,9 @@ class GameEngine(object):
             self.controls_screen.update()
         elif self.state == STATE.menu:
             self.menu.update()
+            if self.game_music:
+                self.game_music = False
+                mixer.music.fadeout(2000)
         elif self.state == STATE.scorescreen:
             self.p1_scores[self.stage_number-1] = self.stage.level.p1_data
             self.p2_scores[self.stage_number-1] = self.stage.level.p2_data
@@ -176,6 +184,10 @@ class GameEngine(object):
 
             self.score_screen.update(self.stage_number, 1, self.hi_score)
         elif self.state == STATE.game:
+            if not self.game_music:
+                mixer.music.load(os.path.join('assets', 'music', 'cyberspine.ogg'))
+                mixer.music.play(-1)
+                self.game_music = True
             self.camera.update(self.stage.level.player1)
             if self.intro_countdown <= GAME.fps:
                 self.intro = False
@@ -284,3 +296,23 @@ class GameEngine(object):
             self.game_time.color = COLOR.red
         else:
             self.flash_timer = 0
+
+    def get_controller(self, player):
+        number_of_joysticks = pygame.joystick.get_count()
+        if number_of_joysticks == 1:
+            if player == 1:
+                joystick = pygame.joystick.Joystick(0)
+                joystick.init()
+                return joystick
+            else:
+                return None
+        elif number_of_joysticks > 1:
+            if player == 1:
+                joystick = pygame.joystick.Joystick(0)
+                joystick.init()
+                return joystick
+            if player == 2:
+                joystick = pygame.joystick.Joystick(1)
+                joystick.init()
+                return joystick
+        return None

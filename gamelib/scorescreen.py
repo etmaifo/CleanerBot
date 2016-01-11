@@ -11,6 +11,7 @@ class ScoreScreen(object):
     def __init__(self):
         mixer.init()
         self.timer = 0
+        self.set_highscore(0)
 
         self.title = GameText("Scoreboard", 94)
         self.title.centerx = SCREEN.width / 2
@@ -88,7 +89,7 @@ class ScoreScreen(object):
 
         self.controller = self.get_controller()
 
-        self.select_sound = mixer.Sound(os.path.join("assets", "sfx", "select.wav"))
+        self.select_sound = mixer.Sound(os.path.join("assets", "sfx", "sfx_twoTone.ogg"))
         self.select_sound.set_volume(0.5)
 
     def get_controller(self):
