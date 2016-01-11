@@ -77,6 +77,7 @@ class FONT(object):
     default = os.path.join("assets", "fonts", "tinyfont.ttf")
     hoog0553 = os.path.join("assets", "fonts", "hoog0553.ttf")
     kenpixel = os.path.join("assets", "fonts", "kenpixel_mini_square.ttf")
+    kenpixel_blocks = os.path.join("assets", "fonts", "kenpixel_blocks.ttf")
 
 
 class TITLE(object):

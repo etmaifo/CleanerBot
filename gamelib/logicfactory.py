@@ -57,6 +57,13 @@ class GameEngine(object):
         self.p2_score.color = COLOR.petal_green
         self.p2_score.create()
 
+        self.bg_text = GameText("01", 72, True)
+        self.bg_text.font_file = FONT.kenpixel_blocks
+        self.bg_text.centerx = SCREEN.width/2
+        self.bg_text.centery = SCREEN.height/2
+        self.bg_text.color = COLOR.gray7
+        self.bg_text.create()
+
         self.state = STATE.logo
         self.stage_number = 1
         self.stage = Stage(self.stage_number)
@@ -218,6 +225,8 @@ class GameEngine(object):
 
             self.p2_score.text = str(self.stage.level.p2_data)
             self.p2_score.update()
+            self.bg_text.text = "0" + str(self.stage_number)
+            self.bg_text.update()
 
     def draw(self):
         self.screen.fill(COLOR.black)
@@ -232,6 +241,7 @@ class GameEngine(object):
             self.controls_screen.draw(self.screen)
         elif self.state == STATE.game:
             self.screen.blit(SCREEN.bg, (0, 0))
+            self.bg_text.draw_to(self.screen)
             self.screen.blit(ASSET.score_bg, (0, 0))
             self.stage.draw(self.screen)
             for particle in self.stage.level.particles:
@@ -259,7 +269,7 @@ class GameEngine(object):
             self.draw()
 
             pygame.display.update()
-            pygame.display.set_caption("CleanerBot - " + str(int(self.fpsClock.get_fps())) + " fps")
+            pygame.display.set_caption("CleanerBots v0.1 - " + str(int(self.fpsClock.get_fps())) + " fps")
             self.fpsClock.tick(self.fps)
 
     def complex_camera(self, camera_rect, target_rect):
@@ -296,23 +306,3 @@ class GameEngine(object):
             self.game_time.color = COLOR.red
         else:
             self.flash_timer = 0
-
-    def get_controller(self, player):
-        number_of_joysticks = pygame.joystick.get_count()
-        if number_of_joysticks == 1:
-            if player == 1:
-                joystick = pygame.joystick.Joystick(0)
-                joystick.init()
-                return joystick
-            else:
-                return None
-        elif number_of_joysticks > 1:
-            if player == 1:
-                joystick = pygame.joystick.Joystick(0)
-                joystick.init()
-                return joystick
-            if player == 2:
-                joystick = pygame.joystick.Joystick(1)
-                joystick.init()
-                return joystick
-        return None
