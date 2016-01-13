@@ -6,7 +6,7 @@ from constants import WORLD, DIRECTION, SCREEN, POSITION
 class PhysicsBody(pygame.sprite.Sprite):
     def __init__(self, x, y, width, height, image, direction="right", playerId="p1"):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.transform.smoothscale(image, (width, height)).convert_alpha()
+        self.image = pygame.transform.smoothscale(image, (int(width), int(height))).convert_alpha()
         self.playerId = playerId
         if direction == DIRECTION.left:
             self.image = pygame.transform.flip(self.image, True, False)

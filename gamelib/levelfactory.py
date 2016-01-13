@@ -1,5 +1,6 @@
 import pygame, os
-import pytmx
+#import pytmx
+from pytmx import pytmx
 from constants import SCREEN, ASSET, PARTICLE, GAME, PLAYER
 from player import Player
 from physicsbody import PhysicsBody

@@ -133,11 +133,12 @@ class GameEngine(object):
                     self.state = STATE.menu
                 if event.key == K_p:
                     if not self.capture_video:
-                        self.capture_video = True
+                        self.capture_video = True # change to True and press p to capture screenshots
                     else:
                         self.capture_video = False
                 if event.key == K_q:
-                    self.stage.level.spawn_data()
+                    #self.stage.level.spawn_data()
+                    pass
             elif event.type == JOYBUTTONDOWN:
                 if self.player1_joy.get_button(9) == 1:
                     self.state = STATE.menu

@@ -12,7 +12,7 @@ def load_image(filename):
 
 
 class FILES(object):
-    hiscore = os.path.join('data', 'hiscore.txt')
+    score = os.path.join('data', 'score.txt')
 
 
 class SCREEN(object):

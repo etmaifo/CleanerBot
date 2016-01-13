@@ -1,11 +1,16 @@
 import pygame
-import shelve
+#import shelve
 import os
 from pygame.locals import *
 from constants import COLOR, MENU, SCREEN, STATE, RESULT, FILES, GAME
 from fontfactory import GameText
 import pygame.mixer as mixer
+from configobj import ConfigObj
 
+
+config = ConfigObj()
+config.filename = FILES.score
+config['score'] = 0
 
 class ScoreScreen(object):
     def __init__(self):
@@ -176,14 +181,17 @@ class ScoreScreen(object):
         self.p2_results.draw_to(screen)
 
     def get_highscore(self):
-        d = shelve.open(FILES.hiscore)
-        score = d['score']
+        #d = shelve.open(FILES.hiscore)
+        #score = d['score']
+        #return int(score)
+        score = config['score']
         return int(score)
 
     def set_highscore(self, score):
-        d = shelve.open(FILES.hiscore)
-        d['score'] = score
-        d.close()
+        #d = shelve.open(FILES.hiscore)
+        #d['score'] = score
+        #d.close()
+        config['score'] = score
 
     def animate_flash(self):
         self.timer += 1
