@@ -1,8 +1,8 @@
 import os
 from pygame.locals import *
-from scorescreen import ScoreScreen
-from fontfactory import GameText
-from constants import SCREEN, COLOR, ASSET, STATE
+from gamelib.scorescreen import ScoreScreen
+from gamelib.fontfactory import GameText
+from gamelib.constants import SCREEN, COLOR, ASSET, STATE
 import pygame.mixer as mixer
 
 

@@ -1,4 +1,4 @@
-from physicsbody import PhysicsBody
+from gamelib.physicsbody import PhysicsBody
 
 class Platform(PhysicsBody):
     def __init__(self, x, y, width, height, image):

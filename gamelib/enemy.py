@@ -1,6 +1,6 @@
 import pygame
-from physicsbody import PhysicsBody
-from constants import WORLD
+from gamelib.physicsbody import PhysicsBody
+from gamelib.constants import WORLD
 from random import choice
 
 class Enemy(PhysicsBody):

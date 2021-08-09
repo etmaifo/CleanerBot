@@ -1,6 +1,6 @@
 import pygame, os
-from constants import COLOR, SCREEN, ASSET, GAME, FONT
-from physicsbody import PhysicsBody
+from gamelib.constants import COLOR, SCREEN, ASSET, GAME, FONT
+from gamelib.physicsbody import PhysicsBody
 import pygame.mixer as mixer
 
 
@@ -24,8 +24,8 @@ class CountDownOverlay(object):
         self.blink += 1
         if self.blink > GAME.fps:
             self.blink = 0
-        seconds = str(remainingSeconds/GAME.fps)
-        if seconds == "1":
+        seconds = str(int(remainingSeconds/GAME.fps)-1)
+        if seconds == "0":
             seconds = "GO!"
             if not self.sound_playing:
                 self.sound.play()

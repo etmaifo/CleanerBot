@@ -1,5 +1,5 @@
-from constants import SCREEN, STATE, ASSET, GAME
-from physicsbody import PhysicsBody
+from gamelib.constants import SCREEN, STATE, ASSET, GAME
+from gamelib.physicsbody import PhysicsBody
 
 
 class SplashScreen(object):

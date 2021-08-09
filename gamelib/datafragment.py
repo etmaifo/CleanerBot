@@ -1,5 +1,5 @@
-from physicsbody import PhysicsBody
-from constants import GAME, COLOR
+from gamelib.physicsbody import PhysicsBody
+from gamelib.constants import GAME, COLOR
 import pygame, os
 import pygame.mixer as mixer
 

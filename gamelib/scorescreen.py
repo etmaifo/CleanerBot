@@ -2,8 +2,8 @@ import pygame
 #import shelve
 import os
 from pygame.locals import *
-from constants import COLOR, MENU, SCREEN, STATE, RESULT, FILES, GAME
-from fontfactory import GameText
+from gamelib.constants import COLOR, MENU, SCREEN, STATE, RESULT, FILES, GAME
+from gamelib.fontfactory import GameText
 import pygame.mixer as mixer
 from configobj import ConfigObj
 
@@ -39,7 +39,7 @@ class ScoreScreen(object):
 
         self.p1_scores = []
         self.p2_scores = []
-        for i in xrange(5):
+        for i in range(5):
             p1_score = GameText("0", 24, True)
             p1_score.centerx = 92 + 144 + 96 * i
             p1_score.y = 280

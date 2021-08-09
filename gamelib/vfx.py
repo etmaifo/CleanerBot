@@ -1,6 +1,6 @@
 import pygame
-from physicsbody import PhysicsBody
-from constants import SCREEN, ASSET
+from gamelib.physicsbody import PhysicsBody
+from gamelib.constants import SCREEN, ASSET
 
 
 class ScanLines(object):

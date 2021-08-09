@@ -1,7 +1,7 @@
 import pygame, os
 from pygame.locals import *
-from physicsbody import PhysicsBody
-from constants import DIRECTION, PLAYER, ASSET, GAME
+from gamelib.physicsbody import PhysicsBody
+from gamelib.constants import DIRECTION, PLAYER, ASSET, GAME
 import pygame.mixer as mixer
 
 class Player(PhysicsBody):

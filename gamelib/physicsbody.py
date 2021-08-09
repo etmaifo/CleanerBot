@@ -1,6 +1,6 @@
 import pygame, os
 import pygame.mixer as mixer
-from constants import WORLD, DIRECTION, SCREEN, POSITION
+from gamelib.constants import WORLD, DIRECTION, SCREEN, POSITION
 
 
 class PhysicsBody(pygame.sprite.Sprite):

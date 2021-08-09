@@ -3,17 +3,17 @@ import sys, os
 from pygame import *
 from random import choice
 from gamelib.levelfactory import Stage
-from camera import Camera
-from logo import LogoScreen
-from menu import Menu
-from overlay import CountDownOverlay
-from scorescreen import ScoreScreen
-from splashscreen import SplashScreen
-from vfx import ScanLines
-from constants import SCREEN, COLOR, STATE, GAME, ASSET, SPLASHSCREEN, LOGO, FONT
-from soundfactory import Music
-from fontfactory import GameText
-from controlscreen import Controls
+from gamelib.camera import Camera
+from gamelib.logo import LogoScreen
+from gamelib.menu import Menu
+from gamelib.overlay import CountDownOverlay
+from gamelib.scorescreen import ScoreScreen
+from gamelib.splashscreen import SplashScreen
+from gamelib.vfx import ScanLines
+from gamelib.constants import SCREEN, COLOR, STATE, GAME, ASSET, SPLASHSCREEN, LOGO, FONT
+from gamelib.soundfactory import Music
+from gamelib.fontfactory import GameText
+from gamelib.controlscreen import Controls
 
 
 class GameEngine(object):
@@ -89,7 +89,7 @@ class GameEngine(object):
 
         self.countdownOverlay = CountDownOverlay()
         self.intro = True
-        self.intro_countdown = self.fps * 4
+        self.intro_countdown = self.fps * 7
         
         self.scanlines = ScanLines()
 
@@ -121,7 +121,7 @@ class GameEngine(object):
         
         self.countdownOverlay = CountDownOverlay()
         self.intro = True
-        self.intro_countdown = self.fps * 4        
+        self.intro_countdown = self.fps * 7
 
     def handle_events(self):
         for event in pygame.event.get():
@@ -262,7 +262,7 @@ class GameEngine(object):
             
         self.scanlines.draw(self.screen)
 
-    def run_game(self, fps=30):
+    def run_game(self, fps=60):
         self.fps = fps
         while True:
             self.handle_events()
@@ -287,7 +287,7 @@ class GameEngine(object):
 
     def format_timer(self, timer):
         self.timer_red = False
-        minutes = timer/60
+        minutes = int(timer/60)
         seconds = timer % 60
         if minutes == 0 and seconds < 10:
             self.timer_red = True

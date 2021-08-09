@@ -1,6 +1,6 @@
 from random import randrange, choice, uniform
-from physicsbody import PhysicsBody
-from constants import GAME, POSITION
+from gamelib.physicsbody import PhysicsBody
+from gamelib.constants import GAME, POSITION
 import pygame
 
 class Particle(PhysicsBody):

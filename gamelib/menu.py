@@ -1,8 +1,8 @@
 import pygame
 import os, sys
 from pygame.locals import *
-from constants import COLOR, MENU, SCREEN, STATE, ASSET, TITLE, FONT
-from physicsbody import PhysicsBody
+from gamelib.constants import COLOR, MENU, SCREEN, STATE, ASSET, TITLE, FONT
+from gamelib.physicsbody import PhysicsBody
 import pygame.mixer as mixer
 
 

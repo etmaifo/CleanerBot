@@ -1,7 +1,7 @@
 import pygame
-from physicsbody import PhysicsBody
+from gamelib.physicsbody import PhysicsBody
 from random import choice
-from constants import GAME
+from gamelib.constants import GAME
 
 class Saw(PhysicsBody):
     def __init__(self, x, y, width, height, frames):
@@ -51,7 +51,7 @@ class Saw(PhysicsBody):
 
     def rest(self, duration):
         count = 0
-        for i in xrange(GAME.fps * duration, -1, -1):
+        for i in range(GAME.fps * duration, -1, -1):
             if count >= i:
                 self.changeDirection = False
 

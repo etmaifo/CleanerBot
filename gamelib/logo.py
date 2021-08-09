@@ -1,6 +1,6 @@
-from constants import STATE, ASSET, GAME
-from physicsbody import PhysicsBody
-from splashscreen import SplashScreen
+from gamelib.constants import STATE, ASSET, GAME
+from gamelib.physicsbody import PhysicsBody
+from gamelib.splashscreen import SplashScreen
 
 
 class LogoScreen(SplashScreen):

@@ -1,5 +1,5 @@
 import pygame
-from constants import COLOR, FONT
+from gamelib.constants import COLOR, FONT
 
 
 class GameText(object):

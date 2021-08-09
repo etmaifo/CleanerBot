@@ -1,12 +1,12 @@
 import pygame, os
 #import pytmx
 from pytmx import pytmx
-from constants import SCREEN, ASSET, PARTICLE, GAME, PLAYER
-from player import Player
-from physicsbody import PhysicsBody
-from datafragment import DataFragment
-from saw import Saw
-from particlefactory import Particle, Bubble
+from gamelib.constants import SCREEN, ASSET, PARTICLE, GAME, PLAYER
+from gamelib.player import Player
+from gamelib.physicsbody import PhysicsBody
+from gamelib.datafragment import DataFragment
+from gamelib.saw import Saw
+from gamelib.particlefactory import Particle, Bubble
 from random import choice, randrange
 import pygame.mixer as mixer
 
@@ -57,7 +57,7 @@ class Level(object):
         self.load_map(mapfile)
         self.create_level()
         
-        self.datafragment_break_sound = mixer.Sound(os.path.join("assets", "sfx", "glass break 01.wav"))
+        self.datafragment_break_sound = mixer.Sound(os.path.join("assets", "sfx", "break.wav"))
 
     def load_map(self, filename):
         self.data = pytmx.TiledMap(filename)
@@ -222,7 +222,7 @@ class Level(object):
             self.particles.update()
 
     def spawn_particles(self, x, y, number):
-        for i in xrange(number):
+        for i in range(number):
             size = choice([2, 4, 6, 8, 10])
             particle = Particle(x, y, size, size, ASSET.particle)
             particle.image = particle.image.convert()
@@ -235,7 +235,7 @@ class Level(object):
 
     def spawn_player_debris(self, x, y, image, number):
 
-        for i in xrange(number):
+        for i in range(number):
             size = choice([2, 4, 6, 8, 10])
             debris = Particle(x, y, size, size, image)
             debris.hspeed = choice([-5, -4, -3, -2, 2, 3, 4, 5])
@@ -248,7 +248,7 @@ class Level(object):
             self.particles.add(debris)
 
     def restructure_player(self, x, y, image, number, sprite_group, kill_time):
-        for i in xrange(number):
+        for i in range(number):
             size = choice([2, 4, 6, 8, 10])
             debris = Particle(x, y, size, size, image)
             debris.hspeed = choice([-4, -3, -2, 2, 3, 4])
@@ -256,7 +256,7 @@ class Level(object):
             debris.gravity = 0
             debris.fade = False
 
-            for i in range(GAME.fps/2):
+            for i in range(int(GAME.fps/2)):
                 debris.fade = False
                 debris.update()
                 debris.timeout = 0
@@ -273,7 +273,7 @@ class Level(object):
                 image = ASSET.p1_debris
             else:
                 image = ASSET.p2_debris
-            for i in xrange(number):
+            for i in range(number):
                 size = choice([3, 4, 4, 6, 8])
                 particle = Bubble(portal.rect.x, portal.rect.top, size, size, image)
                 particle.portal_group.add(portals)
