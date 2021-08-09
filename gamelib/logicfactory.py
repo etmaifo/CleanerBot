@@ -2,7 +2,7 @@ import pygame
 import sys, os
 from pygame import *
 from random import choice
-from levelfactory import Stage
+from gamelib.levelfactory import Stage
 from camera import Camera
 from logo import LogoScreen
 from menu import Menu
